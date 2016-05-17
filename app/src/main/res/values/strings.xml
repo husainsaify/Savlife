@@ -10,6 +10,10 @@
     <string name="register">Register</string>
     <string name="no_internet_available">No Internet available</string>
     <string name="please_Watit">Please wait..</string>
+    <string name="oops">OOPS!!</string>
+    <string name="dont_worry_engineers_r_working">Woops!! Something went wrong But don\'t worry our engineers are working on it.</string>
+    <string name="report_issue">Report issue</string>
+    <string name="try_again">Try again</string>
     <string-array name="blood_group_name">
         <item>O-</item>
         <item>O+</item>

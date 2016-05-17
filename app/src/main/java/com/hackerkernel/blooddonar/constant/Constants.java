@@ -10,7 +10,9 @@ public class Constants {
             COM_MOBILE = "mobile",
             COM_GENDER = "gender",
             COM_AGE = "age",
-            COM_BLOOD = "blood";
+            COM_BLOOD = "blood",
+            COM_RETURN = "return",
+            COM_MESSAGE = "message";
 
 
 }

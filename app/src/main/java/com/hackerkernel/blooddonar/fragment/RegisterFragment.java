@@ -28,7 +28,11 @@ import com.hackerkernel.blooddonar.R;
 import com.hackerkernel.blooddonar.constant.Constants;
 import com.hackerkernel.blooddonar.constant.EndPoints;
 import com.hackerkernel.blooddonar.network.MyVolley;
+import com.hackerkernel.blooddonar.parser.JsonParser;
+import com.hackerkernel.blooddonar.pojo.SimplePojo;
 import com.hackerkernel.blooddonar.util.Util;
+
+import org.json.JSONException;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -141,7 +145,7 @@ public class RegisterFragment extends Fragment {
             @Override
             public void onResponse(String response) {
                 pd.dismiss();
-                Toast.makeText(getContext(),response,Toast.LENGTH_LONG).show();
+                parseRegisterResponse(response);
             }
         }, new Response.ErrorListener() {
             @Override
@@ -170,6 +174,24 @@ public class RegisterFragment extends Fragment {
         };
 
         mRequestQueue.add(request);
+    }
+
+    /*
+    * Method to parse register response
+    * */
+    private void parseRegisterResponse(String response) {
+        try {
+            SimplePojo current = JsonParser.SimpleParser(response);
+            if (current.isReturned()){
+                //TODO:: go to OTP verification activity
+            }else {
+                Util.showRedSnackbar(mLayoutForSnackbar,current.getMessage());
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+            Log.d(TAG,"HUS: parseRegisterResponse: "+e.getMessage());
+            Util.showParsingErrorAlert(getActivity());
+        }
     }
 
 }
