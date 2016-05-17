@@ -14,15 +14,16 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.Volley;
 import com.hackerkernel.blooddonar.infrastructure.MyApplication;
+
 /**
- * Volley singloten class
+ * Volley class
  */
 public class MyVolley {
     private static MyVolley mInstance = null;
     private RequestQueue mRequestQueue;
     private ImageLoader mImageLoader;
 
-    protected MyVolley(){
+    protected MyVolley() {
         //request queue
         mRequestQueue = Volley.newRequestQueue(MyApplication.getAppContext());
 
@@ -32,7 +33,8 @@ public class MyVolley {
 
             //create image cache
             int max = (int) (Runtime.getRuntime().maxMemory() / 1024 / 8);
-            LruCache<String,Bitmap> cache = new LruCache<>(max);
+            LruCache<String, Bitmap> cache = new LruCache<>(max);
+
             @Override
             public Bitmap getBitmap(String url) {
                 return cache.get(url);
@@ -40,19 +42,19 @@ public class MyVolley {
 
             @Override
             public void putBitmap(String url, Bitmap bitmap) {
-                cache.put(url,bitmap);
+                cache.put(url, bitmap);
             }
         });
     }
 
-    public static MyVolley getInstance(){
-        if (mInstance == null){
+    public static MyVolley getInstance() {
+        if (mInstance == null) {
             mInstance = new MyVolley();
         }
         return mInstance;
     }
 
-    public RequestQueue getRequestQueue(){
+    public RequestQueue getRequestQueue() {
         return mRequestQueue;
     }
 
@@ -60,17 +62,17 @@ public class MyVolley {
         return mImageLoader;
     }
 
-    public static String handleVolleyError(VolleyError error){
+    public static String handleVolleyError(VolleyError error) {
         String message = null;
-        if(error instanceof TimeoutError || error instanceof NoConnectionError){
+        if (error instanceof TimeoutError || error instanceof NoConnectionError) {
             message = "Bad network Connection";
-        }else if(error instanceof AuthFailureError){
+        } else if (error instanceof AuthFailureError) {
             message = "Failed to perform a request";
-        }else if(error instanceof ServerError){
+        } else if (error instanceof ServerError) {
             message = "Server error";
-        }else if(error instanceof NetworkError){
+        } else if (error instanceof NetworkError) {
             message = "Network error while performing a request";
-        }else if(error instanceof ParseError){
+        } else if (error instanceof ParseError) {
             message = "Server response could not be parsed";
         }
         return message;

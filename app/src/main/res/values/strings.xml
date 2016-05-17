@@ -9,6 +9,7 @@
     <string name="age">Age</string>
     <string name="register">Register</string>
     <string name="no_internet_available">No Internet available</string>
+    <string name="please_Watit">Please wait..</string>
     <string-array name="blood_group_name">
         <item>O-</item>
         <item>O+</item>
