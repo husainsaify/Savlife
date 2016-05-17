@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+
+    tools:context="com.hackerkernel.blooddonar.activity.Verify_OTP_Activity">
+    <include
+        layout="@layout/include_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/toolbar"/>
+    <TextView
+        android:layout_below="@id/toolbar"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="15dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="OTP Verication"
+        android:id="@+id/verify_otp_heading"
+        android:textColor="@color/colorAccent"
+        style="@style/Base.TextAppearance.AppCompat.Headline"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="OTP Has Been Send To 8962239913"
+        android:layout_below="@+id/verify_otp_heading"
+        android:textColor="@color/colorAccent"
+        style="@style/Base.TextAppearance.AppCompat.Medium"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="10dp"
+        android:id="@+id/nuberTextview"
+        margin
+        />
+    <android.support.design.widget.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="20dp"
+        android:layout_marginLeft="20dp"
+        android:layout_below="@+id/nuberTextview"
+        android:id="@+id/edit_input">
+
+        <EditText
+
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Enter OTP"
+            android:id="@+id/verify_EditText"/>
+
+    </android.support.design.widget.TextInputLayout>
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/edit_input"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="10dp"
+        android:id="@+id/verify_Button"
+        android:text="Verify"
+        android:background="@drawable/primary_red_button_round"
+        />
+    <ProgressBar
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/verify_Button"
+        android:id="@+id/verify_Progress_Bar"
+        android:layout_margin="20dp"
+        />
+
+
+
+
+
+</RelativeLayout>
