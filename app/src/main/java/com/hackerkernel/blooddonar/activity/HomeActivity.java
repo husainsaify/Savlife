@@ -13,25 +13,26 @@ import com.hackerkernel.blooddonar.fragment.Deals;
 import com.hackerkernel.blooddonar.fragment.ReviewUs;
 
 import butterknife.Bind;
+import butterknife.ButterKnife;
 
 public class HomeActivity extends AppCompatActivity {
-        @Bind(R.id.toolbar)
-    Toolbar toolbar;
-    @Bind(R.id.tablayout)
-    TabLayout tabLayout;
-    @Bind(R.id.homeviewpager)
-    ViewPager viewPager;
+    @Bind(R.id.toolbar) Toolbar toolbar;
+    @Bind(R.id.tablayout) TabLayout tabLayout;
+    @Bind(R.id.homeviewpager) ViewPager viewPager;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
+        ButterKnife.bind(this);
+
         setSupportActionBar(toolbar);
-        assert toolbar != null;
+        assert getSupportActionBar() != null;
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-
+        setupviewPager();
+        tabLayout.setupWithViewPager(viewPager);
     }
-    public void setupviewPager(ViewPager viewPager){
+    public void setupviewPager(){
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
         adapter.addFragment(new BestDonours(),"Best Donour");
         adapter.addFragment(new ReviewUs(),"Review US");

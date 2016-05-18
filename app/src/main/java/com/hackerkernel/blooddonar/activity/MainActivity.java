@@ -1,5 +1,6 @@
 package com.hackerkernel.blooddonar.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.TabLayout;
@@ -31,6 +32,7 @@ public class MainActivity extends AppCompatActivity {
 
         setupViewpager();
         mTabs.setupWithViewPager(mViewPager);
+        startActivity(new Intent(MainActivity.this,HomeActivity.class));
     }
 
     private void setupViewpager() {
