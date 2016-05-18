@@ -6,10 +6,7 @@
     tools:context=".activity.OtpVerificationActivity">
 
     <include
-        layout="@layout/include_toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/toolbar"/>
+        layout="@layout/include_toolbar"/>
 
     <TextView
         android:layout_below="@id/toolbar"
@@ -17,7 +14,7 @@
         android:layout_marginTop="15dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="OTP Verication"
+        android:text="@string/otp_verification"
         android:id="@+id/verify_otp_heading"
         android:textColor="@color/colorAccent"
         style="@style/Base.TextAppearance.AppCompat.Headline"/>
@@ -44,7 +41,7 @@
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Enter OTP"
+            android:hint="@string/enter_otp"
             android:id="@+id/verify_EditText"/>
 
     </android.support.design.widget.TextInputLayout>
@@ -57,7 +54,7 @@
         android:layout_marginRight="20dp"
         android:layout_marginTop="10dp"
         android:id="@+id/verify_Button"
-        android:text="Verify"
+        android:text="@string/verify"
         android:background="@drawable/primary_red_button_round"
         />
 
@@ -66,9 +63,19 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/verify_Button"
         android:id="@+id/otp_progressbar"
-        android:layout_margin="20dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
         style="?android:attr/progressBarStyleHorizontal"
         />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/otp_progressbar"
+        android:id="@+id/otp_progress_percentage"
+        android:layout_marginLeft="20dp"
+        android:layout_marginStart="20dp"/>
 
     <TextView
         android:layout_width="wrap_content"
@@ -78,20 +85,19 @@
         style="@style/Base.TextAppearance.AppCompat.Medium"
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
-        android:visibility="gone"/>
+        android:visibility="gone"
+        android:textColor="@color/colorAccent"/>
 
-    <TextView
+    <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/resend_otp"
         android:id="@+id/resend_otp_btn"
+        android:padding="10dp"
         android:visibility="gone"
         android:layout_below="@+id/resend_otp_heading"
         android:layout_margin="10dp"
-        android:layout_centerHorizontal="true"
-        android:textSize="15sp"
-        android:textColor="@color/colorPrimary"
-        android:textStyle="bold"/>
+        android:layout_centerHorizontal="true"/>
 
 
 </RelativeLayout>
