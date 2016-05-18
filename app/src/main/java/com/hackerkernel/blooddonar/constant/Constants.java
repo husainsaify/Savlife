@@ -14,5 +14,6 @@ public class Constants {
             COM_RETURN = "return",
             COM_MESSAGE = "message";
 
-
+    public static final String CONFIG_OTP_SENDER_ID = "HAKBPL",
+            CONFIG_SMS_DELIMITER = ":";
 }

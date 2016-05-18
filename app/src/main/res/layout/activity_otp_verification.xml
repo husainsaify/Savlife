@@ -6,7 +6,8 @@
     tools:context=".activity.OtpVerificationActivity">
 
     <include
-        layout="@layout/include_toolbar"/>
+        layout="@layout/include_toolbar"
+        android:id="@+id/toolbar"/>
 
     <TextView
         android:layout_below="@id/toolbar"
