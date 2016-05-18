@@ -26,7 +26,6 @@ public class MainActivity extends BaseActivity {
 
         setupViewpager();
         mTabs.setupWithViewPager(mViewPager);
-        startActivity(new Intent(MainActivity.this,HomeActivity.class));
     }
 
     private void setupViewpager() {
