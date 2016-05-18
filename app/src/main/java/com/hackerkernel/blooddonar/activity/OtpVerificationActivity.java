@@ -1,11 +1,11 @@
 package com.hackerkernel.blooddonar.activity;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
 import com.hackerkernel.blooddonar.R;
+import com.hackerkernel.blooddonar.infrastructure.BaseActivity;
 
-public class OtpVerificationActivity extends AppCompatActivity {
+public class OtpVerificationActivity extends BaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

@@ -11,14 +11,17 @@ import com.hackerkernel.blooddonar.adapter.ViewPagerAdapter;
 import com.hackerkernel.blooddonar.fragment.BestDonours;
 import com.hackerkernel.blooddonar.fragment.Deals;
 import com.hackerkernel.blooddonar.fragment.ReviewUs;
+import com.hackerkernel.blooddonar.infrastructure.BaseActivity;
+import com.hackerkernel.blooddonar.infrastructure.BaseAuthActivity;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-public class HomeActivity extends AppCompatActivity {
+public class HomeActivity extends BaseAuthActivity {
     @Bind(R.id.toolbar) Toolbar toolbar;
     @Bind(R.id.tablayout) TabLayout tabLayout;
     @Bind(R.id.homeviewpager) ViewPager viewPager;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

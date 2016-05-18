@@ -1,5 +1,6 @@
 package com.hackerkernel.blooddonar.util;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -12,9 +13,11 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.hackerkernel.blooddonar.R;
+import com.hackerkernel.blooddonar.activity.HomeActivity;
 import com.hackerkernel.blooddonar.activity.NoInternetActivity;
 import com.hackerkernel.blooddonar.activity.OtpVerificationActivity;
 import com.hackerkernel.blooddonar.constant.Constants;
+import com.hackerkernel.blooddonar.infrastructure.BaseActivity;
 import com.hackerkernel.blooddonar.infrastructure.MyApplication;
 
 /**
@@ -70,6 +73,12 @@ public class Util {
     * */
     public static void goToNoInternetActivity(Context activity){
         Intent intent = new Intent(activity, NoInternetActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+        activity.startActivity(intent);
+    }
+
+    public static void goToHomeActivity(Activity activity) {
+        Intent intent = new Intent(activity, HomeActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
         activity.startActivity(intent);
     }
