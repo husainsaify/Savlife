@@ -12,7 +12,8 @@ public class Constants {
             COM_AGE = "age",
             COM_BLOOD = "blood",
             COM_RETURN = "return",
-            COM_MESSAGE = "message";
+            COM_MESSAGE = "message",
+            COM_OTP = "otp";
 
     public static final String CONFIG_OTP_SENDER_ID = "HAKBPL",
             CONFIG_SMS_DELIMITER = ":";

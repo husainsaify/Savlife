@@ -22,8 +22,8 @@
             </intent-filter>
         </activity>
         <activity android:name=".activity.NoInternetActivity" />
-        <activity android:name=".activity.OtpVerificationActivity"></activity>
-        <activity android:name=".activity.HomeActivity"></activity>
+        <activity android:name=".activity.OtpVerificationActivity"/>
+        <activity android:name=".activity.HomeActivity"/>
 
         <!-- Receiver -->
         <receiver android:name=".receiver.IncomingOtp" >
