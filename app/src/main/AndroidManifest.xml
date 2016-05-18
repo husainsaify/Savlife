@@ -20,7 +20,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".activity.NoInternetActivity" />
-        <activity android:name=".activity.Verify_OTP_Activity"></activity>
+        <activity android:name=".activity.VerifyOtpActivity"></activity>
     </application>
 
 </manifest>
