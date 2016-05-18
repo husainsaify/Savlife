@@ -5,7 +5,7 @@ import android.os.Bundle;
 
 import com.hackerkernel.blooddonar.R;
 
-public class VerifyOtpActivity extends AppCompatActivity {
+public class OtpVerificationActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

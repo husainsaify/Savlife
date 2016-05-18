@@ -2,10 +2,8 @@ package com.hackerkernel.blooddonar.fragment;
 
 
 import android.app.ProgressDialog;
-import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -53,6 +51,12 @@ public class RegisterFragment extends Fragment {
     @Bind(R.id.reg_blood_group) Spinner mBloodGroup;
     @Bind(R.id.reg_button) Button mRegButton;
 
+    private String mUserFullname;
+    private String mUserMobile;
+    private String mUserGender;
+    private String mUserAge;
+    private String mUserBloodGroup;
+
     private RequestQueue mRequestQueue;
     private ProgressDialog pd;
 
@@ -71,6 +75,7 @@ public class RegisterFragment extends Fragment {
         pd = new ProgressDialog(getActivity());
         pd.setMessage(getString(R.string.please_Watit));
         pd.setCancelable(true);
+
     }
 
     @Override
@@ -97,49 +102,50 @@ public class RegisterFragment extends Fragment {
     * */
     private void checkInternetAndRegister() {
         if (Util.isNetworkAvailable()){
-            String fullname = mFullname.getText().toString().trim();
-            String mobile = mMobile.getText().toString().trim();
+            mUserFullname = mFullname.getText().toString().trim();
+            mUserMobile = mMobile.getText().toString().trim();
             int genderId = mGenderGroup.getCheckedRadioButtonId();
-            String age = mAge.getText().toString().trim();
-            String bloodGroup = (String) mBloodGroup.getSelectedItem();
-            String gender;
+            mUserAge = mAge.getText().toString().trim();
+            mUserBloodGroup = (String) mBloodGroup.getSelectedItem();
             if (genderId == R.id.reg_gender_male){
-                gender = "Male";
+                mUserGender = "Male";
             }else {
-                gender = "Female";
+                mUserGender = "Female";
             }
 
-            if (fullname.isEmpty() || mobile.isEmpty() || age.isEmpty() || bloodGroup.isEmpty() || gender.isEmpty()){
+            if (mUserFullname.isEmpty() || mUserMobile.isEmpty() || mUserAge.isEmpty() || mUserBloodGroup.isEmpty() || mUserGender.isEmpty()){
                 Util.showRedSnackbar(mLayoutForSnackbar,"Fill in all the fields");
                 return;
             }
 
-            if (fullname.length() <= 3){
+            if (mUserFullname.length() <= 3){
                 Util.showRedSnackbar(mLayoutForSnackbar,"Fullname should be more then 3 character");
                 return;
             }
 
-            if (mobile.length() != 10){
+            if (mUserMobile.length() != 10){
                 Util.showRedSnackbar(mLayoutForSnackbar,"Invalid mobile number");
                 return;
             }
 
-            if (Integer.parseInt(age) < 18){
+            if (Integer.parseInt(mUserAge) < 18){
                 Util.showRedSnackbar(mLayoutForSnackbar,"You must be 18 to register for "+getString(R.string.app_name));
                 return;
             }
 
-            doRegisterInBackground(fullname,mobile,age,bloodGroup,gender);
+            doRegisterInBackground();
 
         }else {
             Toast.makeText(getActivity(), R.string.no_internet_available,Toast.LENGTH_LONG).show();
+            //go to no internet activity
+            Util.goToNoInternetActivity(getActivity());
         }
     }
 
     /*
     * Method to do register in background
     * */
-    private void doRegisterInBackground(final String fullname, final String mobile, final String age, final String bloodGroup, final String gender) {
+    private void doRegisterInBackground() {
         pd.show();
         StringRequest request = new StringRequest(Request.Method.POST, EndPoints.REGISTER, new Response.Listener<String>() {
             @Override
@@ -164,11 +170,11 @@ public class RegisterFragment extends Fragment {
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String,String> params = new HashMap<>();
                 params.put(Constants.COM_APIKEY,Constants.APIKEY);
-                params.put(Constants.COM_FULLNAME,fullname);
-                params.put(Constants.COM_MOBILE,mobile);
-                params.put(Constants.COM_AGE,age);
-                params.put(Constants.COM_BLOOD,bloodGroup);
-                params.put(Constants.COM_GENDER,gender);
+                params.put(Constants.COM_FULLNAME,mUserFullname);
+                params.put(Constants.COM_MOBILE,mUserMobile);
+                params.put(Constants.COM_AGE,mUserAge);
+                params.put(Constants.COM_BLOOD,mUserBloodGroup);
+                params.put(Constants.COM_GENDER,mUserGender);
                 return params;
             }
         };
@@ -183,7 +189,8 @@ public class RegisterFragment extends Fragment {
         try {
             SimplePojo current = JsonParser.SimpleParser(response);
             if (current.isReturned()){
-                //TODO:: go to OTP verification activity
+                //go to OTP verification activity
+                Util.goToOtpVerificationActivity(getActivity(),mUserMobile);
             }else {
                 Util.showRedSnackbar(mLayoutForSnackbar,current.getMessage());
             }

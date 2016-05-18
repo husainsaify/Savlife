@@ -2,6 +2,7 @@ package com.hackerkernel.blooddonar.util;
 
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.support.design.widget.Snackbar;
@@ -11,6 +12,9 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.hackerkernel.blooddonar.R;
+import com.hackerkernel.blooddonar.activity.NoInternetActivity;
+import com.hackerkernel.blooddonar.activity.OtpVerificationActivity;
+import com.hackerkernel.blooddonar.constant.Constants;
 import com.hackerkernel.blooddonar.infrastructure.MyApplication;
 
 /**
@@ -49,5 +53,24 @@ public class Util {
                 });
         AlertDialog dialog = builder.create();
         dialog.show();
+    }
+
+    /*
+    * Method to send user to OTP verification activity
+    * */
+    public static void goToOtpVerificationActivity(Context activity,String mobileNumber){
+        Intent intent = new Intent(activity, OtpVerificationActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+        intent.putExtra(Constants.COM_MOBILE,mobileNumber);
+        activity.startActivity(intent);
+    }
+
+    /*
+    * Method to send user to NO Internet Activity
+    * */
+    public static void goToNoInternetActivity(Context activity){
+        Intent intent = new Intent(activity, NoInternetActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+        activity.startActivity(intent);
     }
 }

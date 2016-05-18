@@ -1,33 +1,42 @@
-<RelativeLayout android:layout_height="match_parent"
-    android:layout_width="match_parent"
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_gravity="center"
-    android:paddingLeft="20dp"
-    android:paddingRight="20dp"
-    android:paddingTop="10dp">
+<ScrollView android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:id="@+id/login_layout_for_snackbar"
+    xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <android.support.design.widget.TextInputLayout
+    <RelativeLayout android:layout_height="wrap_content"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/loginMobileLayout">
-        <EditText
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_gravity="center"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"
+        android:paddingTop="10dp">
+
+        <android.support.design.widget.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/mobile_number"
-            android:id="@+id/loginMobile"
-            android:inputType="number"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:layout_marginBottom="10dp"
-            android:maxLength="10"/>
-    </android.support.design.widget.TextInputLayout>
+            android:id="@+id/login_mobile_layout">
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/mobile_number"
+                android:id="@+id/login_mobile"
+                android:inputType="number"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginBottom="10dp"
+                android:maxLength="10"/>
+        </android.support.design.widget.TextInputLayout>
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/loginMobileLayout"
-        android:text="@string/login"
-        android:background="@drawable/primary_red_button_round"
-        android:layout_centerHorizontal="true"/>
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/login_mobile_layout"
+            android:text="@string/login"
+            android:id="@+id/login_btn"
+            android:layout_marginBottom="20dp"
+            android:background="@drawable/primary_red_button_round"
+            android:layout_centerHorizontal="true"/>
 
-</RelativeLayout>
+    </RelativeLayout>
+
+</ScrollView>
