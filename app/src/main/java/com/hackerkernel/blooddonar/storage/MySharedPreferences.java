@@ -20,11 +20,13 @@ public class MySharedPreferences {
     private String KEY_DEFAULT = null;
 
     //user details keys
-    private String KEY_FULL_NAME = "fullname",
+    private String KEY_USER_ID = "id",
+            KEY_FULL_NAME = "fullname",
             KEY_USER_MOBILE = "mobile",
             KEY_USER_AGE = "age",
             KEY_USER_GENDER = "gender",
-            KEY_USER_BLOOD_GROUP = "blood_group";
+            KEY_USER_BLOOD_GROUP = "blood_group",
+            KEY_USER_CREATED_AT = "created_at";
 
     private MySharedPreferences() {
         mSharedPreference = mContext.getSharedPreferences(KEY_PREFERENCE_NAME, Context.MODE_PRIVATE);
@@ -70,7 +72,7 @@ public class MySharedPreferences {
     }
 
     public String getUserFullname(){
-        return mSharedPreference.getString(KEY_FULL_NAME, null);
+        return mSharedPreference.getString(KEY_FULL_NAME, KEY_DEFAULT);
     }
 
     //USER age
@@ -79,7 +81,7 @@ public class MySharedPreferences {
     }
 
     public String getUserAge(){
-        return mSharedPreference.getString(KEY_USER_AGE, null);
+        return mSharedPreference.getString(KEY_USER_AGE, KEY_DEFAULT);
     }
 
     //USER gender
@@ -88,16 +90,34 @@ public class MySharedPreferences {
     }
 
     public String getUserGender(){
-        return mSharedPreference.getString(KEY_USER_GENDER, null);
+        return mSharedPreference.getString(KEY_USER_GENDER, KEY_DEFAULT);
     }
 
-    //USER state
+    //USER blood group
     public void setUserBloodGroup(String state){
         mSharedPreference.edit().putString(KEY_USER_BLOOD_GROUP, state).apply();
     }
 
     public String getUserBloodGroup(){
-        return mSharedPreference.getString(KEY_USER_BLOOD_GROUP, null);
+        return mSharedPreference.getString(KEY_USER_BLOOD_GROUP, KEY_DEFAULT);
+    }
+
+    //USER id
+    public void setUserId(String id){
+        mSharedPreference.edit().putString(KEY_USER_ID, id).apply();
+    }
+
+    public String getUserId(){
+        return mSharedPreference.getString(KEY_USER_ID, KEY_DEFAULT);
+    }
+
+    //USER Created At
+    public void setUserCreatedAt(String createdAt){
+        mSharedPreference.edit().putString(KEY_USER_CREATED_AT, createdAt).apply();
+    }
+
+    public String getUserCreatedAt(){
+        return mSharedPreference.getString(KEY_USER_CREATED_AT, KEY_DEFAULT);
     }
 
     //Method to check user is logged in or not

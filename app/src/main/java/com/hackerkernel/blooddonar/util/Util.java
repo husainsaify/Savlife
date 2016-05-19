@@ -6,11 +6,13 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.net.Uri;
 import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.hackerkernel.blooddonar.R;
 import com.hackerkernel.blooddonar.activity.HomeActivity;
@@ -81,5 +83,16 @@ public class Util {
         Intent intent = new Intent(activity, HomeActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
         activity.startActivity(intent);
+    }
+
+    public static void dialNumber(Activity activity, String phonenumber){
+        Uri callUri = Uri.parse("tel://"+phonenumber);
+        Intent callIntent = new Intent(Intent.ACTION_CALL,callUri);
+        try{
+            activity.startActivity(callIntent);
+        }catch (SecurityException e){
+            Toast.makeText(activity,e.getMessage(),Toast.LENGTH_LONG).show();
+        }
+
     }
 }

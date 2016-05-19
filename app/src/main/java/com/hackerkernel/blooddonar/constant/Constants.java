@@ -13,7 +13,10 @@ public class Constants {
             COM_BLOOD = "blood",
             COM_RETURN = "return",
             COM_MESSAGE = "message",
-            COM_OTP = "otp";
+            COM_OTP = "otp",
+            COM_DATA = "data",
+            COM_ID = "id",
+            COM_CREATED_AT = "created_at";
 
     public static final String CONFIG_OTP_SENDER_ID = "HAKBPL",
             CONFIG_SMS_DELIMITER = ":";

@@ -22,10 +22,10 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="OTP Has Been Send To 8962239913"
+        android:text="@string/otp_has_been_send_to"
         android:layout_below="@+id/verify_otp_heading"
         android:textColor="@color/colorAccent"
-        style="@style/Base.TextAppearance.AppCompat.Medium"
+        android:textSize="16sp"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="10dp"
         android:id="@+id/nuberTextview"

@@ -22,7 +22,14 @@ import com.android.volley.toolbox.StringRequest;
 import com.hackerkernel.blooddonar.R;
 import com.hackerkernel.blooddonar.constant.Constants;
 import com.hackerkernel.blooddonar.constant.EndPoints;
+import com.hackerkernel.blooddonar.infrastructure.BaseActivity;
 import com.hackerkernel.blooddonar.network.MyVolley;
+import com.hackerkernel.blooddonar.parser.JsonParser;
+import com.hackerkernel.blooddonar.pojo.SimplePojo;
+import com.hackerkernel.blooddonar.storage.MySharedPreferences;
+import com.hackerkernel.blooddonar.util.Util;
+
+import org.json.JSONException;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -30,7 +37,7 @@ import java.util.Map;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-public class OtpVerificationActivity extends AppCompatActivity {
+public class OtpVerificationActivity extends BaseActivity {
     private static final String TAG = OtpVerificationActivity.class.getSimpleName();
     @Bind(R.id.toolbar) Toolbar mToolbar;
     @Bind(R.id.otp_progressbar) ProgressBar mOtpProgressbar;
@@ -39,10 +46,13 @@ public class OtpVerificationActivity extends AppCompatActivity {
     @Bind(R.id.otp_progress_percentage) TextView mOtpProgressPercentage;
     @Bind(R.id.verify_EditText) EditText mOtpEditext;
     @Bind(R.id.verify_Button) Button mOtpButton;
+    @Bind(R.id.nuberTextview) TextView mNumberTextview;
 
     private ProgressDialog pd;
     private RequestQueue mRequestQueue;
     private String mMobile;
+    private MySharedPreferences sp;
+    private static OtpVerificationActivity mOtpVerificationActivityInstance;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,6 +65,8 @@ public class OtpVerificationActivity extends AppCompatActivity {
         assert getSupportActionBar() != null;
         getSupportActionBar().setTitle(R.string.verify_otp);
 
+        mOtpVerificationActivityInstance = this;
+
         //init pd
         pd = new ProgressDialog(this);
         pd.setMessage(getString(R.string.please_Watit));
@@ -63,9 +75,13 @@ public class OtpVerificationActivity extends AppCompatActivity {
         //init request queue
         mRequestQueue = MyVolley.getInstance().getRequestQueue();
 
+        //init SP
+        sp = MySharedPreferences.getInstance(getApplicationContext());
+
         //check user has mobile intent
         if (getIntent().hasExtra(Constants.COM_MOBILE)){
             mMobile = getIntent().getExtras().getString(Constants.COM_MOBILE);
+            mNumberTextview.append(" "+mMobile);
         }else {
             Toast.makeText(getApplicationContext(),"Unable to open OTP Verification. Try again",Toast.LENGTH_LONG).show();
             finish();
@@ -75,7 +91,7 @@ public class OtpVerificationActivity extends AppCompatActivity {
         mOtpButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                validateVerifyOtp();
+                checkInternetVerifyOtp();
             }
         });
 
@@ -83,17 +99,39 @@ public class OtpVerificationActivity extends AppCompatActivity {
     }
 
     /*
+    * Method to make a Instace of OtpVerification Activity
+    * For IncommingOtp Broadcast Reciever so what we can set OTP
+    * to the editText
+    * */
+    public static OtpVerificationActivity  getInstace(){
+        return mOtpVerificationActivityInstance;
+    }
+
+    public void updateUI(final String otp) {
+        OtpVerificationActivity.this.runOnUiThread(new Runnable() {
+            public void run() {
+                mOtpEditext.setText(otp);
+                checkInternetVerifyOtp();
+            }
+        });
+    }
+
+    /*
     * Method to validate OTP code & request api to validate OTP
     * */
-    private void validateVerifyOtp() {
-        String otp = mOtpEditext.getText().toString().trim();
+    private void checkInternetVerifyOtp() {
+        if (Util.isNetworkAvailable()){
+            String otp = mOtpEditext.getText().toString().trim();
 
-        if (otp.length() != 4){
-            Toast.makeText(getApplicationContext(),"Invalid OTP code",Toast.LENGTH_LONG).show();
-            return;
+            if (otp.length() != 4){
+                Toast.makeText(getApplicationContext(),"Invalid OTP code",Toast.LENGTH_LONG).show();
+                return;
+            }
+
+            verifyOtpInBackground(otp);
+        }else {
+            Toast.makeText(getApplicationContext(),R.string.no_internet_available,Toast.LENGTH_LONG).show();
         }
-
-        verifyOtpInBackground(otp);
     }
 
     /*
@@ -104,12 +142,20 @@ public class OtpVerificationActivity extends AppCompatActivity {
         StringRequest request = new StringRequest(Request.Method.POST, EndPoints.VERIFY_OTP, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-                Log.d(TAG,"HUS: "+response);
+                pd.dismiss();
+                parseVerifyOtpResponse(response);
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Log.d(TAG,"HUS: "+error.getMessage());
+                pd.dismiss();
+                Log.e(TAG,"HUS: verifyOtpInBackground: "+error.getMessage());
+                error.printStackTrace();
+                //handle Volley error
+                String errorString = MyVolley.handleVolleyError(error);
+                if (errorString != null){
+                    Toast.makeText(getApplicationContext(),errorString,Toast.LENGTH_LONG).show();
+                }
             }
         }){
             @Override
@@ -122,6 +168,32 @@ public class OtpVerificationActivity extends AppCompatActivity {
             }
         };
         mRequestQueue.add(request);
+    }
+
+    /*
+    * Method to parse Verify OTP response
+    * */
+    private void parseVerifyOtpResponse(String response) {
+        try {
+            SimplePojo pojo = JsonParser.SimpleParser(response);
+            /*
+            * If result is success
+            * Fetch users details & store them in SP
+            * */
+            if (pojo.isReturned()){
+                //store user details in sp
+                JsonParser.VerifyOtpParser(response,sp);
+
+                //send user to HomeActivity
+                Util.goToHomeActivity(this);
+            }else { // show error message
+                Toast.makeText(getApplicationContext(),pojo.getMessage(),Toast.LENGTH_LONG).show();
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+            Log.d(TAG,"HUS: parseRegisterResponse: "+e.getMessage());
+            Util.showParsingErrorAlert(this);
+        }
     }
 
     /*

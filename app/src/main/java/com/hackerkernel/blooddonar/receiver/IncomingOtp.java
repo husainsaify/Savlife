@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.telephony.SmsMessage;
 import android.util.Log;
 
+import com.hackerkernel.blooddonar.activity.OtpVerificationActivity;
 import com.hackerkernel.blooddonar.constant.Constants;
 
 
@@ -56,7 +57,7 @@ public class IncomingOtp extends BroadcastReceiver {
                         String verificationCode = getVerificationCode(message);
 
                         Log.d(TAG,"HUS: onReceive: Verification code "+verificationCode);
-                        //OtpVerificationActivity.getInstace().updateUI(verificationCode);
+                        OtpVerificationActivity.getInstace().updateUI(verificationCode);
                     }
                 }else{
                     Log.e(TAG,"HUS: onReceive: pdusObj is null");
