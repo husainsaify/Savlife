@@ -8,9 +8,9 @@ import android.view.ViewGroup;
 
 import com.hackerkernel.blooddonar.R;
 
-public class ReviewUs extends Fragment {
+public class ReviewUsFragment extends Fragment {
 
-    public ReviewUs(){
+    public ReviewUsFragment(){
 
     }
 

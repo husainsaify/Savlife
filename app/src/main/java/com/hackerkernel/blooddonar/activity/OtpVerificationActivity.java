@@ -60,7 +60,7 @@ public class OtpVerificationActivity extends BaseActivity {
         setContentView(R.layout.activity_otp_verification);
         ButterKnife.bind(this);
 
-        //init toolbar
+        //init mToolbar
         setSupportActionBar(mToolbar);
         assert getSupportActionBar() != null;
         getSupportActionBar().setTitle(R.string.verify_otp);
