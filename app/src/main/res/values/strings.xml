@@ -25,6 +25,7 @@
     <string name="need_help_contact_us">Need Help? Contact Us.</string>
     <string name="open">open</string>
     <string name="close">close</string>
+    <string name="search">Search</string>
     <string-array name="blood_group_name">
         <item>O-</item>
         <item>O+</item>
