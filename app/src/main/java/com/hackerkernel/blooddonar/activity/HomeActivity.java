@@ -67,8 +67,6 @@ public class HomeActivity extends BaseAuthActivity {
         mTabLayout.setupWithViewPager(mViewPager);
 
         getCityName();
-
-
     }
 
     /*
