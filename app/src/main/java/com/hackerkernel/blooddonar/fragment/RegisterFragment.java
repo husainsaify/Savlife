@@ -56,7 +56,6 @@ public class RegisterFragment extends Fragment {
     private String mUserGender;
     private String mUserAge;
     private String mUserBloodGroup;
-    private String mUserLocation;
 
     private RequestQueue mRequestQueue;
     private ProgressDialog pd;
@@ -108,7 +107,6 @@ public class RegisterFragment extends Fragment {
             int genderId = mGenderGroup.getCheckedRadioButtonId();
             mUserAge = mAge.getText().toString().trim();
             mUserBloodGroup = (String) mBloodGroup.getSelectedItem();
-            mUserLocation = Util.getCityName(getActivity());
             if (genderId == R.id.reg_gender_male){
                 mUserGender = "Male";
             }else {
@@ -132,10 +130,6 @@ public class RegisterFragment extends Fragment {
 
             if (Integer.parseInt(mUserAge) < 18){
                 Util.showRedSnackbar(mLayoutForSnackbar,"You must be 18 to register for "+getString(R.string.app_name));
-                return;
-            }
-            if (mUserLocation == null){
-                Util.showRedSnackbar(mLayoutForSnackbar,"Invalid user location. Allow us to collect location");
                 return;
             }
 
@@ -181,7 +175,6 @@ public class RegisterFragment extends Fragment {
                 params.put(Constants.COM_AGE,mUserAge);
                 params.put(Constants.COM_BLOOD,mUserBloodGroup);
                 params.put(Constants.COM_GENDER,mUserGender);
-                params.put(Constants.COM_LOCATION,mUserLocation);
                 return params;
             }
         };

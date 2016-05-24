@@ -161,7 +161,7 @@ public class OtpVerificationActivity extends BaseActivity {
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String,String> param = new HashMap<>();
-                param.put(Constants.COM_APIKEY,Constants.APIKEY);
+                param.put(Constants.COM_APIKEY,Util.generateApiKey(mMobile));
                 param.put(Constants.COM_MOBILE,mMobile);
                 param.put(Constants.COM_OTP,otp);
                 return param;
