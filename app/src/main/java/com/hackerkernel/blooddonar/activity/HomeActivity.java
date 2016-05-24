@@ -26,6 +26,7 @@ import com.hackerkernel.blooddonar.fragment.BestDonorFragment;
 import com.hackerkernel.blooddonar.fragment.DealsFragment;
 import com.hackerkernel.blooddonar.fragment.ReviewUsFragment;
 import com.hackerkernel.blooddonar.infrastructure.BaseAuthActivity;
+import com.hackerkernel.blooddonar.network.GetUserLocation;
 import com.hackerkernel.blooddonar.storage.MySharedPreferences;
 
 import java.io.IOException;
@@ -66,45 +67,8 @@ public class HomeActivity extends BaseAuthActivity {
         setupviewPager();
         mTabLayout.setupWithViewPager(mViewPager);
 
-        getCityName();
-    }
-
-    /*
-    * Method to get city name and store it in sharedPrefernce
-    * */
-    private void getCityName() {
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED
-                || ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED){
-            LocationManager locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
-
-            Criteria criteria = new Criteria();
-
-            locationManager.getBestProvider(criteria, true);
-
-            //nce  you  know  the  name  of  the  LocationProvider,  you  can  call getLastKnownPosition() to  find  out  where  you  were  recently.
-            Location location = locationManager.getLastKnownLocation(locationManager.getBestProvider(criteria, true));
-            Geocoder gcd = new Geocoder(getBaseContext(), Locale.getDefault());
-
-            if (location == null){
-                Toast.makeText(getApplicationContext(),"Location Permission denied by user",Toast.LENGTH_LONG).show();
-                return;
-            }
-            List<Address> addresses;
-
-            try {
-                addresses = gcd.getFromLocation(location.getLatitude(), location.getLongitude(), 1);
-                if (addresses.size() > 0) {
-                    String cityname = addresses.get(0).getLocality();
-                    //insert city to SharedPrefernece
-                    sp.setUserLocation(cityname);
-                }
-
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }else {
-            Toast.makeText(getApplicationContext(),"Location Permission denied by user",Toast.LENGTH_LONG).show();
-        }
+        GetUserLocation getUserLocation = new GetUserLocation(getApplicationContext());
+        getUserLocation.getLocation();
     }
 
     @Override

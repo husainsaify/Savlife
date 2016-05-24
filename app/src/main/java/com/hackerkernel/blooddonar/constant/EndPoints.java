@@ -10,4 +10,5 @@ public class EndPoints {
     public static final String REGISTER = BASE_URL + "register.php",
             LOGIN = BASE_URL + "login.php",
             VERIFY_OTP = BASE_URL + "verifyOtp.php";
+
 }

@@ -1,15 +1,23 @@
 package com.hackerkernel.blooddonar.util;
 
+import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.location.Address;
+import android.location.Criteria;
+import android.location.Geocoder;
+import android.location.Location;
+import android.location.LocationManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
 import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
@@ -21,11 +29,18 @@ import com.hackerkernel.blooddonar.activity.OtpVerificationActivity;
 import com.hackerkernel.blooddonar.constant.Constants;
 import com.hackerkernel.blooddonar.infrastructure.BaseActivity;
 import com.hackerkernel.blooddonar.infrastructure.MyApplication;
+import com.hackerkernel.blooddonar.storage.MySharedPreferences;
+
+import java.io.IOException;
+import java.util.List;
+import java.util.Locale;
 
 /**
  * Utility methods
  */
 public class Util {
+    private static final String TAG = Util.class.getSimpleName();
+
     public static boolean isNetworkAvailable(){
         ConnectivityManager connectivityManager = (ConnectivityManager) MyApplication.getInstance().getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
@@ -93,6 +108,23 @@ public class Util {
         }catch (SecurityException e){
             Toast.makeText(activity,e.getMessage(),Toast.LENGTH_LONG).show();
         }
+    }
 
+
+    /*
+    * Method to generate api key
+    * */
+    public static String generateApiKey(String text){
+        //generate Key
+        ApiEncrypter encrypter = new ApiEncrypter();
+        String key = "";
+        try {
+            key = ApiEncrypter.bytesToHex(encrypter.encrypt(text));
+            Log.d(TAG,"HUS: "+key);
+        } catch (Exception e) {
+            e.printStackTrace();
+            Log.d(TAG,"HUS: generateApiKey: "+e.getMessage());
+        }
+        return key;
     }
 }

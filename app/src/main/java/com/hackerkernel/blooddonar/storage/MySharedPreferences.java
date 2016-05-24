@@ -27,7 +27,10 @@ public class MySharedPreferences {
             KEY_USER_GENDER = "gender",
             KEY_USER_BLOOD_GROUP = "blood_group",
             KEY_USER_CREATED_AT = "created_at",
-            KEY_USER_LOCATION = "location";
+            KEY_USER_LOCATION = "location",
+            KEY_USER_LATITUDE = "latitude",
+            KEY_USER_LONGITUDE ="longitude";
+
 
     private MySharedPreferences() {
         mSharedPreference = mContext.getSharedPreferences(KEY_PREFERENCE_NAME, Context.MODE_PRIVATE);
@@ -135,6 +138,22 @@ public class MySharedPreferences {
     public String getUserLocation(){
         return mSharedPreference.getString(KEY_USER_LOCATION, KEY_DEFAULT);
     }
+
+    public void setUserLatitude(String latitude){
+        mSharedPreference.edit().putString(KEY_USER_LATITUDE, latitude).apply();
+    }
+
+    public String getUserLatitude(){
+        return mSharedPreference.getString(KEY_USER_LATITUDE, KEY_DEFAULT);
+    }
+    public void setUserLongitude(String longitude){
+        mSharedPreference.edit().putString(KEY_USER_LONGITUDE,longitude).apply();
+    }
+    public String getUserLongitude(){
+        return mSharedPreference.getString(KEY_USER_LONGITUDE,KEY_DEFAULT);
+
+    }
+
 
 
 }

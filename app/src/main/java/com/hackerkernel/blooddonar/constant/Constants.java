@@ -16,7 +16,8 @@ public class Constants {
             COM_OTP = "otp",
             COM_DATA = "data",
             COM_ID = "id",
-            COM_CREATED_AT = "created_at";
+            COM_CREATED_AT = "created_at",
+            COM_LOCATION = "location";
 
     public static final String CONFIG_OTP_SENDER_ID = "HAKBPL",
             CONFIG_SMS_DELIMITER = ":";

@@ -134,7 +134,7 @@ public class LoginFragment extends Fragment {
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String,String> params = new HashMap<>();
-                params.put(Constants.COM_APIKEY,Constants.APIKEY);
+                params.put(Constants.COM_APIKEY,Util.generateApiKey(mUserMobile));
                 params.put(Constants.COM_MOBILE,mUserMobile);
                 return params;
             }
