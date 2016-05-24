@@ -11,7 +11,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.ImageLoader;
 import com.hackerkernel.blooddonar.R;
 import com.hackerkernel.blooddonar.network.MyVolley;
-import com.hackerkernel.blooddonar.pojo.DonorPojo;
+import com.hackerkernel.blooddonar.pojo.DonorListPojo;
 
 import java.util.List;
 
@@ -19,11 +19,11 @@ import java.util.List;
  * Created by QUT on 5/23/2016.
  */
 public class DonorAdapter extends RecyclerView.Adapter<DonorAdapter.MyViewHolder> {
-    private List<DonorPojo> donorList;
+    private List<DonorListPojo> donorList;
     private ImageLoader mImageLoader;
 
 
-    public DonorAdapter(List<DonorPojo> donorList) {
+    public DonorAdapter(List<DonorListPojo> donorList) {
         this.donorList = donorList;
         this.mImageLoader = MyVolley.getInstance().getImageLoader();
     }
@@ -37,7 +37,7 @@ public class DonorAdapter extends RecyclerView.Adapter<DonorAdapter.MyViewHolder
 
     @Override
     public void onBindViewHolder(final MyViewHolder holder, int position) {
-        DonorPojo pojo = new DonorPojo();
+        DonorListPojo pojo = new DonorListPojo();
         holder.userName.setText(pojo.getUserName());
         holder.bloodGroup.setText(pojo.getUserBloodGroup());
 

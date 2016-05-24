@@ -3,7 +3,7 @@ package com.hackerkernel.blooddonar.pojo;
 /**
  * Created by QUT on 5/23/2016.
  */
-public class DonorPojo {
+public class DonorListPojo {
     private String userId, imageUrl, userName, userBloodGroup;
 
     public String getImageUrl() {
