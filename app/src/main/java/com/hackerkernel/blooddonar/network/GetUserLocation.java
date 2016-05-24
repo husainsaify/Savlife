@@ -12,19 +12,36 @@ import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.hackerkernel.blooddonar.constant.Constants;
+import com.hackerkernel.blooddonar.constant.EndPoints;
 import com.hackerkernel.blooddonar.storage.MySharedPreferences;
+import com.hackerkernel.blooddonar.util.Util;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 
 /**
  * Created by husain on 5/24/2016.
  */
 public class GetUserLocation {
+    private static final String TAG = GetUserLocation.class.getSimpleName();
     private Context mContext;
-    public GetUserLocation(Context mContext){
-        this.mContext = mContext;
+    private MySharedPreferences sp;
+    private RequestQueue mRequestQueue;
+
+    public GetUserLocation(Context context){
+        this.mContext = context;
+        this.sp = MySharedPreferences.getInstance(context);
+        this.mRequestQueue = MyVolley.getInstance().getRequestQueue();
     }
     public void getLocation(){
         if (ContextCompat.checkSelfPermission(mContext, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED
@@ -50,13 +67,14 @@ public class GetUserLocation {
                 if (addresses.size() > 0) {
                     String cityname = addresses.get(0).getLocality();
                     Log.d("HUS","HUS:  dd "+location.getLatitude()+"/"+location.getLongitude());
+
                     //insert city to Shared Preference
-                    MySharedPreferences sp = MySharedPreferences.getInstance(mContext);
                     sp.setUserLocation(cityname);
                     sp.setUserLatitude(location.getLatitude()+"");
                     sp.setUserLongitude(location.getLongitude()+"");
 
-                    Log.d("HUS","HUS: "+sp.getUserLocation()+"/"+sp.getUserLatitude()+"/"+sp.getUserLongitude());
+                    //method to update user location in api
+                    updateUserLocationInBackground(cityname,location.getLatitude(),location.getLongitude());
                 }
 
             } catch (IOException e) {
@@ -67,5 +85,35 @@ public class GetUserLocation {
         }
 
 
+    }
+
+    /*
+    * Method to update user location in API
+    * */
+    private void updateUserLocationInBackground(final String cityname, final double latitude, final double longitude) {
+        StringRequest request = new StringRequest(Request.Method.POST, EndPoints.UPDATE_USER_LOCATION, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                Log.d(TAG,"HUS: updateUserLocationInBackground: "+response);
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                error.printStackTrace();
+                Log.d(TAG,"HUS: updateUserLocationInBackground: "+error.getMessage());
+            }
+        }){
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String,String> params = new HashMap<>();
+                params.put(Constants.COM_APIKEY, Util.generateApiKey(sp.getUserMobile()));
+                params.put(Constants.COM_MOBILE,sp.getUserMobile());
+                params.put(Constants.LOC_CITY,cityname);
+                params.put(Constants.LOC_LATITUDE,latitude+"");
+                params.put(Constants.LOC_LONGITUDE,longitude+"");
+                return params;
+            }
+        };
+        mRequestQueue.add(request);
     }
 }

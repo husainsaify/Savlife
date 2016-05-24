@@ -21,4 +21,8 @@ public class Constants {
 
     public static final String CONFIG_OTP_SENDER_ID = "HAKBPL",
             CONFIG_SMS_DELIMITER = ":";
+
+    public static final String LOC_CITY = "city",
+    LOC_LATITUDE = "latitude",
+    LOC_LONGITUDE = "longitude";
 }
