@@ -3,13 +3,14 @@ package com.hackerkernel.blooddonar.fragment;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
+import android.widget.TextView;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -39,10 +40,13 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 
 
-public class BestDonorFragment extends Fragment {
+public class BestDonorFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener {
     private static final String TAG = BestDonorFragment.class.getSimpleName();
-    @Bind(R.id.recycleView) RecyclerView recyclerViewe;
+    @Bind(R.id.best_donor_recyclerview) RecyclerView mRecyclerView;
+    @Bind(R.id.best_donor_placeholder) TextView mPlaceholder;
     @Bind(R.id.layoutForSnackbar) View mLayoutForSnackbar;
+    @Bind(R.id.swipe_refresh_layout) SwipeRefreshLayout mSwipeRefreshLayout;
+
     private MySharedPreferences sp;
     private RequestQueue mRequestQueue;
 
@@ -68,7 +72,9 @@ public class BestDonorFragment extends Fragment {
         ButterKnife.bind(this,view);
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
-        recyclerViewe.setLayoutManager(layoutManager);
+        mRecyclerView.setLayoutManager(layoutManager);
+
+        mSwipeRefreshLayout.setOnRefreshListener(this);
 
         /*
         * Method to check internet & call method to get donor in background
@@ -85,19 +91,22 @@ public class BestDonorFragment extends Fragment {
         if (Util.isNetworkAvailable()){
             getBestDonorInBackground();
         }else {
-            //TODO:: no internet , show snackbar, and show need help contacts
+            Util.noInternetSnackBar(getActivity(),mLayoutForSnackbar);
         }
     }
 
     public void getBestDonorInBackground(){
+        startRefreshing();
         StringRequest request = new StringRequest(Request.Method.POST, EndPoints.GET_BEST_DONOR, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
+                stopRefreshing();
                 parseBestDonorResponse(response);
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
+                stopRefreshing();
                 error.printStackTrace();
                 Log.d(TAG,"MUR::getBestDonorInBackground "+error.getMessage());
                 String errorString = MyVolley.handleVolleyError(error);
@@ -124,17 +133,26 @@ public class BestDonorFragment extends Fragment {
             boolean returned = jsonObj.getBoolean(Constants.COM_RETURN);
             String message = jsonObj.getString(Constants.COM_MESSAGE);
             if (returned){
-                int count = jsonObj.getInt("count");
+                int count = jsonObj.getInt(Constants.COM_COUNT);
+                //when no donor found for this place
                 if (count <= 0){
-                    Toast.makeText(getActivity(),message,Toast.LENGTH_LONG).show();
+                    mRecyclerView.setVisibility(View.GONE);
+                    mPlaceholder.setVisibility(View.VISIBLE);
+                    mPlaceholder.setText(message);
                 }else {
-                    JSONArray dataArray = jsonObj.getJSONArray("data");
+                    //donor found
+                    mPlaceholder.setVisibility(View.GONE);
+                    mRecyclerView.setVisibility(View.VISIBLE);
 
+                    JSONArray dataArray = jsonObj.getJSONArray(Constants.COM_DATA);
                     List<DonorListPojo> list = JsonParser.DonorParser(dataArray);
                     setupDonorRecyclerView(list);
                 }
             }else {
-                Toast.makeText(getActivity(),message,Toast.LENGTH_LONG).show();
+                //some auth error
+                mRecyclerView.setVisibility(View.GONE);
+                mPlaceholder.setVisibility(View.VISIBLE);
+                mPlaceholder.setText(message);
             }
         } catch (JSONException e) {
             e.printStackTrace();
@@ -146,6 +164,29 @@ public class BestDonorFragment extends Fragment {
     private void setupDonorRecyclerView(List<DonorListPojo> list) {
         DonorAdapter adapter = new DonorAdapter(getActivity());
         adapter.setList(list);
-        recyclerViewe.setAdapter(adapter);
+        mRecyclerView.setAdapter(adapter);
+    }
+
+    @Override
+    public void onRefresh() {
+        checkInternetAndGetBestDonor();
+    }
+
+    //method to stop swipeRefreshlayout refresh icon
+    private void stopRefreshing() {
+        if(mSwipeRefreshLayout.isRefreshing()){
+            mSwipeRefreshLayout.setRefreshing(false);
+        }
+    }
+
+    private void startRefreshing(){
+        if(!mSwipeRefreshLayout.isRefreshing()){
+            mSwipeRefreshLayout.post(new Runnable() {
+                @Override
+                public void run() {
+                    mSwipeRefreshLayout.setRefreshing(true);
+                }
+            });
+        }
     }
 }

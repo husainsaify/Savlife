@@ -1,7 +1,5 @@
     package com.hackerkernel.blooddonar.parser;
 
-    import android.util.Log;
-
     import com.hackerkernel.blooddonar.constant.Constants;
     import com.hackerkernel.blooddonar.pojo.DonorListPojo;
     import com.hackerkernel.blooddonar.pojo.SimplePojo;
@@ -63,12 +61,12 @@
             for (int i = 0; i <dataArray.length() ; i++) {
                 JSONObject obj = dataArray.getJSONObject(i);
                 DonorListPojo pojo = new DonorListPojo();
-                pojo.setUserName(obj.getString("fullname"));
-                pojo.setImageUrl(obj.getString("img"));
-                pojo.setUserBloodGroup(obj.getString("blood"));
+                pojo.setUserId(obj.getString(Constants.COM_ID));
+                pojo.setUserName(obj.getString(Constants.COM_FULLNAME));
+                pojo.setImageUrl(obj.getString(Constants.COM_IMG));
+                pojo.setUserBloodGroup(obj.getString(Constants.COM_BLOOD));
                 list.add(pojo);
             }
-            Log.d(TAG,"HUS: "+list.size());
             return list;
         }
 

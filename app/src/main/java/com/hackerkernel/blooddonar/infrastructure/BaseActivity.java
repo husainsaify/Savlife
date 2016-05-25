@@ -16,11 +16,6 @@ public abstract class BaseActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        //check internet connection if not avalable send user to NO internet activity
-        if (!Util.isNetworkAvailable()){
-            Util.goToNoInternetActivity(this);
-        }
-
         if (MySharedPreferences.getInstance(this).getLoginStatus()){
             Util.goToHomeActivity(this);
         }

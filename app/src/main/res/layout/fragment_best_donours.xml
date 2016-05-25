@@ -4,13 +4,30 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".fragment.BestDonorFragment"
-    android:id="@+id/layoutForSnackbar"
-    android:background="@color/backgroundColor">
+    android:id="@+id/layoutForSnackbar">
 
-    <android.support.v7.widget.RecyclerView
+    <android.support.v4.widget.SwipeRefreshLayout
         android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/swipe_refresh_layout">
+
+        <android.support.v7.widget.RecyclerView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/best_donor_recyclerview"/>
+
+    </android.support.v4.widget.SwipeRefreshLayout>
+
+
+
+    <TextView
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/recycleView"/>
+        android:layout_margin="20dp"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:id="@+id/best_donor_placeholder"
+        android:textSize="16sp"/>
 
     <android.support.design.widget.FloatingActionButton
         android:layout_width="wrap_content"

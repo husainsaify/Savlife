@@ -2,7 +2,6 @@ package com.hackerkernel.blooddonar.adapter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -39,7 +38,7 @@ public class DonorAdapter extends RecyclerView.Adapter<DonorAdapter.MyViewHolder
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(context)
-                .inflate(R.layout.donour_listrow, parent, false);
+                .inflate(R.layout.donor_list_row, parent, false);
         return new MyViewHolder(itemView);
     }
 

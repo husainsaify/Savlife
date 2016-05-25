@@ -127,4 +127,15 @@ public class Util {
         }
         return key;
     }
+
+    public static void noInternetSnackBar(final Activity activity, View snackBarLayout){
+        final Snackbar snackbar = Snackbar.make(snackBarLayout, R.string.no_internet_connection, Snackbar.LENGTH_INDEFINITE);
+        snackbar.setAction(R.string.retry, new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                activity.startActivity(new Intent(activity, NoInternetActivity.class));
+            }
+        });
+        snackbar.show();
+    }
 }
