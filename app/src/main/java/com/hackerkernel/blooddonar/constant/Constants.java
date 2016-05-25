@@ -8,6 +8,7 @@ public class Constants {
     public static final String COM_APIKEY = "apikey",
             COM_FULLNAME = "fullname",
             COM_MOBILE = "mobile",
+            COM_IMG = "img",
             COM_GENDER = "gender",
             COM_AGE = "age",
             COM_BLOOD = "blood",
@@ -17,7 +18,7 @@ public class Constants {
             COM_DATA = "data",
             COM_ID = "id",
             COM_CREATED_AT = "created_at",
-            COM_LOCATION = "location";
+            COM_COUNT = "count";
 
     public static final String CONFIG_OTP_SENDER_ID = "HAKBPL",
             CONFIG_SMS_DELIMITER = ":";

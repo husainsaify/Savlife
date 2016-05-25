@@ -16,6 +16,8 @@
      * Class to parse json response
      */
     public class JsonParser {
+        private static final String TAG = JsonParser.class.getSimpleName();
+
         public static SimplePojo SimpleParser(String response) throws JSONException {
             JSONObject jo = new JSONObject(response);
             SimplePojo simplePojo = new SimplePojo();
@@ -59,9 +61,10 @@
             for (int i = 0; i <dataArray.length() ; i++) {
                 JSONObject obj = dataArray.getJSONObject(i);
                 DonorListPojo pojo = new DonorListPojo();
-                pojo.setUserName(obj.getString("fullname"));
-                pojo.setImageUrl(obj.getString("img"));
-                pojo.setUserBloodGroup(obj.getString("blood"));
+                pojo.setUserId(obj.getString(Constants.COM_ID));
+                pojo.setUserName(obj.getString(Constants.COM_FULLNAME));
+                pojo.setImageUrl(obj.getString(Constants.COM_IMG));
+                pojo.setUserBloodGroup(obj.getString(Constants.COM_BLOOD));
                 list.add(pojo);
             }
             return list;

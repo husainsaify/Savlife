@@ -55,11 +55,9 @@ public class HomeActivity extends BaseAuthActivity {
     //side menu
     @Bind(R.id.drawer_layout) DrawerLayout mDrawerLayout;
     @Bind(R.id.home_navigation_view) NavigationView mNaigationView;
-    @Bind(R.id.recycleView)
-    RecyclerView recyclerViewe;
+
     private ActionBarDrawerToggle mActionBarDrawerToggle;
-    private MySharedPreferences sp;
-    private RequestQueue mRequestQueue;
+
 
 
     @Override
@@ -72,11 +70,7 @@ public class HomeActivity extends BaseAuthActivity {
         assert getSupportActionBar() != null;
         getSupportActionBar().setTitle("SavLife");
 
-        //init SP
-        sp = MySharedPreferences.getInstance(this);
 
-        //init request queue
-        mRequestQueue = MyVolley.getInstance().getRequestQueue();
 
         initSideMenu();
 
@@ -86,22 +80,10 @@ public class HomeActivity extends BaseAuthActivity {
         GetUserLocation getUserLocation = new GetUserLocation(getApplicationContext());
         getUserLocation.getLocation();
 
-        /*
-        * Method to check internet & call method to get donor in background
-        * */
-        checkInternetAndGetBestDonor();
+
     }
 
-    /*
-    * Method to check internet and get best donor
-    * */
-    private void checkInternetAndGetBestDonor() {
-        if (Util.isNetworkAvailable()){
-            getBestDonorInBackground();
-        }else {
-            //TODO:: no internet , show snackbar, and show need help contacts
-        }
-    }
+
 
     @Override
     protected void onPostCreate(@Nullable Bundle savedInstanceState) {
@@ -126,59 +108,5 @@ public class HomeActivity extends BaseAuthActivity {
     }
 
 
-    public void getBestDonorInBackground(){
-        StringRequest request = new StringRequest(Request.Method.POST, EndPoints.GET_BEST_DONOR, new Response.Listener<String>() {
-            @Override
-            public void onResponse(String response) {
-                parseBestDonorResponse(response);
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                error.printStackTrace();
-                Log.d(TAG,"MUR::getBestDonorInBackground "+error.getMessage());
-            }
-        }){
-            @Override
-            protected Map<String, String> getParams() throws AuthFailureError {
-                Map<String, String> params = new HashMap<>();
-                params.put(Constants.COM_APIKEY, Util.generateApiKey(sp.getUserMobile()));
-                params.put(Constants.COM_MOBILE,sp.getUserMobile());
-                params.put(Constants.LOC_CITY,sp.getUserLocation());
-                return params;
-            }
-        };
-        mRequestQueue.add(request);
-    }
 
-    private void parseBestDonorResponse(String response) {
-        try {
-            JSONObject jsonObj = new JSONObject(response);
-            boolean returned = jsonObj.getBoolean(Constants.COM_RETURN);
-            String message = jsonObj.getString(Constants.COM_MESSAGE);
-            if (returned){
-                int count = jsonObj.getInt("count");
-                if (count <= 0){
-                    Toast.makeText(getApplicationContext(),message,Toast.LENGTH_LONG).show();
-                }else {
-                    JSONArray dataArray = jsonObj.getJSONArray("data");
-
-                    List<DonorListPojo> list = JsonParser.DonorParser(dataArray);
-
-                    setupDonorRecyclerView(list);
-                }
-            }else {
-                Toast.makeText(getApplicationContext(),message,Toast.LENGTH_LONG).show();
-            }
-        } catch (JSONException e) {
-            e.printStackTrace();
-            Util.showParsingErrorAlert(getApplicationContext());
-        }
-
-    }
-
-    private void setupDonorRecyclerView(List<DonorListPojo> list) {
-        DonorAdapter adapter = new DonorAdapter(list);
-        recyclerViewe.setAdapter(adapter);
-    }
 }
