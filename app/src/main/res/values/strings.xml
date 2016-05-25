@@ -38,15 +38,12 @@
         <item>AB+</item>
         <item>HH</item>
     </string-array>
-    <string-array name="blood_group_code">
-        <item>1</item>
-        <item>2</item>
-        <item>3</item>
-        <item>4</item>
-        <item>5</item>
-        <item>6</item>
-        <item>7</item>
-        <item>8</item>
-        <item>9</item>
-    </string-array>
+   <string-array name="location_array">
+       <item>Bhopal</item>
+       <item>Indore</item>
+       <item>Hydrabaad</item>
+       <item>Mumbai</item>
+
+
+   </string-array>
 </resources>

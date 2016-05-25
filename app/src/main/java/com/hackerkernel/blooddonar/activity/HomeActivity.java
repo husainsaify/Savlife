@@ -1,5 +1,6 @@
 package com.hackerkernel.blooddonar.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.NavigationView;
@@ -10,6 +11,7 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.View;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
@@ -83,7 +85,9 @@ public class HomeActivity extends BaseAuthActivity {
 
     }
 
-
+    public void openSearchActivity(View view){
+        startActivity(new Intent(this, SearchActivity.class));
+    }
 
     @Override
     protected void onPostCreate(@Nullable Bundle savedInstanceState) {

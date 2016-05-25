@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:layout_height="match_parent"
+    tools:context="com.hackerkernel.blooddonar.activity.SearchActivity">
+    <android.support.design.widget.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/home_appbar_layout"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+
+    <include layout="@layout/include_toolbar"
+        android:id="@+id/toolbar"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/toolbar"
+        android:weightSum="2">
+
+        <Spinner
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight=".85"
+            android:id="@+id/blood_spinner"
+            android:padding="10dp"
+            android:entries="@array/blood_group_name"/>
+        <Spinner
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight=".85"
+            android:id="@+id/location_spinner"
+            android:padding="10dp"
+            android:entries="@array/location_array"/>
+        <ImageButton
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:layout_weight="0.3"
+            android:id="@+id/search_btn"
+            android:background="@drawable/primary_red_button_round"
+            android:src="@drawable/ic_search_white"/>
+    </LinearLayout>
+    </android.support.design.widget.AppBarLayout>
+
+    <android.support.v7.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/search_recycleView" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/search_placeholder"
+        android:gravity="center"
+        android:layout_margin="20dp"
+        android:textSize="18sp"
+        android:visibility="gone"
+        />
+</LinearLayout>

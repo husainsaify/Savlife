@@ -11,6 +11,7 @@ public class EndPoints {
             LOGIN = BASE_URL + "login.php",
             VERIFY_OTP = BASE_URL + "verifyOtp.php",
             UPDATE_USER_LOCATION = BASE_URL + "updateUserLocation.php",
-            GET_BEST_DONOR = BASE_URL + "getBestDonor.php";
+            GET_BEST_DONOR = BASE_URL + "getBestDonor.php",
+            SEARCH_DONOR = BASE_URL + "searchDonor.php";
 
 }

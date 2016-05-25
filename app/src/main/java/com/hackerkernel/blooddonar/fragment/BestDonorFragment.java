@@ -1,7 +1,9 @@
 package com.hackerkernel.blooddonar.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
@@ -10,6 +12,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.android.volley.AuthFailureError;
@@ -19,6 +22,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.hackerkernel.blooddonar.R;
+import com.hackerkernel.blooddonar.activity.SearchActivity;
 import com.hackerkernel.blooddonar.adapter.DonorAdapter;
 import com.hackerkernel.blooddonar.constant.Constants;
 import com.hackerkernel.blooddonar.constant.EndPoints;
@@ -189,4 +193,5 @@ public class BestDonorFragment extends Fragment implements SwipeRefreshLayout.On
             });
         }
     }
+
 }

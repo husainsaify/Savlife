@@ -70,6 +70,7 @@ public class DonorAdapter extends RecyclerView.Adapter<DonorAdapter.MyViewHolder
         private TextView userName, bloodGroup;
         private ImageView userImage;
 
+
         public MyViewHolder(View itemView) {
             super(itemView);
             userName = (TextView) itemView.findViewById(R.id.donor_name);
