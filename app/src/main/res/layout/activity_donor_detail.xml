@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.hackerkernel.blooddonar.activity.DonorDetailActivity"
+    android:orientation="vertical"
+    android:weightSum="1">
+
+    <include
+        layout="@layout/include_toolbar"/>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingLeft="15dp"
+                android:paddingRight="15dp"
+                android:paddingTop="10dp"
+                android:paddingBottom="10dp">
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="200dp"
+                    android:id="@+id/detail_donor_image"
+                    android:src="@drawable/bloodman"
+                    android:scaleType="centerCrop"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Anurag Soni"
+                    android:id="@+id/detail_donor_name"
+                    android:layout_below="@+id/detail_donor_image"
+                    style="@style/Base.TextAppearance.AppCompat.Headline"
+                    android:layout_marginTop="10dp"
+                    />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:text="O+"
+                    android:id="@+id/detail_donor_blood"
+                    android:layout_alignParentRight="true"
+                    android:layout_below="@+id/detail_donor_image"
+                    style="@style/Base.TextAppearance.AppCompat.Headline"
+                    android:textColor="@color/colorPrimaryDark" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Age:"
+                    android:id="@+id/detail_donor_age"
+                    android:layout_below="@+id/detail_donor_name"
+                    android:layout_marginTop="5dp"
+                    style="@style/Base.TextAppearance.AppCompat.Medium"
+                    />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Gender : Male"
+                    android:id="@+id/detail_donor_gender"
+                    android:layout_below="@+id/detail_donor_name"
+                    android:layout_marginTop="5dp"
+                    android:layout_alignParentRight="true"
+                    style="@style/Base.TextAppearance.AppCompat.Medium"
+                    />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/colorBlack"
+                    android:id="@+id/detail_hr"
+                    android:layout_below="@+id/detail_donor_age"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/detail_last_donated"
+                    android:layout_below="@+id/detail_hr"
+                    android:text="3 Months ago"
+                    style="@style/Base.TextAppearance.AppCompat.Medium"
+                    android:layout_marginTop="5dp"
+                    android:layout_centerHorizontal="true"/>
+
+            </RelativeLayout>
+
+    </ScrollView>
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/detail_contact"
+        android:background="@drawable/primary_red_button"
+        android:text="Contact"
+        android:textColor="@color/whiteColor"
+        />
+</LinearLayout>

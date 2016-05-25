@@ -7,12 +7,12 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <!-- sms -->
-    <uses-permission android:name="android.permission.RECEIVE_SMS"/>
-    <uses-permission android:name="android.permission.READ_SMS"/>
+    <uses-permission android:name="android.permission.RECEIVE_SMS" />
+    <uses-permission android:name="android.permission.READ_SMS" />
     <uses-permission android:name="android.permission.CALL_PHONE" />
     <!-- location -->
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 
     <application
         android:name=".infrastructure.MyApplication"
@@ -29,16 +29,17 @@
             </intent-filter>
         </activity>
         <activity android:name=".activity.NoInternetActivity" />
-        <activity android:name=".activity.OtpVerificationActivity"/>
-        <activity android:name=".activity.HomeActivity"/>
+        <activity android:name=".activity.OtpVerificationActivity" />
+        <activity android:name=".activity.HomeActivity" />
 
         <!-- Receiver -->
-        <receiver android:name=".receiver.IncomingOtp" >
-            <intent-filter android:priority="99999" >
+        <receiver android:name=".receiver.IncomingOtp">
+            <intent-filter android:priority="99999">
                 <action android:name="android.provider.Telephony.SMS_RECEIVED" />
             </intent-filter>
         </receiver>
         <!-- Receiver -->
+        <activity android:name=".activity.DonorDetailActivity"></activity>
     </application>
 
 </manifest>
