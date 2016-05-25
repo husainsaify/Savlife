@@ -1,5 +1,7 @@
     package com.hackerkernel.blooddonar.parser;
 
+    import android.util.Log;
+
     import com.hackerkernel.blooddonar.constant.Constants;
     import com.hackerkernel.blooddonar.pojo.DonorListPojo;
     import com.hackerkernel.blooddonar.pojo.SimplePojo;
@@ -16,6 +18,8 @@
      * Class to parse json response
      */
     public class JsonParser {
+        private static final String TAG = JsonParser.class.getSimpleName();
+
         public static SimplePojo SimpleParser(String response) throws JSONException {
             JSONObject jo = new JSONObject(response);
             SimplePojo simplePojo = new SimplePojo();
@@ -64,6 +68,7 @@
                 pojo.setUserBloodGroup(obj.getString("blood"));
                 list.add(pojo);
             }
+            Log.d(TAG,"HUS: "+list.size());
             return list;
         }
 

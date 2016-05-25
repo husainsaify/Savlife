@@ -1,13 +1,14 @@
 package com.hackerkernel.blooddonar.adapter;
 
+import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.android.volley.VolleyError;
 import com.android.volley.toolbox.ImageLoader;
 import com.hackerkernel.blooddonar.R;
 import com.hackerkernel.blooddonar.network.MyVolley;
@@ -19,29 +20,36 @@ import java.util.List;
  * Created by QUT on 5/23/2016.
  */
 public class DonorAdapter extends RecyclerView.Adapter<DonorAdapter.MyViewHolder> {
-    private List<DonorListPojo> donorList;
+    private static final String TAG = DonorAdapter.class.getSimpleName();
+    private List<DonorListPojo> mList;
     private ImageLoader mImageLoader;
+    private Context context;
 
 
-    public DonorAdapter(List<DonorListPojo> donorList) {
-        this.donorList = donorList;
+    public DonorAdapter(Context context) {
+        this.context = context;
         this.mImageLoader = MyVolley.getInstance().getImageLoader();
+    }
+
+    public void setList(List<DonorListPojo> list){
+        this.mList = list;
+        this.notifyDataSetChanged();
     }
 
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View itemView = LayoutInflater.from(parent.getContext())
+        View itemView = LayoutInflater.from(context)
                 .inflate(R.layout.donour_listrow, parent, false);
         return new MyViewHolder(itemView);
     }
 
     @Override
     public void onBindViewHolder(final MyViewHolder holder, int position) {
-        DonorListPojo pojo = new DonorListPojo();
+        DonorListPojo pojo = mList.get(position);
         holder.userName.setText(pojo.getUserName());
         holder.bloodGroup.setText(pojo.getUserBloodGroup());
 
-        mImageLoader.get(pojo.getImageUrl(), new ImageLoader.ImageListener() {
+        /*mImageLoader.get(pojo.getImageUrl(), new ImageLoader.ImageListener() {
             @Override
             public void onResponse(ImageLoader.ImageContainer response, boolean isImmediate) {
                 holder.userImage.setImageBitmap(response.getBitmap());
@@ -51,12 +59,12 @@ public class DonorAdapter extends RecyclerView.Adapter<DonorAdapter.MyViewHolder
             public void onErrorResponse(VolleyError error) {
 
             }
-        });
+        });*/
     }
 
     @Override
     public int getItemCount() {
-        return donorList.size() ;
+        return mList.size() ;
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder {

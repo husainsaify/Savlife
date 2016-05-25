@@ -30,7 +30,7 @@ import java.util.Locale;
 import java.util.Map;
 
 /**
- * Created by husain on 5/24/2016.
+ * CLass to get location of device and update it in api
  */
 public class GetUserLocation {
     private static final String TAG = GetUserLocation.class.getSimpleName();
@@ -44,44 +44,48 @@ public class GetUserLocation {
         this.mRequestQueue = MyVolley.getInstance().getRequestQueue();
     }
     public void getLocation(){
-        if (ContextCompat.checkSelfPermission(mContext, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED
-                || ContextCompat.checkSelfPermission(mContext, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED){
-            LocationManager locationManager = (LocationManager) mContext.getSystemService(Context.LOCATION_SERVICE);
+        LocationManager locationManager = (LocationManager) mContext.getSystemService(Context.LOCATION_SERVICE);
 
-            Criteria criteria = new Criteria();
+        Criteria criteria = new Criteria();
 
-            locationManager.getBestProvider(criteria, true);
+        locationManager.getBestProvider(criteria, true);
 
-            //nce  you  know  the  name  of  the  LocationProvider,  you  can  call getLastKnownPosition() to  find  out  where  you  were  recently.
-            Location location = locationManager.getLastKnownLocation(locationManager.getBestProvider(criteria, true));
-            Geocoder gcd = new Geocoder(mContext, Locale.getDefault());
+        if (ContextCompat.checkSelfPermission(mContext, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
+                || ContextCompat.checkSelfPermission(mContext, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED){
+            Toast.makeText(mContext,"location denied by user",Toast.LENGTH_LONG).show();
+            //TODO:: show a dialog box saying location permission denied by user and take approprate steps
+            return;
+        }
 
-            if (location == null){
-                Toast.makeText(mContext,"Location Permission denied by user",Toast.LENGTH_LONG).show();
-                return;
-            }
-            List<Address> addresses;
+        //nce  you  know  the  name  of  the  LocationProvider,  you  can  call getLastKnownPosition() to  find  out  where  you  were  recently.
+        Location location = locationManager.getLastKnownLocation(locationManager.getBestProvider(criteria, true));
+        Geocoder gcd = new Geocoder(mContext, Locale.getDefault());
 
-            try {
-                addresses = gcd.getFromLocation(location.getLatitude(), location.getLongitude(), 1);
-                if (addresses.size() > 0) {
-                    String cityname = addresses.get(0).getLocality();
-                    Log.d("HUS","HUS:  dd "+location.getLatitude()+"/"+location.getLongitude());
-
-                    //insert city to Shared Preference
-                    sp.setUserLocation(cityname);
-                    sp.setUserLatitude(location.getLatitude()+"");
-                    sp.setUserLongitude(location.getLongitude()+"");
-
-                    //method to update user location in api
-                    updateUserLocationInBackground(cityname,location.getLatitude(),location.getLongitude());
-                }
-
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }else {
+        if (location == null){
             Toast.makeText(mContext,"Location Permission denied by user",Toast.LENGTH_LONG).show();
+            return;
+        }
+        List<Address> addresses;
+
+        try {
+            addresses = gcd.getFromLocation(location.getLatitude(), location.getLongitude(), 1);
+            if (addresses.size() > 0) {
+                String cityname = addresses.get(0).getLocality();
+                Log.d("HUS","HUS:  dd "+cityname+"/"+location.getLatitude()+"/"+location.getLongitude());
+
+                //insert city to Shared Preference
+                sp.setUserCity(cityname);
+                sp.setUserLatitude(location.getLatitude()+"");
+                sp.setUserLongitude(location.getLongitude()+"");
+
+                Log.d(TAG,"HUS: sp : "+sp.getUserCity()+"/"+sp.getUserLatitude()+"/"+sp.getUserLongitude());
+
+                //method to update user location in api
+                updateUserLocationInBackground(cityname,location.getLatitude(),location.getLongitude());
+            }
+
+        } catch (IOException e) {
+            e.printStackTrace();
         }
 
 
