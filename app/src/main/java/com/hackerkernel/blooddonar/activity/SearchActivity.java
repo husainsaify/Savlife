@@ -69,6 +69,10 @@ public class SearchActivity extends AppCompatActivity {
 
         mRequestQue = MyVolley.getInstance().getRequestQueue();
 
+        progressDialog = new ProgressDialog(this);
+        progressDialog.setMessage(getString(R.string.please_Watit));
+        progressDialog.setCancelable(true);
+
         sp = MySharedPreferences.getInstance(this);
         LinearLayoutManager linearLayoutManeger = new LinearLayoutManager(getApplicationContext());
         mRecyclerView.setLayoutManager(linearLayoutManeger);
@@ -108,25 +112,26 @@ public class SearchActivity extends AppCompatActivity {
 
     public void checkInternetAndDoSearch(){
         if (Util.isNetworkAvailable()){
-            progressDialog = new ProgressDialog(this);
-            progressDialog.setMessage("Loading...");
-            progressDialog.show();
             doSearchInBackground();
         }
     }
 
     private void doSearchInBackground() {
+        progressDialog.show();
         StringRequest request = new StringRequest(Request.Method.POST,
                 EndPoints.SEARCH_DONOR, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
+                progressDialog.dismiss();
                 Log.d("TAG","MUR:"+response);
-            parseBestDonorResponse(response);
+                parseBestDonorResponse(response);
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
+                progressDialog.dismiss();
                 Log.d("TAG","MUR: "+error.getMessage());
+                //TODO:: handle error
             }
         }){
 
@@ -150,7 +155,6 @@ public class SearchActivity extends AppCompatActivity {
             JSONObject jsonObj = new JSONObject(response);
             boolean returned = jsonObj.getBoolean(Constants.COM_RETURN);
             String message = jsonObj.getString(Constants.COM_MESSAGE);
-            hideDialog();
             if (returned){
                 int count = jsonObj.getInt(Constants.COM_COUNT);
                 //when no donor found for this place
@@ -184,11 +188,5 @@ public class SearchActivity extends AppCompatActivity {
         DonorAdapter adapter = new DonorAdapter(getApplicationContext());
         adapter.setList(list);
         mRecyclerView.setAdapter(adapter);
-    }
-    private void hideDialog(){
-        if (progressDialog != null){
-            progressDialog.dismiss();
-            progressDialog = null;
-        }
     }
 }
