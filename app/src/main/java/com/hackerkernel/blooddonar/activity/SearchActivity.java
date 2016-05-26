@@ -1,5 +1,6 @@
 package com.hackerkernel.blooddonar.activity;
 
+import android.app.ProgressDialog;
 import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -52,6 +53,7 @@ public class SearchActivity extends AppCompatActivity {
     RecyclerView mRecyclerView;
     @Bind(R.id.search_placeholder)
     TextView mPlaceholder;
+    private ProgressDialog progressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -106,6 +108,9 @@ public class SearchActivity extends AppCompatActivity {
 
     public void checkInternetAndDoSearch(){
         if (Util.isNetworkAvailable()){
+            progressDialog = new ProgressDialog(this);
+            progressDialog.setMessage("Loading...");
+            progressDialog.show();
             doSearchInBackground();
         }
     }
@@ -144,6 +149,7 @@ public class SearchActivity extends AppCompatActivity {
             JSONObject jsonObj = new JSONObject(response);
             boolean returned = jsonObj.getBoolean(Constants.COM_RETURN);
             String message = jsonObj.getString(Constants.COM_MESSAGE);
+            hideDialog();
             if (returned){
                 int count = jsonObj.getInt(Constants.COM_COUNT);
                 //when no donor found for this place
@@ -177,5 +183,11 @@ public class SearchActivity extends AppCompatActivity {
         DonorAdapter adapter = new DonorAdapter(getApplicationContext());
         adapter.setList(list);
         mRecyclerView.setAdapter(adapter);
+    }
+    private void hideDialog(){
+        if (progressDialog != null){
+            progressDialog.dismiss();
+            progressDialog = null;
+        }
     }
 }
