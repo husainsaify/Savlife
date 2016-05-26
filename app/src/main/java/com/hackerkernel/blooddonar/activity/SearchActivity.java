@@ -116,7 +116,8 @@ public class SearchActivity extends AppCompatActivity {
     }
 
     private void doSearchInBackground() {
-        StringRequest request = new StringRequest(Request.Method.POST, EndPoints.SEARCH_DONOR, new Response.Listener<String>() {
+        StringRequest request = new StringRequest(Request.Method.POST,
+                EndPoints.SEARCH_DONOR, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 Log.d("TAG","MUR:"+response);

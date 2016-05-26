@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:src="@drawable/bloodman"
+            android:id="@+id/deals_image"
+            android:scaleType="centerCrop"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="L.B.S Hospital"
+
+            android:gravity="center" style="@style/Base.TextAppearance.AppCompat.Headline"
+            android:id="@+id/deals_hospital_name"
+            android:textColor="@color/colorPrimaryDark"
+            android:layout_alignBottom="@+id/deals_image"
+            android:layout_centerHorizontal="true" />
+
+
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/deals_description"
+            android:text="we Provude A Blood In Country And For The People We offen Say That BLood Donation is Good FOr Health And Bla Bla BLa Bla Bla"
+            android:textColor="#000"
+
+           android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginStart="10dp"
+            android:layout_below="@+id/deals_image"
+            android:layout_marginRight="10dp" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/deals_offer"
+            android:text="10% Off"
+            style="@style/Base.TextAppearance.AppCompat.Medium"
+            android:textColor="@color/colorPrimaryDark"
+            android:layout_below="@+id/deals_description"
+            android:layout_centerHorizontal="true"
+            />
+    </RelativeLayout>
+
+
+</android.support.v7.widget.CardView>

@@ -5,7 +5,8 @@
     android:layout_height="match_parent"
     tools:context="com.hackerkernel.blooddonar.activity.DonorDetailActivity"
     android:orientation="vertical"
-    android:weightSum="1">
+    android:weightSum="1"
+    android:id="@+id/donor_detail_layout">
 
     <include
         layout="@layout/include_toolbar"/>
@@ -70,13 +71,25 @@
                     android:layout_alignParentRight="true"
                     style="@style/Base.TextAppearance.AppCompat.Medium"
                     />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Id: 002"
+                    android:id="@+id/detail_donor_id"
+                    android:layout_below="@+id/detail_donor_age"
+                    android:layout_marginTop="5dp"
+                    android:layout_centerHorizontal="true"
+
+                    style="@style/Base.TextAppearance.AppCompat.Medium"
+                    />
+
 
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
                     android:background="@color/colorBlack"
                     android:id="@+id/detail_hr"
-                    android:layout_below="@+id/detail_donor_age"
+                    android:layout_below="@+id/detail_donor_id"
                     android:layout_marginTop="10dp"
                     android:layout_marginBottom="10dp"/>
 

@@ -1,6 +1,7 @@
     package com.hackerkernel.blooddonar.parser;
 
     import com.hackerkernel.blooddonar.constant.Constants;
+    import com.hackerkernel.blooddonar.pojo.DetailDonorPojo;
     import com.hackerkernel.blooddonar.pojo.DonorListPojo;
     import com.hackerkernel.blooddonar.pojo.SimplePojo;
     import com.hackerkernel.blooddonar.storage.MySharedPreferences;
@@ -68,6 +69,20 @@
                 list.add(pojo);
             }
             return list;
+        }
+        public static DetailDonorPojo DetailDonorParser(JSONArray dataArray) throws JSONException {
+            DetailDonorPojo pojo = new DetailDonorPojo();
+            for (int i = 0; i <dataArray.length() ; i++) {
+                JSONObject obj = dataArray.getJSONObject(i);
+                pojo.setFullName(obj.getString(Constants.COM_FULLNAME));
+                pojo.setCity(obj.getString(Constants.LOC_CITY));
+                pojo.setAge(obj.getString(Constants.COM_AGE));
+                pojo.setBloodGroup(obj.getString(Constants.COM_BLOOD));
+                pojo.setGender(obj.getString(Constants.COM_GENDER));
+                pojo.setId(obj.getString(Constants.COM_ID));
+                pojo.setImageUrl(obj.getString(Constants.COM_IMG));
+            }
+            return pojo;
         }
 
     }
