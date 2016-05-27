@@ -1,15 +1,19 @@
 package com.hackerkernel.blooddonar.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.toolbox.ImageLoader;
 import com.hackerkernel.blooddonar.R;
+import com.hackerkernel.blooddonar.activity.DetailDealsActivity;
+import com.hackerkernel.blooddonar.constant.Constants;
 import com.hackerkernel.blooddonar.network.MyVolley;
 import com.hackerkernel.blooddonar.pojo.DealsPjo;
 
@@ -53,17 +57,27 @@ public class DealsAdapter extends RecyclerView.Adapter<DealsAdapter.MyViewHolder
     }
 
 
-    public class MyViewHolders extends RecyclerView.ViewHolder {
+    public class MyViewHolders extends RecyclerView.ViewHolder implements View.OnClickListener {
         private TextView hospitalName, description, deals;
         private ImageView hospitalImage;
         public MyViewHolders(View itemView) {
             super(itemView);
-
+            itemView.setOnClickListener(this);
             hospitalImage = (ImageView) itemView.findViewById(R.id.deals_image);
             hospitalName = (TextView) itemView.findViewById(R.id.deals_hospital_name);
             description = (TextView) itemView.findViewById(R.id.deals_description);
             deals = (TextView) itemView.findViewById(R.id.deals_off);
 
+        }
+
+        @Override
+        public void onClick(View v) {
+            int pos = getAdapterPosition();
+            String id = mList.get(pos).getDealsId();
+            Intent intent = new Intent(mContext, DetailDealsActivity.class);
+            intent.putExtra(Constants.COM_ID,id);
+            mContext.startActivity(intent);
+          Toast.makeText(mContext,"id is :-"+id,Toast.LENGTH_LONG).show();
         }
     }
 }

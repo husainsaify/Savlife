@@ -46,6 +46,7 @@ public class DealsFragment extends Fragment implements SwipeRefreshLayout.OnRefr
     @Bind(R.id.deals_placeholder) TextView mPlaceholder;
     @Bind(R.id.deals_swipe_refresh) SwipeRefreshLayout mSwipeRefreshLayout;
     @Bind(R.id.layout_for_snackbar) View mLayoutForSnackbar;
+    private String dealsID;
 
     private MySharedPreferences sp;
     private RequestQueue mRequestQueue;
@@ -65,6 +66,7 @@ public class DealsFragment extends Fragment implements SwipeRefreshLayout.OnRefr
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_deals, container, false);
         ButterKnife.bind(this, view);
+
 
         mSwipeRefreshLayout.setOnRefreshListener(this);
 

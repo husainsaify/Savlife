@@ -39,12 +39,12 @@
         <item>AB+</item>
         <item>HH</item>
     </string-array>
-   <string-array name="location_array">
-       <item>Bhopal</item>
-       <item>Indore</item>
-       <item>Hydrabaad</item>
-       <item>Mumbai</item>
+    <string-array name="location_array">
+        <item>Bhopal</item>
+        <item>Indore</item>
+        <item>Hydrabaad</item>
+        <item>Mumbai</item>
 
 
-   </string-array>
+    </string-array>
 </resources>

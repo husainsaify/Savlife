@@ -4,7 +4,15 @@ package com.hackerkernel.blooddonar.pojo;
  * Created by Murtaza on 5/27/2016.
  */
 public class DealsPjo {
-    private String imageUrl, hospitalName, description, deal;
+    private String imageUrl, hospitalName, description, deal, dealsId;
+
+    public String getDealsId() {
+        return dealsId;
+    }
+
+    public void setDealsId(String dealsId) {
+        this.dealsId = dealsId;
+    }
 
     public String getImageUrl() {
         return imageUrl;

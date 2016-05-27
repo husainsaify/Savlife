@@ -95,6 +95,7 @@
                 pojo.setDeal(obj.getString(Constants.COM_DEAL));
                 pojo.setHospitalName(obj.getString(Constants.COM_LABNAME));
                 pojo.setDescription(obj.getString(Constants.COM_DESCRIPTION));
+                pojo.setDealsId(obj.getString(Constants.COM_ID));
                 list.add(pojo);
             }
             return list;
