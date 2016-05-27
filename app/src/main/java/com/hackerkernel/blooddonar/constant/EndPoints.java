@@ -13,6 +13,7 @@ public class EndPoints {
             UPDATE_USER_LOCATION = BASE_URL + "updateUserLocation.php",
             GET_BEST_DONOR = BASE_URL + "getBestDonor.php",
             SEARCH_DONOR = BASE_URL + "searchDonor.php",
-            GET_DONOR_DETAIL = BASE_URL + "getDonorDetail.php";
+            GET_DONOR_DETAIL = BASE_URL + "getDonorDetail.php",
+            GET_DEALS = BASE_URL + "getDealsList.php";
 
 }

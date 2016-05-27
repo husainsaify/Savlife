@@ -41,6 +41,7 @@ public class DonorDetailActivity extends BaseAuthActivity {
     @Bind(R.id.detail_donor_gender) TextView mGender;
     @Bind(R.id.detail_donor_image) ImageView mImage;
     @Bind(R.id.detail_last_donated) TextView mLastDonated;
+    @Bind(R.id.detail_donor_id) TextView idDonor;
 
     private RequestQueue mRequestQueue;
     private String mDonorId;
@@ -104,6 +105,8 @@ public class DonorDetailActivity extends BaseAuthActivity {
                 mAge.setText("Age: "+pojo.getAge());
                 mBlood.setText(pojo.getBloodGroup());
                 mGender.setText("Gender: "+pojo.getGender());
+                idDonor.setText("Id: "+pojo.getId());
+                mLastDonated.setText(pojo.getLastDonated());
 
             }
             else{

@@ -19,7 +19,11 @@ public class Constants {
 
             COM_CREATED_AT = "created_at",
             COM_COUNT = "count",
-            COM_ID = "id";
+            COM_ID = "id",
+    COM_LABNAME = "lab_name",
+    COM_IMAGE = "image",
+    COM_DESCRIPTION = "description",
+    COM_DEAL = "off";
 
     public static final String CONFIG_OTP_SENDER_ID = "HAKBPL",
             CONFIG_SMS_DELIMITER = ":";

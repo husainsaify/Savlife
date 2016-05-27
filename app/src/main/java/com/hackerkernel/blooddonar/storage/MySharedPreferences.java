@@ -32,7 +32,7 @@ public class MySharedPreferences {
             KEY_USER_LONGITUDE ="longitude";
 
 
-    private MySharedPreferences() {
+    public MySharedPreferences() {
         mSharedPreference = mContext.getSharedPreferences(KEY_PREFERENCE_NAME, Context.MODE_PRIVATE);
     }
 
