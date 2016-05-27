@@ -2,6 +2,7 @@
 
     import com.hackerkernel.blooddonar.constant.Constants;
     import com.hackerkernel.blooddonar.pojo.DealsPjo;
+    import com.hackerkernel.blooddonar.pojo.DetailDealsPojo;
     import com.hackerkernel.blooddonar.pojo.DetailDonorPojo;
     import com.hackerkernel.blooddonar.pojo.DonorListPojo;
     import com.hackerkernel.blooddonar.pojo.SimplePojo;
@@ -86,8 +87,7 @@
             return pojo;
         }
 
-
-        public static List<DealsPjo> parseDeals(JSONArray data) throws JSONException {
+        public static List<DealsPjo> ParseDealsList(JSONArray data) throws JSONException {
            List<DealsPjo> list = new ArrayList<>();
             for (int i = 0; i <data.length() ; i++) {
                 JSONObject obj = data.getJSONObject(i);
@@ -99,6 +99,22 @@
                 list.add(pojo);
             }
             return list;
+        }
+
+        public static DetailDealsPojo ParseDetailDeals(JSONArray data) throws JSONException {
+            DetailDealsPojo pojo = new DetailDealsPojo();
+            for (int i = 0; i <data.length() ; i++) {
+                JSONObject obj = data.getJSONObject(i);
+                pojo.setLabName(obj.getString(Constants.COM_LABNAME));
+                pojo.setDescription(obj.getString(Constants.COM_DESCRIPTION));
+                pojo.setOff(obj.getString(Constants.COM_DEAL));
+                pojo.setOrignal_prize(obj.getString(Constants.COM_ORIGNAL_PRIZE));
+                pojo.setSpecial_prize(obj.getString(Constants.COM_SPECIAL_PRIZE));
+                //pojo.setTimming(obj.getString(Constants.COM_Timing));
+
+            }
+            return pojo;
+
         }
 
     }

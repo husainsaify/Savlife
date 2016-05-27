@@ -14,6 +14,7 @@ public class EndPoints {
             GET_BEST_DONOR = BASE_URL + "getBestDonor.php",
             SEARCH_DONOR = BASE_URL + "searchDonor.php",
             GET_DONOR_DETAIL = BASE_URL + "getDonorDetail.php",
-            GET_DEALS = BASE_URL + "getDealsList.php";
+            GET_DEALS_LIST = BASE_URL + "getDealsList.php",
+            GET_DEALS = BASE_URL + "getDealsDetail.php";
 
 }

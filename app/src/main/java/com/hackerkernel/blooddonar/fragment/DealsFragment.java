@@ -94,7 +94,7 @@ public class DealsFragment extends Fragment implements SwipeRefreshLayout.OnRefr
 
     private void fetchDealsInBackground() {
         startRefreshing();
-        StringRequest request = new StringRequest(Request.Method.POST, EndPoints.GET_DEALS, new Response.Listener<String>() {
+        StringRequest request = new StringRequest(Request.Method.POST, EndPoints.GET_DEALS_LIST, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 stopRefreshing();
@@ -137,7 +137,7 @@ public class DealsFragment extends Fragment implements SwipeRefreshLayout.OnRefr
                 }
                 else {
                     JSONArray data = obj.getJSONArray(Constants.COM_DATA);
-                    List<DealsPjo> list = JsonParser.parseDeals(data);
+                    List<DealsPjo> list = JsonParser.ParseDealsList(data);
                     setupRecyclerView(list);
                 }
             }
