@@ -1,114 +1,125 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activity.DetailDealsActivity">
-        <ImageView
+    android:orientation="vertical"
+    android:id="@+id/layout_for_snackbar"
+    tools:context=".activity.DealsDetailActivity">
+
+    <include layout="@layout/include_toolbar" android:id="@+id/toolbar"/>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="200dp"
-            android:id="@+id/detail_hospital_image"
-            android:src="@drawable/bloodman"
-            android:scaleType="centerCrop"
-            />
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/detail_hospital_name"
-        android:text="Blood Lab"
-        android:layout_below="@+id/detail_hospital_image"
-        style="@style/Base.TextAppearance.AppCompat.Headline"
-        android:layout_marginTop="10dp"
-        android:layout_marginLeft="5dp"
-        />
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/detail_offer"
-        android:text="10% off"
-        android:layout_below="@+id/detail_hospital_image"
-        android:layout_alignParentRight="true"
-        android:layout_marginTop="10dp"
-        style="@style/Base.TextAppearance.AppCompat.Medium"
-        android:layout_marginRight="5dp"/>
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_below="@+id/detail_hospital_name"
-        android:background="@color/accent"
-        android:layout_marginTop="20dp"
-        android:layout_marginRight="5dp"
-        android:layout_marginLeft="5dp"
-        android:id="@+id/view"/>
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/detail_hospital_description"
-        android:text="bla bla bla bla bla bla bka bka bka bb ajhhjhjh  hbv bjhj  bjn bj bjj vhb  bh  bjb jbhuih buyh ub guh ujbjbu bh bb bh jb jb kjhbjkjlb  uhuhu ugug gug hgygy hfygfy hygugu ujg"
-        android:layout_below="@+id/view"
-        android:layout_marginTop="20dp"
-        android:layout_centerHorizontal="true"
-        android:layout_marginLeft="5dp"
-        android:layout_marginRight="5dp"
-        />
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@color/accent"
-        android:layout_below="@+id/detail_hospital_description"
-        android:layout_marginTop="20dp"
-        android:layout_marginRight="5dp"
-        android:layout_marginLeft="5dp"
-        android:id="@+id/view2"
-        />
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/detail_hospital_timing"
-        android:text="Timmings: 9am To  1pm"
-        android:layout_below="@+id/view2"
-        android:layout_marginTop="20dp"
-        android:layout_centerHorizontal="true"
-        />
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/detail_cut_text"
-        android:text="500rs"
-        android:layout_below="@+id/detail_hospital_timing"
-        android:layout_alignParentRight="true"
-        android:layout_marginRight="5dp"
-        style="@style/Base.TextAppearance.AppCompat.Medium"/>
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/detail_prize_text"
-        android:text="400rs"
-        android:layout_below="@+id/detail_cut_text"
-        android:layout_alignParentRight="true"
-        android:layout_marginRight="5dp"
-        android:layout_marginTop="4dp"
-        style="@style/Base.TextAppearance.AppCompat.Medium"/>
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/ur_coupon_is"
-        android:layout_below="@+id/detail_prize_text"
-        android:text="Your Coupon Is:"
-        android:layout_centerHorizontal="true"
-        style="@style/Base.TextAppearance.AppCompat.Medium"/>
-    <Button
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/primary_red_button_round"
-        android:text="Get Coupon"
-        android:textColor="#fff"
-        android:id="@+id/coupon_button"
-        android:layout_marginTop="10dp"
-        android:layout_below="@+id/ur_coupon_is"
-        android:layout_centerHorizontal="true"/>
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:id="@+id/detail_hospital_image"
+                android:src="@drawable/bloodman"
+                android:scaleType="centerCrop"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/detail_hospital_name"
+                android:layout_below="@+id/detail_hospital_image"
+                style="@style/Base.TextAppearance.AppCompat.Headline"
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginStart="10dp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/detail_off"
+                android:textColor="@color/primary"
+                android:layout_below="@+id/detail_hospital_image"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true"
+                android:layout_marginTop="10dp"
+                style="@style/Base.TextAppearance.AppCompat.Medium"
+                android:layout_marginRight="10dp"
+                android:layout_marginEnd="10dp"/>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_below="@+id/detail_hospital_name"
+                android:background="@color/divider"
+                android:layout_marginTop="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginLeft="10dp"
+                android:id="@+id/lineOne"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/detail_description"
+                android:layout_below="@+id/lineOne"
+                android:layout_marginTop="10dp"
+                android:layout_centerHorizontal="true"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/divider"
+                android:layout_below="@+id/detail_description"
+                android:layout_marginTop="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginLeft="10dp"
+                android:id="@+id/lineTwo" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/detail_timing"
+                android:layout_below="@+id/lineTwo"
+                android:layout_marginTop="10dp"
+                android:layout_centerHorizontal="true" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/original_price"
+                android:layout_below="@+id/detail_timing"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true"
+                android:layout_marginRight="10dp"
+                android:layout_marginEnd="10dp"
+                style="@style/Base.TextAppearance.AppCompat.Medium"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/detail_special_price"
+                android:layout_below="@+id/original_price"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true"
+                android:layout_marginRight="5dp"
+                android:layout_marginEnd="10dp"
+                android:layout_marginTop="5dp"
+                style="@style/Base.TextAppearance.AppCompat.Medium"/>
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/primary_red_button_round"
+                android:text="@string/book_deal"
+                android:textColor="#fff"
+                android:id="@+id/detail_book_detail"
+                android:layout_margin="10dp"
+                android:layout_below="@+id/detail_special_price"
+                android:layout_centerHorizontal="true"/>
+        </RelativeLayout>
+    </ScrollView>
 
 
-
-
-</RelativeLayout>
+</LinearLayout>

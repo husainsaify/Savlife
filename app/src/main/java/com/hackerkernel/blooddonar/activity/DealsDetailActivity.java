@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -30,30 +31,32 @@ import java.util.Map;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-public class DetailDealsActivity extends Activity {
+public class DealsDetailActivity extends Activity {
     private String mDealsId;
     private MySharedPreferences sp;
-    private RequestQueue requestQue;
-    @Bind(R.id.detail_hospital_name)
-    TextView hospitalName;
-    @Bind(R.id.detail_offer) TextView percentOFF;
-    @Bind(R.id.detail_hospital_description) TextView description;
-    @Bind(R.id.detail_hospital_timing) TextView timmings;
-    @Bind(R.id.detail_cut_text) TextView orignalPrize;
-    @Bind(R.id.detail_prize_text) TextView offerPrize;
+    private RequestQueue mRequestQueue;
+
+    @Bind(R.id.detail_hospital_name) TextView mHospitalName;
+    @Bind(R.id.detail_off) TextView mPercentOff;
+    @Bind(R.id.detail_description) TextView mDescription;
+    @Bind(R.id.detail_timing) TextView timings;
+    @Bind(R.id.original_price) TextView mOrignalPrice;
+    @Bind(R.id.detail_special_price) TextView mOfferPrice;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_deals);
         ButterKnife.bind(this);
+
         if (getIntent().hasExtra(Constants.COM_ID)) {
             mDealsId = getIntent().getStringExtra(Constants.COM_ID);
         }else{
-            //TODO:: close activity
+            Toast.makeText(getApplicationContext(),"Unable to open deal. Try Again Later",Toast.LENGTH_LONG).show();
+            finish();
         }
 
-        requestQue = MyVolley.getInstance().getRequestQueue();
+        mRequestQueue = MyVolley.getInstance().getRequestQueue();
         sp = MySharedPreferences.getInstance(this);
 
         checkInternetAndFetchDealData();
@@ -62,6 +65,8 @@ public class DetailDealsActivity extends Activity {
     private void checkInternetAndFetchDealData() {
         if (Util.isNetworkAvailable()) {
             fetchDataInBackGround();
+        }else {
+
         }
     }
 
@@ -88,7 +93,7 @@ public class DetailDealsActivity extends Activity {
                 return params;
             }
         };
-        requestQue.add(request);
+        mRequestQueue.add(request);
     }
 
     private void parseDealsData(String response) {
@@ -96,11 +101,11 @@ public class DetailDealsActivity extends Activity {
             JSONObject obj = new JSONObject(response);
             JSONArray data = obj.getJSONArray(Constants.COM_DATA);
             DetailDealsPojo pojo = JsonParser.ParseDetailDeals(data);
-            hospitalName.setText(pojo.getLabName());
-            percentOFF.setText(pojo.getOff());
-            description.setText(pojo.getDescription());
-            orignalPrize.setText(pojo.getOrignal_prize());
-            offerPrize.setText(pojo.getSpecial_prize());
+            mHospitalName.setText(pojo.getLabName());
+            mPercentOff.setText(pojo.getOff());
+            mDescription.setText(pojo.getDescription());
+            mOrignalPrice.setText(pojo.getOrignal_prize());
+            mOfferPrice.setText(pojo.getSpecial_prize());
         } catch (JSONException e) {
             e.printStackTrace();
         }

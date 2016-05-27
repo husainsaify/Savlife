@@ -12,7 +12,7 @@ import android.widget.Toast;
 
 import com.android.volley.toolbox.ImageLoader;
 import com.hackerkernel.blooddonar.R;
-import com.hackerkernel.blooddonar.activity.DetailDealsActivity;
+import com.hackerkernel.blooddonar.activity.DealsDetailActivity;
 import com.hackerkernel.blooddonar.constant.Constants;
 import com.hackerkernel.blooddonar.network.MyVolley;
 import com.hackerkernel.blooddonar.pojo.DealsPjo;
@@ -74,7 +74,7 @@ public class DealsAdapter extends RecyclerView.Adapter<DealsAdapter.MyViewHolder
         public void onClick(View v) {
             int pos = getAdapterPosition();
             String id = mList.get(pos).getDealsId();
-            Intent intent = new Intent(mContext, DetailDealsActivity.class);
+            Intent intent = new Intent(mContext, DealsDetailActivity.class);
             intent.putExtra(Constants.COM_ID,id);
             mContext.startActivity(intent);
           Toast.makeText(mContext,"id is :-"+id,Toast.LENGTH_LONG).show();
