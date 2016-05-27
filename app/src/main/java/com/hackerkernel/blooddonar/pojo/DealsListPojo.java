@@ -3,7 +3,7 @@ package com.hackerkernel.blooddonar.pojo;
 /**
  * Created by Murtaza on 5/27/2016.
  */
-public class DealsPjo {
+public class DealsListPojo {
     private String imageUrl, hospitalName, description, deal, dealsId;
 
     public String getDealsId() {

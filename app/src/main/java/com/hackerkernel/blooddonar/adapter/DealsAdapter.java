@@ -15,7 +15,7 @@ import com.hackerkernel.blooddonar.R;
 import com.hackerkernel.blooddonar.activity.DealsDetailActivity;
 import com.hackerkernel.blooddonar.constant.Constants;
 import com.hackerkernel.blooddonar.network.MyVolley;
-import com.hackerkernel.blooddonar.pojo.DealsPjo;
+import com.hackerkernel.blooddonar.pojo.DealsListPojo;
 
 import java.util.List;
 
@@ -23,7 +23,7 @@ import java.util.List;
  * Adapter class for images
  */
 public class DealsAdapter extends RecyclerView.Adapter<DealsAdapter.MyViewHolders> {
-    private List<DealsPjo> mList;
+    private List<DealsListPojo> mList;
     private ImageLoader imageLoader;
     private Context mContext;
     public DealsAdapter (Context context){
@@ -31,7 +31,7 @@ public class DealsAdapter extends RecyclerView.Adapter<DealsAdapter.MyViewHolder
         imageLoader = MyVolley.getInstance().getImageLoader();
 
     }
-    public  void setmList(List<DealsPjo> list){
+    public  void setList(List<DealsListPojo> list){
         this.mList = list;
         this.notifyDataSetChanged();
     }
@@ -44,7 +44,7 @@ public class DealsAdapter extends RecyclerView.Adapter<DealsAdapter.MyViewHolder
 
     @Override
     public void onBindViewHolder(MyViewHolders holder, int position) {
-        DealsPjo pojo = mList.get(position);
+        DealsListPojo pojo = mList.get(position);
         holder.deals.setText(pojo.getDeal());
         holder.deals.append("% off");
         holder.hospitalName.setText(pojo.getHospitalName());
@@ -77,7 +77,6 @@ public class DealsAdapter extends RecyclerView.Adapter<DealsAdapter.MyViewHolder
             Intent intent = new Intent(mContext, DealsDetailActivity.class);
             intent.putExtra(Constants.COM_ID,id);
             mContext.startActivity(intent);
-          Toast.makeText(mContext,"id is :-"+id,Toast.LENGTH_LONG).show();
         }
     }
 }

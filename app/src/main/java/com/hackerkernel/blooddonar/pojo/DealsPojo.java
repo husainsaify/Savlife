@@ -3,7 +3,7 @@ package com.hackerkernel.blooddonar.pojo;
 /**
  * Created by QUT on 5/27/2016.
  */
-public class DetailDealsPojo {
+public class DealsPojo {
     private String description, orignal_prize, special_prize, off, labName, imageUrl, timming;
 
     public String getTimming() {

@@ -5,13 +5,23 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:id="@+id/layout_for_snackbar"
+    android:layout_gravity="center"
     tools:context=".activity.DealsDetailActivity">
 
     <include layout="@layout/include_toolbar" android:id="@+id/toolbar"/>
 
+    <ProgressBar
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/progressBar"
+        android:layout_margin="40dp"
+        android:layout_gravity="center"/>
+
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:id="@+id/detail_scroll"
+        android:visibility="gone">
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -88,7 +98,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/original_price"
+                android:id="@+id/detail_original_price"
                 android:layout_below="@+id/detail_timing"
                 android:layout_alignParentRight="true"
                 android:layout_alignParentEnd="true"
@@ -100,7 +110,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/detail_special_price"
-                android:layout_below="@+id/original_price"
+                android:layout_below="@+id/detail_original_price"
                 android:layout_alignParentRight="true"
                 android:layout_alignParentEnd="true"
                 android:layout_marginRight="5dp"

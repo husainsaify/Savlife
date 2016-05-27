@@ -3,7 +3,7 @@ package com.hackerkernel.blooddonar.pojo;
 /**
  * Created by QUT on 5/26/2016.
  */
-public class DetailDonorPojo  {
+public class DonorPojo {
     private String fullName;
     private String gender;
     private String age;

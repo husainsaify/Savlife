@@ -39,7 +39,12 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".activity.MainActivity" />
         </activity>
-
+        <activity android:name=".activity.DealsDetailActivity"
+            android:parentActivityName=".activity.HomeActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".activity.MainActivity" />
+        </activity>
         <!-- Receiver -->
         <receiver android:name=".receiver.IncomingOtp">
             <intent-filter android:priority="99999">
@@ -47,7 +52,7 @@
             </intent-filter>
         </receiver>
         <!-- Receiver -->
-        <activity android:name=".activity.DealsDetailActivity"></activity>
+
     </application>
 
 </manifest>

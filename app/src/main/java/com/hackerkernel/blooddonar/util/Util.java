@@ -121,7 +121,6 @@ public class Util {
         String key = "";
         try {
             key = ApiEncrypter.bytesToHex(encrypter.encrypt(text));
-            Log.d(TAG,"MUR::"+key);
         } catch (Exception e) {
             e.printStackTrace();
             Log.d(TAG,"HUS: generateApiKey: "+e.getMessage());

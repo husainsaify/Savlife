@@ -19,7 +19,7 @@ import com.hackerkernel.blooddonar.constant.EndPoints;
 import com.hackerkernel.blooddonar.infrastructure.BaseAuthActivity;
 import com.hackerkernel.blooddonar.network.MyVolley;
 import com.hackerkernel.blooddonar.parser.JsonParser;
-import com.hackerkernel.blooddonar.pojo.DetailDonorPojo;
+import com.hackerkernel.blooddonar.pojo.DonorPojo;
 import com.hackerkernel.blooddonar.util.Util;
 
 import org.json.JSONArray;
@@ -100,7 +100,7 @@ public class DonorDetailActivity extends BaseAuthActivity {
             String message = obj.getString(Constants.COM_MESSAGE);
             if (returned){
                 JSONArray data =  obj.getJSONArray(Constants.COM_DATA);
-                DetailDonorPojo pojo = JsonParser.DetailDonorParser(data);
+                DonorPojo pojo = JsonParser.DetailDonorParser(data);
                 mName.setText(pojo.getFullName());
                 mAge.setText("Age: "+pojo.getAge());
                 mBlood.setText(pojo.getBloodGroup());

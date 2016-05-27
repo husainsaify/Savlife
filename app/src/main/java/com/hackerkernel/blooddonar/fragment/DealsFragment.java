@@ -24,7 +24,7 @@ import com.hackerkernel.blooddonar.constant.Constants;
 import com.hackerkernel.blooddonar.constant.EndPoints;
 import com.hackerkernel.blooddonar.network.MyVolley;
 import com.hackerkernel.blooddonar.parser.JsonParser;
-import com.hackerkernel.blooddonar.pojo.DealsPjo;
+import com.hackerkernel.blooddonar.pojo.DealsListPojo;
 import com.hackerkernel.blooddonar.storage.MySharedPreferences;
 import com.hackerkernel.blooddonar.util.Util;
 
@@ -137,7 +137,7 @@ public class DealsFragment extends Fragment implements SwipeRefreshLayout.OnRefr
                 }
                 else {
                     JSONArray data = obj.getJSONArray(Constants.COM_DATA);
-                    List<DealsPjo> list = JsonParser.ParseDealsList(data);
+                    List<DealsListPojo> list = JsonParser.ParseDealsList(data);
                     setupRecyclerView(list);
                 }
             }
@@ -149,9 +149,9 @@ public class DealsFragment extends Fragment implements SwipeRefreshLayout.OnRefr
         }
     }
 
-    public void setupRecyclerView(List<DealsPjo> list){
+    public void setupRecyclerView(List<DealsListPojo> list){
         DealsAdapter adapter = new DealsAdapter(getActivity());
-        adapter.setmList(list);
+        adapter.setList(list);
         mRecyclerView.setVisibility(View.VISIBLE);
         mPlaceholder.setVisibility(View.GONE);
         mRecyclerView.setAdapter(adapter);
