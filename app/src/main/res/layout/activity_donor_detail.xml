@@ -5,16 +5,24 @@
     android:layout_height="match_parent"
     tools:context="com.hackerkernel.blooddonar.activity.DonorDetailActivity"
     android:orientation="vertical"
-    android:weightSum="1"
-    android:id="@+id/donor_detail_layout">
+    android:weightSum="1">
 
     <include
         layout="@layout/include_toolbar"/>
 
+    <ProgressBar
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:id="@+id/progressBar"
+        android:visibility="gone"/>
+
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1">
+        android:id="@+id/scroll_view"
+        android:layout_weight="1"
+        android:visibility="visible">
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -33,20 +41,18 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Anurag Soni"
                     android:id="@+id/detail_donor_name"
                     android:layout_below="@+id/detail_donor_image"
                     style="@style/Base.TextAppearance.AppCompat.Headline"
-                    android:layout_marginTop="10dp"
-                    />
+                    android:layout_marginTop="10dp" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
-                    android:text="O+"
                     android:id="@+id/detail_donor_blood"
                     android:layout_alignParentRight="true"
+                    android:layout_alignParentEnd="true"
                     android:layout_below="@+id/detail_donor_image"
                     style="@style/Base.TextAppearance.AppCompat.Headline"
                     android:textColor="@color/primary_dark" />
@@ -54,7 +60,6 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Age:"
                     android:id="@+id/detail_donor_age"
                     android:layout_below="@+id/detail_donor_name"
                     android:layout_marginTop="5dp"
@@ -63,22 +68,20 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Gender : Male"
                     android:id="@+id/detail_donor_gender"
                     android:layout_below="@+id/detail_donor_name"
                     android:layout_marginTop="5dp"
                     android:layout_alignParentRight="true"
+                    android:layout_alignParentEnd="true"
                     style="@style/Base.TextAppearance.AppCompat.Medium"
                     />
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Id: 002"
                     android:id="@+id/detail_donor_id"
                     android:layout_below="@+id/detail_donor_age"
                     android:layout_marginTop="5dp"
                     android:layout_centerHorizontal="true"
-
                     style="@style/Base.TextAppearance.AppCompat.Medium"
                     />
 
@@ -96,7 +99,6 @@
                     android:layout_height="wrap_content"
                     android:id="@+id/detail_last_donated"
                     android:layout_below="@+id/detail_hr"
-                    android:text="3 Months ago"
                     style="@style/Base.TextAppearance.AppCompat.Medium"
                     android:layout_marginTop="5dp"
                     android:layout_centerHorizontal="true"/>
@@ -110,7 +112,7 @@
         android:layout_height="wrap_content"
         android:id="@+id/detail_contact"
         android:background="@drawable/primary_red_button"
-        android:text="Contact"
+        android:text="@string/contact"
         android:textColor="@color/icons"
         />
 </LinearLayout>

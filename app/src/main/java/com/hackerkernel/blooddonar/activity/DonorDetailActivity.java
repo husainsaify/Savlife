@@ -1,9 +1,12 @@
 package com.hackerkernel.blooddonar.activity;
 
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -34,7 +37,8 @@ import butterknife.ButterKnife;
 
 
 public class DonorDetailActivity extends BaseAuthActivity {
-    @Bind(R.id.donor_detail_layout) View mLayoutForSnackbar;
+    private static final String TAG = DonorDetailActivity.class.getSimpleName();
+    @Bind(R.id.toolbar) Toolbar mToolbar;
     @Bind(R.id.detail_donor_name) TextView mName;
     @Bind(R.id.detail_donor_age) TextView mAge;
     @Bind(R.id.detail_donor_blood) TextView mBlood;
@@ -42,6 +46,8 @@ public class DonorDetailActivity extends BaseAuthActivity {
     @Bind(R.id.detail_donor_image) ImageView mImage;
     @Bind(R.id.detail_last_donated) TextView mLastDonated;
     @Bind(R.id.detail_donor_id) TextView idDonor;
+    @Bind(R.id.progressBar) ProgressBar mProgressbar;
+    @Bind(R.id.scroll_view) ScrollView mScrollView;
 
     private RequestQueue mRequestQueue;
     private String mDonorId;
@@ -49,36 +55,55 @@ public class DonorDetailActivity extends BaseAuthActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_donor_detail);
-        mRequestQueue = MyVolley.getInstance().getRequestQueue();
         ButterKnife.bind(this);
 
-        //check we got donor id intenet or not
+        setSupportActionBar(mToolbar);
+        assert getSupportActionBar() != null;
+        getSupportActionBar().setTitle("Donor Details");
+        getSupportActionBar().setDefaultDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        //init volley
+        mRequestQueue = MyVolley.getInstance().getRequestQueue();
+
+
+        //check we got donor id internet or not
         if (getIntent().hasExtra(Constants.COM_ID)){
             mDonorId = getIntent().getExtras().getString(Constants.COM_ID);
         }else{
             Toast.makeText(getApplicationContext(),"Unable to open donor page. Try Again Later",Toast.LENGTH_LONG).show();
             finish();
         }
-        checkNetworkIsAvailble();
+        checkNetworkIsAvailable();
 
     }
-    private void checkNetworkIsAvailble(){
+    private void checkNetworkIsAvailable(){
         if (Util.isNetworkAvailable()){
             fetchDetailDonorInBackground();
+        }else {
+            Util.noInternetSnackBar(DonorDetailActivity.this,mScrollView);
         }
     }
 
     private void fetchDetailDonorInBackground() {
+        //show pb
+        showProgressAndHideLayout(true);
         StringRequest request = new StringRequest(Request.Method.POST, EndPoints.GET_DONOR_DETAIL, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-            parseDetailDonorData(response);
-            Log.d("TAG","MUR::"+response);
+                showProgressAndHideLayout(false); //hide pb
+                parseDetailDonorData(response);
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Log.d("TAG","MUR:"+error.getMessage());
+                showProgressAndHideLayout(false);
+                Log.d(TAG,"MUR:"+error.getMessage());
+                error.printStackTrace();
+                String errorString = MyVolley.handleVolleyError(error);
+                if (errorString != null){
+                    Util.showRedSnackbar(mScrollView,errorString);
+                }
             }
         }){
             @Override
@@ -101,19 +126,38 @@ public class DonorDetailActivity extends BaseAuthActivity {
             if (returned){
                 JSONArray data =  obj.getJSONArray(Constants.COM_DATA);
                 DonorPojo pojo = JsonParser.DetailDonorParser(data);
-                mName.setText(pojo.getFullName());
-                mAge.setText("Age: "+pojo.getAge());
-                mBlood.setText(pojo.getBloodGroup());
-                mGender.setText("Gender: "+pojo.getGender());
-                idDonor.setText("Id: "+pojo.getId());
-                mLastDonated.setText(pojo.getLastDonated());
+                setupView(pojo);
             }
             else{
-                Util.showRedSnackbar(mLayoutForSnackbar,message);
+                Util.showRedSnackbar(mScrollView,message);
             }
 
         } catch (JSONException e) {
             e.printStackTrace();
+        }
+    }
+
+    /*
+    * Method to setup view
+    * */
+    private void setupView(DonorPojo pojo) {
+        mName.setText(pojo.getFullName());
+        mAge.setText("Age: "+pojo.getAge());
+        mBlood.setText(pojo.getBloodGroup());
+        mGender.setText("Gender: "+pojo.getGender());
+        idDonor.setText("Id: "+pojo.getId());
+        mLastDonated.setText(pojo.getLastDonated());
+    }
+
+    private void showProgressAndHideLayout(boolean state) {
+        if (state){
+            //show progressbar and hide layout
+            mProgressbar.setVisibility(View.VISIBLE);
+            mScrollView.setVisibility(View.GONE);
+        }else {
+            //hide progressbar and show layout
+            mProgressbar.setVisibility(View.GONE);
+            mScrollView.setVisibility(View.VISIBLE);
         }
     }
 }
