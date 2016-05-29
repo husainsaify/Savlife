@@ -16,14 +16,15 @@ public class Constants {
             COM_MESSAGE = "message",
             COM_OTP = "otp",
             COM_DATA = "data",
-
             COM_CREATED_AT = "created_at",
             COM_COUNT = "count",
             COM_ID = "id",
-    COM_LABNAME = "lab_name",
-    COM_IMAGE = "image",
-    COM_DESCRIPTION = "description",
-    COM_DEAL = "off";
+            COM_LABNAME = "lab_name",
+            COM_IMAGE = "image",
+            COM_DESCRIPTION = "description",
+            COM_DEAL = "off",
+            COM_SPECIAL_PRIZE = "special_price",
+            COM_ORIGNAL_PRIZE = "orginal_price";
 
     public static final String CONFIG_OTP_SENDER_ID = "HAKBPL",
             CONFIG_SMS_DELIMITER = ":";

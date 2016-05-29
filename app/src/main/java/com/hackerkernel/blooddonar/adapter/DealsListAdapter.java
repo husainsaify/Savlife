@@ -12,26 +12,26 @@ import android.widget.Toast;
 
 import com.android.volley.toolbox.ImageLoader;
 import com.hackerkernel.blooddonar.R;
-import com.hackerkernel.blooddonar.activity.DetailDealsActivity;
+import com.hackerkernel.blooddonar.activity.DealsDetailActivity;
 import com.hackerkernel.blooddonar.constant.Constants;
 import com.hackerkernel.blooddonar.network.MyVolley;
-import com.hackerkernel.blooddonar.pojo.DealsPjo;
+import com.hackerkernel.blooddonar.pojo.DealsListPojo;
 
 import java.util.List;
 
 /**
  * Adapter class for images
  */
-public class DealsListAdapter extends RecyclerView.Adapter<DealsListAdapter.MyViewHolders> {
-    private List<DealsPjo> mList;
+public class DealsAdapter extends RecyclerView.Adapter<DealsAdapter.MyViewHolders> {
+    private List<DealsListPojo> mList;
     private ImageLoader imageLoader;
     private Context mContext;
-    public DealsListAdapter(Context context){
+    public DealsAdapter (Context context){
         this.mContext = context;
         imageLoader = MyVolley.getInstance().getImageLoader();
 
     }
-    public  void setmList(List<DealsPjo> list){
+    public  void setList(List<DealsListPojo> list){
         this.mList = list;
         this.notifyDataSetChanged();
     }
@@ -44,7 +44,7 @@ public class DealsListAdapter extends RecyclerView.Adapter<DealsListAdapter.MyVi
 
     @Override
     public void onBindViewHolder(MyViewHolders holder, int position) {
-        DealsPjo pojo = mList.get(position);
+        DealsListPojo pojo = mList.get(position);
         holder.deals.setText(pojo.getDeal());
         holder.deals.append("% off");
         holder.hospitalName.setText(pojo.getHospitalName());
@@ -74,10 +74,9 @@ public class DealsListAdapter extends RecyclerView.Adapter<DealsListAdapter.MyVi
         public void onClick(View v) {
             int pos = getAdapterPosition();
             String id = mList.get(pos).getDealsId();
-            Intent intent = new Intent(mContext, DetailDealsActivity.class);
+            Intent intent = new Intent(mContext, DealsDetailActivity.class);
             intent.putExtra(Constants.COM_ID,id);
             mContext.startActivity(intent);
-          Toast.makeText(mContext,"id is :-"+id,Toast.LENGTH_LONG).show();
         }
     }
 }

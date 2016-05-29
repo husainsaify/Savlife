@@ -1,8 +1,9 @@
     package com.hackerkernel.blooddonar.parser;
 
     import com.hackerkernel.blooddonar.constant.Constants;
-    import com.hackerkernel.blooddonar.pojo.DealsPjo;
-    import com.hackerkernel.blooddonar.pojo.DetailDonorPojo;
+    import com.hackerkernel.blooddonar.pojo.DealsListPojo;
+    import com.hackerkernel.blooddonar.pojo.DealsPojo;
+    import com.hackerkernel.blooddonar.pojo.DonorPojo;
     import com.hackerkernel.blooddonar.pojo.DonorListPojo;
     import com.hackerkernel.blooddonar.pojo.SimplePojo;
     import com.hackerkernel.blooddonar.storage.MySharedPreferences;
@@ -71,8 +72,8 @@
             }
             return list;
         }
-        public static DetailDonorPojo DetailDonorParser(JSONArray dataArray) throws JSONException {
-            DetailDonorPojo pojo = new DetailDonorPojo();
+        public static DonorPojo DetailDonorParser(JSONArray dataArray) throws JSONException {
+            DonorPojo pojo = new DonorPojo();
             for (int i = 0; i <dataArray.length() ; i++) {
                 JSONObject obj = dataArray.getJSONObject(i);
                 pojo.setFullName(obj.getString(Constants.COM_FULLNAME));
@@ -86,12 +87,11 @@
             return pojo;
         }
 
-
-        public static List<DealsPjo> parseDeals(JSONArray data) throws JSONException {
-           List<DealsPjo> list = new ArrayList<>();
+        public static List<DealsListPojo> ParseDealsList(JSONArray data) throws JSONException {
+           List<DealsListPojo> list = new ArrayList<>();
             for (int i = 0; i <data.length() ; i++) {
                 JSONObject obj = data.getJSONObject(i);
-                DealsPjo pojo = new DealsPjo();
+                DealsListPojo pojo = new DealsListPojo();
                 pojo.setDeal(obj.getString(Constants.COM_DEAL));
                 pojo.setHospitalName(obj.getString(Constants.COM_LABNAME));
                 pojo.setDescription(obj.getString(Constants.COM_DESCRIPTION));
@@ -99,6 +99,22 @@
                 list.add(pojo);
             }
             return list;
+        }
+
+        public static DealsPojo ParseDetailDeals(JSONArray data) throws JSONException {
+            DealsPojo pojo = new DealsPojo();
+            for (int i = 0; i <data.length() ; i++) {
+                JSONObject obj = data.getJSONObject(i);
+                pojo.setLabName(obj.getString(Constants.COM_LABNAME));
+                pojo.setDescription(obj.getString(Constants.COM_DESCRIPTION));
+                pojo.setOff(obj.getString(Constants.COM_DEAL));
+                pojo.setOrignal_prize(obj.getString(Constants.COM_ORIGNAL_PRIZE));
+                pojo.setSpecial_prize(obj.getString(Constants.COM_SPECIAL_PRIZE));
+                //pojo.setTimming(obj.getString(Constants.COM_Timing));
+
+            }
+            return pojo;
+
         }
 
     }

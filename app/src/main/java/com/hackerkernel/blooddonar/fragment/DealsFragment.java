@@ -19,12 +19,12 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.hackerkernel.blooddonar.R;
-import com.hackerkernel.blooddonar.adapter.DealsListAdapter;
+import com.hackerkernel.blooddonar.adapter.DealsAdapter;
 import com.hackerkernel.blooddonar.constant.Constants;
 import com.hackerkernel.blooddonar.constant.EndPoints;
 import com.hackerkernel.blooddonar.network.MyVolley;
 import com.hackerkernel.blooddonar.parser.JsonParser;
-import com.hackerkernel.blooddonar.pojo.DealsPjo;
+import com.hackerkernel.blooddonar.pojo.DealsListPojo;
 import com.hackerkernel.blooddonar.storage.MySharedPreferences;
 import com.hackerkernel.blooddonar.util.Util;
 
@@ -94,7 +94,7 @@ public class DealsFragment extends Fragment implements SwipeRefreshLayout.OnRefr
 
     private void fetchDealsInBackground() {
         startRefreshing();
-        StringRequest request = new StringRequest(Request.Method.POST, EndPoints.GET_DEALS, new Response.Listener<String>() {
+        StringRequest request = new StringRequest(Request.Method.POST, EndPoints.GET_DEALS_LIST, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 stopRefreshing();
@@ -137,7 +137,7 @@ public class DealsFragment extends Fragment implements SwipeRefreshLayout.OnRefr
                 }
                 else {
                     JSONArray data = obj.getJSONArray(Constants.COM_DATA);
-                    List<DealsPjo> list = JsonParser.parseDeals(data);
+                    List<DealsListPojo> list = JsonParser.ParseDealsList(data);
                     setupRecyclerView(list);
                 }
             }
@@ -149,9 +149,9 @@ public class DealsFragment extends Fragment implements SwipeRefreshLayout.OnRefr
         }
     }
 
-    public void setupRecyclerView(List<DealsPjo> list){
-        DealsListAdapter adapter = new DealsListAdapter(getActivity());
-        adapter.setmList(list);
+    public void setupRecyclerView(List<DealsListPojo> list){
+        DealsAdapter adapter = new DealsAdapter(getActivity());
+        adapter.setList(list);
         mRecyclerView.setVisibility(View.VISIBLE);
         mPlaceholder.setVisibility(View.GONE);
         mRecyclerView.setAdapter(adapter);
