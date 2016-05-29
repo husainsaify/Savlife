@@ -15,7 +15,8 @@
                 android:layout_weight="1"
                 android:drawableLeft="@drawable/ic_camera"
                 android:drawableStart="@drawable/ic_camera"
-                android:text="@string/photo"/>
+                android:text="@string/photo"
+                android:id="@+id/post_photo"/>
             <Button
                 android:layout_weight="1"
                 android:drawableLeft="@drawable/ic_comment"
