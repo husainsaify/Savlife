@@ -1,7 +1,6 @@
 package com.hackerkernel.blooddonar.activity;
 
 import android.app.ProgressDialog;
-import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -21,7 +20,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.hackerkernel.blooddonar.R;
-import com.hackerkernel.blooddonar.adapter.DonorAdapter;
+import com.hackerkernel.blooddonar.adapter.DonorListAdapter;
 import com.hackerkernel.blooddonar.constant.Constants;
 import com.hackerkernel.blooddonar.constant.EndPoints;
 import com.hackerkernel.blooddonar.network.MyVolley;
@@ -185,7 +184,7 @@ public class SearchActivity extends AppCompatActivity {
     }
 
     private void setupDonorRecyclerView(List<DonorListPojo> list) {
-        DonorAdapter adapter = new DonorAdapter(getApplicationContext());
+        DonorListAdapter adapter = new DonorListAdapter(getApplicationContext());
         adapter.setList(list);
         mRecyclerView.setAdapter(adapter);
     }

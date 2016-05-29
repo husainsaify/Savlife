@@ -11,9 +11,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.toolbox.ImageLoader;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.hackerkernel.blooddonar.R;
 import com.hackerkernel.blooddonar.activity.DonorDetailActivity;
 import com.hackerkernel.blooddonar.constant.Constants;
+import com.hackerkernel.blooddonar.constant.EndPoints;
 import com.hackerkernel.blooddonar.network.MyVolley;
 import com.hackerkernel.blooddonar.pojo.DonorListPojo;
 
@@ -22,14 +25,14 @@ import java.util.List;
 /**
  * Created by QUT on 5/23/2016.
  */
-public class DonorAdapter extends RecyclerView.Adapter<DonorAdapter.MyViewHolder> {
-    private static final String TAG = DonorAdapter.class.getSimpleName();
+public class DonorListAdapter extends RecyclerView.Adapter<DonorListAdapter.MyViewHolder> {
+    private static final String TAG = DonorListAdapter.class.getSimpleName();
     private List<DonorListPojo> mList;
     private ImageLoader mImageLoader;
     private Context context;
 
 
-    public DonorAdapter(Context context) {
+    public DonorListAdapter(Context context) {
         this.context = context;
         this.mImageLoader = MyVolley.getInstance().getImageLoader();
     }
@@ -52,17 +55,13 @@ public class DonorAdapter extends RecyclerView.Adapter<DonorAdapter.MyViewHolder
         holder.userName.setText(pojo.getUserName());
         holder.bloodGroup.setText(pojo.getUserBloodGroup());
 
-        /*mImageLoader.get(pojo.getImageUrl(), new ImageLoader.ImageListener() {
-            @Override
-            public void onResponse(ImageLoader.ImageContainer response, boolean isImmediate) {
-                holder.userImage.setImageBitmap(response.getBitmap());
-            }
+        String url = EndPoints.IMAGE_BASE_URL + pojo.getImageUrl();
 
-            @Override
-            public void onErrorResponse(VolleyError error) {
-
-            }
-        });*/
+        Glide.with(context)
+                .load(url)
+                .thumbnail(0.5f)
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                .into(holder.userImage);
     }
 
     @Override

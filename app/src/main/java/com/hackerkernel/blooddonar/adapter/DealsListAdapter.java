@@ -22,11 +22,11 @@ import java.util.List;
 /**
  * Adapter class for images
  */
-public class DealsAdapter extends RecyclerView.Adapter<DealsAdapter.MyViewHolders> {
+public class DealsListAdapter extends RecyclerView.Adapter<DealsListAdapter.MyViewHolders> {
     private List<DealsPjo> mList;
     private ImageLoader imageLoader;
     private Context mContext;
-    public DealsAdapter (Context context){
+    public DealsListAdapter(Context context){
         this.mContext = context;
         imageLoader = MyVolley.getInstance().getImageLoader();
 

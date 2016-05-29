@@ -19,7 +19,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.hackerkernel.blooddonar.R;
-import com.hackerkernel.blooddonar.adapter.DealsAdapter;
+import com.hackerkernel.blooddonar.adapter.DealsListAdapter;
 import com.hackerkernel.blooddonar.constant.Constants;
 import com.hackerkernel.blooddonar.constant.EndPoints;
 import com.hackerkernel.blooddonar.network.MyVolley;
@@ -150,7 +150,7 @@ public class DealsFragment extends Fragment implements SwipeRefreshLayout.OnRefr
     }
 
     public void setupRecyclerView(List<DealsPjo> list){
-        DealsAdapter adapter = new DealsAdapter(getActivity());
+        DealsListAdapter adapter = new DealsListAdapter(getActivity());
         adapter.setmList(list);
         mRecyclerView.setVisibility(View.VISIBLE);
         mPlaceholder.setVisibility(View.GONE);

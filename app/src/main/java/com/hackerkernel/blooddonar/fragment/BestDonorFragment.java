@@ -11,7 +11,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.android.volley.AuthFailureError;
@@ -21,7 +20,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.hackerkernel.blooddonar.R;
-import com.hackerkernel.blooddonar.adapter.DonorAdapter;
+import com.hackerkernel.blooddonar.adapter.DonorListAdapter;
 import com.hackerkernel.blooddonar.constant.Constants;
 import com.hackerkernel.blooddonar.constant.EndPoints;
 import com.hackerkernel.blooddonar.network.MyVolley;
@@ -172,7 +171,7 @@ public class BestDonorFragment extends Fragment implements SwipeRefreshLayout.On
     }
 
     private void setupDonorRecyclerView(List<DonorListPojo> list) {
-        DonorAdapter adapter = new DonorAdapter(getActivity());
+        DonorListAdapter adapter = new DonorListAdapter(getActivity());
         adapter.setList(list);
         mRecyclerView.setAdapter(adapter);
     }
