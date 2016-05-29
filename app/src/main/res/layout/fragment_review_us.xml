@@ -1,18 +1,29 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     android:background="@color/background"
     tools:context=".fragment.ReviewUsFragment">
 
-    <TextView
-        android:layout_width="wrap_content"
+    <TableLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="ONE"
-        android:textSize="40dp"
-        android:textStyle="bold"
-        android:layout_centerInParent="true"/>
+        android:weightSum="2">
+        <TableRow>
+            <Button
+                android:layout_weight="1"
+                android:drawableLeft="@drawable/ic_camera"
+                android:drawableStart="@drawable/ic_camera"
+                android:text="@string/photo"/>
+            <Button
+                android:layout_weight="1"
+                android:drawableLeft="@drawable/ic_comment"
+                android:drawableStart="@drawable/ic_comment"
+                android:text="@string/status"
+                android:id="@+id/post_status_btn"/>
+        </TableRow>
+    </TableLayout>
 
 
-
-</FrameLayout>
+</LinearLayout>

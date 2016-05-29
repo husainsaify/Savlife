@@ -30,6 +30,9 @@
     <string name="ok">ok</string>
     <string name="book_deal">Book Deal</string>
     <string name="contact">Contact</string>
+    <string name="photo">photo</string>
+    <string name="status">status</string>
+    <string name="enter_status">Enter Status</string>
     <string-array name="blood_group_name">
         <item>O-</item>
         <item>O+</item>

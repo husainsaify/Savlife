@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <EditText android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:maxLines="5"
+        android:minLines="1"
+        android:gravity="top|start"
+        android:id="@+id/edit_status"
+        android:layout_marginRight="5dp"
+        android:layout_marginLeft="5dp" />
+</LinearLayout>
