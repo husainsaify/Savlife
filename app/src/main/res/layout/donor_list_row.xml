@@ -2,7 +2,7 @@
 <android.support.v7.widget.CardView
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="100dp"
+    android:layout_height="wrap_content"
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
     card_view:cardElevation="3dp"
     card_view:cardCornerRadius="3dp"
@@ -24,7 +24,6 @@
             android:layout_height="80dp"
             android:id="@+id/donor_image"
             android:scaleType="centerCrop"
-            android:src="@drawable/bloodman"
             android:layout_marginRight="10dp"
             android:layout_marginEnd="10dp"
             />

@@ -10,14 +10,12 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.android.volley.toolbox.ImageLoader;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.hackerkernel.blooddonar.R;
 import com.hackerkernel.blooddonar.activity.DonorDetailActivity;
 import com.hackerkernel.blooddonar.constant.Constants;
 import com.hackerkernel.blooddonar.constant.EndPoints;
-import com.hackerkernel.blooddonar.network.MyVolley;
 import com.hackerkernel.blooddonar.pojo.DonorListPojo;
 
 import java.util.List;
@@ -28,13 +26,11 @@ import java.util.List;
 public class DonorListAdapter extends RecyclerView.Adapter<DonorListAdapter.MyViewHolder> {
     private static final String TAG = DonorListAdapter.class.getSimpleName();
     private List<DonorListPojo> mList;
-    private ImageLoader mImageLoader;
     private Context context;
 
 
     public DonorListAdapter(Context context) {
         this.context = context;
-        this.mImageLoader = MyVolley.getInstance().getImageLoader();
     }
 
     public void setList(List<DonorListPojo> list){
@@ -55,13 +51,19 @@ public class DonorListAdapter extends RecyclerView.Adapter<DonorListAdapter.MyVi
         holder.userName.setText(pojo.getUserName());
         holder.bloodGroup.setText(pojo.getUserBloodGroup());
 
-        String url = EndPoints.IMAGE_BASE_URL + pojo.getImageUrl();
+        if (!pojo.getImageUrl().isEmpty()){
+            String url = EndPoints.IMAGE_BASE_URL + pojo.getImageUrl();
 
-        Glide.with(context)
-                .load(url)
-                .thumbnail(0.5f)
-                .diskCacheStrategy(DiskCacheStrategy.ALL)
-                .into(holder.userImage);
+            Glide.with(context)
+                    .load(url)
+                    .placeholder(R.drawable.placeholder_80_80)
+                    .thumbnail(0.5f)
+                    .diskCacheStrategy(DiskCacheStrategy.ALL)
+                    .into(holder.userImage);
+        }else {
+            holder.userImage.setImageResource(R.drawable.placeholder_80_80);
+        }
+
     }
 
     @Override

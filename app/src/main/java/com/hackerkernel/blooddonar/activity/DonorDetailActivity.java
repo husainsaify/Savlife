@@ -107,7 +107,6 @@ public class DonorDetailActivity extends BaseAuthActivity {
                 mGender.setText("Gender: "+pojo.getGender());
                 idDonor.setText("Id: "+pojo.getId());
                 mLastDonated.setText(pojo.getLastDonated());
-
             }
             else{
                 Util.showRedSnackbar(mLayoutForSnackbar,message);
