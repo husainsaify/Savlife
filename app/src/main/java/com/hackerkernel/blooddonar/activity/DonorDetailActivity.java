@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.ScrollView;
@@ -46,6 +47,7 @@ public class DonorDetailActivity extends BaseAuthActivity {
     @Bind(R.id.detail_donor_image) ImageView mImage;
     @Bind(R.id.detail_last_donated) TextView mLastDonated;
     @Bind(R.id.detail_donor_id) TextView idDonor;
+    @Bind(R.id.detail_contact_btn) Button mContactBtn;
     @Bind(R.id.progressBar) ProgressBar mProgressbar;
     @Bind(R.id.scroll_view) ScrollView mScrollView;
 
@@ -98,7 +100,7 @@ public class DonorDetailActivity extends BaseAuthActivity {
             @Override
             public void onErrorResponse(VolleyError error) {
                 showProgressAndHideLayout(false);
-                Log.d(TAG,"MUR:"+error.getMessage());
+                Log.d(TAG,"HUS:"+error.getMessage());
                 error.printStackTrace();
                 String errorString = MyVolley.handleVolleyError(error);
                 if (errorString != null){
@@ -154,10 +156,12 @@ public class DonorDetailActivity extends BaseAuthActivity {
             //show progressbar and hide layout
             mProgressbar.setVisibility(View.VISIBLE);
             mScrollView.setVisibility(View.GONE);
+            mContactBtn.setVisibility(View.GONE);
         }else {
             //hide progressbar and show layout
             mProgressbar.setVisibility(View.GONE);
             mScrollView.setVisibility(View.VISIBLE);
+            mContactBtn.setVisibility(View.VISIBLE);
         }
     }
 }
