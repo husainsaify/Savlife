@@ -33,6 +33,7 @@
     <string name="photo">photo</string>
     <string name="status">status</string>
     <string name="enter_status">Enter Status</string>
+    <string name="post_status">Post status</string>
     <string-array name="blood_group_name">
         <item>O-</item>
         <item>O+</item>

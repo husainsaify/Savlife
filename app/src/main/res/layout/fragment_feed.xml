@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="@color/background"
-    tools:context=".fragment.ReviewUsFragment">
+    tools:context=".fragment.FeedFragment">
 
     <TableLayout
         android:layout_width="match_parent"
@@ -13,14 +13,14 @@
         <TableRow>
             <Button
                 android:layout_weight="1"
-                android:drawableLeft="@drawable/ic_camera"
-                android:drawableStart="@drawable/ic_camera"
+                android:drawableLeft="@drawable/ic_camera_black"
+                android:drawableStart="@drawable/ic_camera_black"
                 android:text="@string/photo"
                 android:id="@+id/post_photo"/>
             <Button
                 android:layout_weight="1"
-                android:drawableLeft="@drawable/ic_comment"
-                android:drawableStart="@drawable/ic_comment"
+                android:drawableLeft="@drawable/ic_feed_black"
+                android:drawableStart="@drawable/ic_feed_black"
                 android:text="@string/status"
                 android:id="@+id/post_status_btn"/>
         </TableRow>

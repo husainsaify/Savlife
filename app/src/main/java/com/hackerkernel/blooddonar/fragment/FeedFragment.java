@@ -10,17 +10,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Gallery;
 import android.widget.Toast;
 
 import com.hackerkernel.blooddonar.R;
 
-import java.util.zip.Inflater;
-
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-public class ReviewUsFragment extends Fragment {
+public class FeedFragment extends Fragment {
     private String statusText, caption;
     private EditText statusEditText, captionEditText;
     private Button addPhotoBtn;
@@ -28,14 +25,14 @@ public class ReviewUsFragment extends Fragment {
     @Bind(R.id.post_photo)Button postPhotoButton;
 
 
-    public ReviewUsFragment() {
+    public FeedFragment() {
 
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        final View view = inflater.inflate(R.layout.fragment_review_us, container, false);
+        final View view = inflater.inflate(R.layout.fragment_feed, container, false);
 
         ButterKnife.bind(this, view);
         statusButton.setOnClickListener(new View.OnClickListener() {
@@ -48,7 +45,6 @@ public class ReviewUsFragment extends Fragment {
 
 
         // Inflate the layout for this fragment
-
         return view;
     }
 
@@ -56,21 +52,25 @@ public class ReviewUsFragment extends Fragment {
     private void openStatusAlertDialoge(){
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 
-        builder.setTitle("Post Status");
         View status = LayoutInflater.from(getActivity())
                 .inflate(R.layout.alert_status_dialoge, null);
         statusEditText = (EditText) status.findViewById(R.id.edit_status);
 
-        builder.setView(status);
-
-        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+        builder.setView(status)
+                .setPositiveButton("post", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 statusText = statusEditText.getText().toString();
                 Toast.makeText(getActivity(), "status Is:" + statusText, Toast.LENGTH_LONG).show();
                 dialog.dismiss();
             }
+        }).setNegativeButton("cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
         });
+
         AlertDialog dialog = builder.create();
         dialog.show();
         postPhotoButton.setOnClickListener(new View.OnClickListener() {
@@ -79,7 +79,6 @@ public class ReviewUsFragment extends Fragment {
                 openPhotoAlertDialog();
             }
         });
-
     }
 
     private void openPhotoAlertDialog(){

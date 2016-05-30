@@ -88,7 +88,6 @@ public class DonorListAdapter extends RecyclerView.Adapter<DonorListAdapter.MyVi
         @Override
         public void onClick(View v) {
             int pos = getAdapterPosition();
-            Toast.makeText(context,pos+"",Toast.LENGTH_LONG).show();
             String id = mList.get(pos).getUserId();
             Intent intent = new Intent(context, DonorDetailActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);

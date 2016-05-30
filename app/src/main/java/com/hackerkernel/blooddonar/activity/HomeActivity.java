@@ -15,7 +15,7 @@ import com.hackerkernel.blooddonar.R;
 import com.hackerkernel.blooddonar.adapter.ViewPagerAdapter;
 import com.hackerkernel.blooddonar.fragment.BestDonorFragment;
 import com.hackerkernel.blooddonar.fragment.DealsFragment;
-import com.hackerkernel.blooddonar.fragment.ReviewUsFragment;
+import com.hackerkernel.blooddonar.fragment.FeedFragment;
 import com.hackerkernel.blooddonar.infrastructure.BaseAuthActivity;
 import com.hackerkernel.blooddonar.network.GetUserLocation;
 
@@ -78,7 +78,7 @@ public class HomeActivity extends BaseAuthActivity {
     public void setupviewPager() {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
         adapter.addFragment(new BestDonorFragment(), "Best Donor");
-        adapter.addFragment(new ReviewUsFragment(), "Health Feed");
+        adapter.addFragment(new FeedFragment(), "Health Feed");
         adapter.addFragment(new DealsFragment(), "Deals");
         mViewPager.setAdapter(adapter);
     }

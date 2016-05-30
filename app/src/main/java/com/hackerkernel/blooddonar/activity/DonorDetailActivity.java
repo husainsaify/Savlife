@@ -53,6 +53,7 @@ public class DonorDetailActivity extends BaseAuthActivity {
 
     private RequestQueue mRequestQueue;
     private String mDonorId;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
