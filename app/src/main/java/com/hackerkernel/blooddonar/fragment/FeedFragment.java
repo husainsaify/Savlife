@@ -1,7 +1,9 @@
 package com.hackerkernel.blooddonar.fragment;
 
+import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -11,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
@@ -20,11 +23,14 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
+import com.bumptech.glide.Glide;
 import com.hackerkernel.blooddonar.R;
 import com.hackerkernel.blooddonar.constant.EndPoints;
 import com.hackerkernel.blooddonar.network.MyVolley;
 import com.hackerkernel.blooddonar.util.Util;
 
+import java.io.File;
+import java.net.URL;
 import java.util.Map;
 
 import butterknife.Bind;
@@ -33,9 +39,10 @@ import butterknife.ButterKnife;
 public class FeedFragment extends Fragment {
     private RequestQueue mRequestQueue;
     private ProgressBar pb;
+    private static final int SELECT_IMAGE_CODE = 100;
 
-    @Bind(R.id.post_status_btn) Button statusButton;
-    @Bind(R.id.post_photo) Button postPhotoButton;
+    @Bind(R.id.post_status_btn) Button mPostStatusBtn;
+    @Bind(R.id.post_photo_btn) Button mPostPhotoBtn;
 
     public FeedFragment() {
     }
@@ -52,10 +59,21 @@ public class FeedFragment extends Fragment {
         final View view = inflater.inflate(R.layout.fragment_feed, container, false);
 
         ButterKnife.bind(this, view);
-        statusButton.setOnClickListener(new View.OnClickListener() {
+
+        mPostStatusBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 openStatusAlertDialog();
+            }
+        });
+
+        mPostPhotoBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //open gallery
+                Intent openGallery = new Intent(Intent.ACTION_PICK);
+                openGallery.setType("image/*");
+                startActivityForResult(openGallery,SELECT_IMAGE_CODE);
             }
         });
 
@@ -92,12 +110,6 @@ public class FeedFragment extends Fragment {
 
         AlertDialog dialog = builder.create();
         dialog.show();
-        postPhotoButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                openPhotoAlertDialog();
-            }
-        });
     }
 
     /*
@@ -118,7 +130,6 @@ public class FeedFragment extends Fragment {
         StringRequest request = new StringRequest(Request.Method.POST, EndPoints.POST_STATUS, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-
             }
         }, new Response.ErrorListener() {
             @Override
@@ -134,21 +145,33 @@ public class FeedFragment extends Fragment {
 
     }
 
-    private void openPhotoAlertDialog(){
-        /*AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-        builder.setTitle("Post Picture");
+    /*
+    * This method will run when someone will select and image
+    * */
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == SELECT_IMAGE_CODE && resultCode == Activity.RESULT_OK && data != null){
+
+            //get uri of the selected image
+            Uri image = data.getData();
+
+            openPhotoAlertDialog(image);
+        }
+    }
+
+    private void openPhotoAlertDialog(Uri imageUri){
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         View view = LayoutInflater.from(getActivity()).inflate(R.layout.alert_image_dialoge,null);
-        captionEditText = (EditText) view.findViewById(R.id.edit_caption);
-        addPhotoBtn = (Button) view.findViewById(R.id.select_photo_btn);
-        addPhotoBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent i = new Intent(Intent.ACTION_PICK);
-                i.setType("image*//*");
-                startActivityForResult(i,100);
-            }
-        });
-        caption = captionEditText.getText().toString();
+        //find views
+        ImageView image = (ImageView) view.findViewById(R.id.image_dialog_imageview);
+        EditText editText = (EditText) view.findViewById(R.id.image_dialog_status);
+        //set selected image to imageview
+        /*Glide.with(getActivity())
+                .load(new File(imageUri.getPath()))
+                .into(image);*/
+        image.setImageURI(imageUri);
+
         builder.setView(view);
         builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
             @Override
@@ -157,7 +180,7 @@ public class FeedFragment extends Fragment {
             }
         });
         AlertDialog dialog = builder.create();
-        dialog.show();*/
+        dialog.show();
 
 
     }
