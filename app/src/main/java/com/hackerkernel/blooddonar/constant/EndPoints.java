@@ -16,5 +16,6 @@ public class EndPoints {
             GET_DONOR_DETAIL = BASE_URL + "getDonorDetail.php",
             GET_DEALS_LIST = BASE_URL + "getDealsList.php",
             GET_DEALS = BASE_URL + "getDealsDetail.php",
-            IMAGE_BASE_URL = SERVER_URL;
+            IMAGE_BASE_URL = SERVER_URL,
+            POST_STATUS = BASE_URL + "postStatus.php";
 }
