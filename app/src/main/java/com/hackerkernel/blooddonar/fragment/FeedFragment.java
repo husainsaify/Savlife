@@ -1,8 +1,7 @@
 package com.hackerkernel.blooddonar.fragment;
 
-import android.content.Context;
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -42,7 +41,7 @@ import butterknife.ButterKnife;
 public class FeedFragment extends Fragment {
     private static final String TAG = FeedFragment.class.getSimpleName();
     private RequestQueue mRequestQueue;
-    private ProgressBar pb;
+    private ProgressDialog pd;
     private MySharedPreferences sp;
 
     @Bind(R.id.post_status_btn) Button statusButton;
@@ -58,6 +57,8 @@ public class FeedFragment extends Fragment {
         super.onCreate(savedInstanceState);
         mRequestQueue = MyVolley.getInstance().getRequestQueue();
         sp = MySharedPreferences.getInstance(getActivity());
+        pd = new ProgressDialog(getActivity());
+        pd.setMessage("Uploading Post");
     }
 
     @Override
@@ -129,9 +130,12 @@ public class FeedFragment extends Fragment {
     * Method to upload status in background
     * */
     private void uploadStatusInBackground(final String status) {
+
+        pd.show();
         StringRequest request = new StringRequest(Request.Method.POST, EndPoints.POST_STATUS, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
+                pd.dismiss();
                 try {
                     SimplePojo simplePojo = JsonParser.SimpleParser(response);
                         if (simplePojo.isReturned()){
@@ -196,5 +200,6 @@ public class FeedFragment extends Fragment {
 
 
     }
+
 
 }
