@@ -1,16 +1,23 @@
 package com.hackerkernel.blooddonar.fragment;
 
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.Toast;
@@ -21,6 +28,7 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
+import com.bumptech.glide.Glide;
 import com.hackerkernel.blooddonar.R;
 import com.hackerkernel.blooddonar.constant.Constants;
 import com.hackerkernel.blooddonar.constant.EndPoints;
@@ -32,6 +40,8 @@ import com.hackerkernel.blooddonar.util.Util;
 
 import org.json.JSONException;
 
+import java.io.IOException;
+import java.net.URI;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -43,6 +53,8 @@ public class FeedFragment extends Fragment {
     private RequestQueue mRequestQueue;
     private ProgressDialog pd;
     private MySharedPreferences sp;
+    private static final int SELECT_IMAGE_CODE = 100;
+    private LayoutInflater inflater;
 
     @Bind(R.id.post_status_btn) Button statusButton;
     @Bind(R.id.post_photo_btn) Button postPhotoButton;
@@ -57,8 +69,13 @@ public class FeedFragment extends Fragment {
         super.onCreate(savedInstanceState);
         mRequestQueue = MyVolley.getInstance().getRequestQueue();
         sp = MySharedPreferences.getInstance(getActivity());
+        //init pb
         pd = new ProgressDialog(getActivity());
         pd.setMessage("Uploading Post");
+        pd.setCancelable(true);
+
+        //init layout inflator
+        inflater = getLayoutInflater(savedInstanceState);
     }
 
     @Override
@@ -73,17 +90,24 @@ public class FeedFragment extends Fragment {
                 openStatusAlertDialog();
             }
         });
+        postPhotoButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //open gallery
+                Intent openGallery = new Intent(Intent.ACTION_PICK);
+                openGallery.setType("image/*");
+                startActivityForResult(openGallery,SELECT_IMAGE_CODE);
+            }
+        });
 
         // Inflate the layout for this fragment
         return view;
     }
 
-
     private void openStatusAlertDialog(){
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 
-        View status = LayoutInflater.from(getActivity())
-                .inflate(R.layout.alert_status_dialoge, null);
+        View status = inflater.inflate(R.layout.alert_status_dialoge, null);
         final EditText statusEditText = (EditText) status.findViewById(R.id.edit_status);
 
         builder.setView(status)
@@ -107,12 +131,6 @@ public class FeedFragment extends Fragment {
 
         AlertDialog dialog = builder.create();
         dialog.show();
-        postPhotoButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                openPhotoAlertDialog();
-            }
-        });
     }
 
     /*
@@ -130,7 +148,6 @@ public class FeedFragment extends Fragment {
     * Method to upload status in background
     * */
     private void uploadStatusInBackground(final String status) {
-
         pd.show();
         StringRequest request = new StringRequest(Request.Method.POST, EndPoints.POST_STATUS, new Response.Listener<String>() {
             @Override
@@ -140,8 +157,7 @@ public class FeedFragment extends Fragment {
                     SimplePojo simplePojo = JsonParser.SimpleParser(response);
                         if (simplePojo.isReturned()){
                             Toast.makeText(getActivity(),simplePojo.getMessage(),Toast.LENGTH_LONG).show();
-                        }
-                    else {
+                        }else{
                             Toast.makeText(getActivity(),simplePojo.getMessage(),Toast.LENGTH_LONG).show();
                         }
                 } catch (JSONException e) {
@@ -151,13 +167,12 @@ public class FeedFragment extends Fragment {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
+                pd.dismiss();
                 error.printStackTrace();
-                String volleyError;
-                if (MyVolley.handleVolleyError(error) != null){
-                    volleyError = MyVolley.handleVolleyError(error);
-                Util.showRedSnackbar(linearLayout,volleyError);
+                String volleyError = MyVolley.handleVolleyError(error);
+                if (volleyError != null){
+                    Util.showRedSnackbar(linearLayout,volleyError);
                 }
-
             }
         }){
             @Override
@@ -170,24 +185,39 @@ public class FeedFragment extends Fragment {
             }
         };
         mRequestQueue.add(request);
-
     }
 
-    private void openPhotoAlertDialog(){
-        /*AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-        builder.setTitle("Post Picture");
-        View view = LayoutInflater.from(getActivity()).inflate(R.layout.alert_image_dialoge,null);
-        captionEditText = (EditText) view.findViewById(R.id.edit_caption);
-        addPhotoBtn = (Button) view.findViewById(R.id.select_photo_btn);
-        addPhotoBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent i = new Intent(Intent.ACTION_PICK);
-                i.setType("image*//*");
-                startActivityForResult(i,100);
-            }
-        });
-        caption = captionEditText.getText().toString();
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == SELECT_IMAGE_CODE && resultCode == Activity.RESULT_OK && data != null){
+
+            //get uri of the selected image
+            Uri image = data.getData();
+            Log.d(TAG,"HUS: selectedImage: "+image);
+            openPhotoAlertDialog(image);
+        }
+    }
+
+    private void openPhotoAlertDialog(Uri imageUri) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        View view = inflater.inflate(R.layout.alert_image_dialoge,null);
+        //find views
+        ImageView image = (ImageView) view.findViewById(R.id.image_dialog_imageview);
+        EditText editText = (EditText) view.findViewById(R.id.image_dialog_status);
+
+        //set selected image to imageview
+        /*Glide.with(getActivity())
+                .load(Uri.parse(imageUri+""))
+                .into(image);*/
+        try {
+            Bitmap bitmap = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), imageUri);
+            image.setImageBitmap(bitmap);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+
         builder.setView(view);
         builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
             @Override
@@ -196,10 +226,6 @@ public class FeedFragment extends Fragment {
             }
         });
         AlertDialog dialog = builder.create();
-        dialog.show();*/
-
-
+        dialog.show();
     }
-
-
 }
