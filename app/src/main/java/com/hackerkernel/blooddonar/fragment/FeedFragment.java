@@ -117,9 +117,17 @@ public class FeedFragment extends Fragment {
 
                 //get status from edit text
                 String status = statusEditText.getText().toString();
+                    if (status.length() <=0){
+                        Toast.makeText(getActivity(),"Please Write A Post",Toast.LENGTH_LONG).show();
 
+
+                    }
+                else {
+                        checkInternetAndUploadStatus(status);
+
+                    }
                 //call method to upload status to Database
-                checkInternetAndUploadStatus(status);
+
 
             }
         }).setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {

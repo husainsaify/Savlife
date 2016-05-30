@@ -1,5 +1,7 @@
     package com.hackerkernel.blooddonar.parser;
 
+    import android.widget.ListView;
+
     import com.hackerkernel.blooddonar.constant.Constants;
     import com.hackerkernel.blooddonar.pojo.DealsListPojo;
     import com.hackerkernel.blooddonar.pojo.DealsPojo;
@@ -115,6 +117,15 @@
             }
             return pojo;
 
+        }
+        public static List<String> getLastDonated(JSONArray data) throws JSONException {
+            List<String> mList = new ArrayList<>();
+            for (int i = 0; i <data.length() ; i++) {
+                JSONObject obj = data.getJSONObject(i);
+                String lastDonated = obj.getString(Constants.COM_DATE);
+                mList.add(lastDonated);
+            }
+            return mList;
         }
 
     }
