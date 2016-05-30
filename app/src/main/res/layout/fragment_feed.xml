@@ -4,7 +4,8 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="@color/background"
-    tools:context=".fragment.FeedFragment">
+    tools:context=".fragment.FeedFragment"
+    android:id="@+id/feed_linear_layout">
 
     <TableLayout
         android:layout_width="match_parent"

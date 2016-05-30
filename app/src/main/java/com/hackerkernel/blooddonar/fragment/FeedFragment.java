@@ -1,9 +1,8 @@
 package com.hackerkernel.blooddonar.fragment;
 
-import android.app.Activity;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -13,7 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
@@ -23,26 +22,33 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
-import com.bumptech.glide.Glide;
 import com.hackerkernel.blooddonar.R;
+import com.hackerkernel.blooddonar.constant.Constants;
 import com.hackerkernel.blooddonar.constant.EndPoints;
 import com.hackerkernel.blooddonar.network.MyVolley;
+import com.hackerkernel.blooddonar.parser.JsonParser;
+import com.hackerkernel.blooddonar.pojo.SimplePojo;
+import com.hackerkernel.blooddonar.storage.MySharedPreferences;
 import com.hackerkernel.blooddonar.util.Util;
 
-import java.io.File;
-import java.net.URL;
+import org.json.JSONException;
+
+import java.util.HashMap;
 import java.util.Map;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
 public class FeedFragment extends Fragment {
+    private static final String TAG = FeedFragment.class.getSimpleName();
     private RequestQueue mRequestQueue;
     private ProgressBar pb;
-    private static final int SELECT_IMAGE_CODE = 100;
+    private MySharedPreferences sp;
 
-    @Bind(R.id.post_status_btn) Button mPostStatusBtn;
-    @Bind(R.id.post_photo_btn) Button mPostPhotoBtn;
+    @Bind(R.id.post_status_btn) Button statusButton;
+    @Bind(R.id.post_photo_btn) Button postPhotoButton;
+    @Bind(R.id.feed_linear_layout)
+    LinearLayout linearLayout;
 
     public FeedFragment() {
     }
@@ -51,6 +57,7 @@ public class FeedFragment extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mRequestQueue = MyVolley.getInstance().getRequestQueue();
+        sp = MySharedPreferences.getInstance(getActivity());
     }
 
     @Override
@@ -59,21 +66,10 @@ public class FeedFragment extends Fragment {
         final View view = inflater.inflate(R.layout.fragment_feed, container, false);
 
         ButterKnife.bind(this, view);
-
-        mPostStatusBtn.setOnClickListener(new View.OnClickListener() {
+        statusButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 openStatusAlertDialog();
-            }
-        });
-
-        mPostPhotoBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //open gallery
-                Intent openGallery = new Intent(Intent.ACTION_PICK);
-                openGallery.setType("image/*");
-                startActivityForResult(openGallery,SELECT_IMAGE_CODE);
             }
         });
 
@@ -110,6 +106,12 @@ public class FeedFragment extends Fragment {
 
         AlertDialog dialog = builder.create();
         dialog.show();
+        postPhotoButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openPhotoAlertDialog();
+            }
+        });
     }
 
     /*
@@ -126,52 +128,62 @@ public class FeedFragment extends Fragment {
     /*
     * Method to upload status in background
     * */
-    private void uploadStatusInBackground(String status) {
+    private void uploadStatusInBackground(final String status) {
         StringRequest request = new StringRequest(Request.Method.POST, EndPoints.POST_STATUS, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
+                try {
+                    SimplePojo simplePojo = JsonParser.SimpleParser(response);
+                        if (simplePojo.isReturned()){
+                            Toast.makeText(getActivity(),simplePojo.getMessage(),Toast.LENGTH_LONG).show();
+                        }
+                    else {
+                            Toast.makeText(getActivity(),simplePojo.getMessage(),Toast.LENGTH_LONG).show();
+                        }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
+                error.printStackTrace();
+                String volleyError;
+                if (MyVolley.handleVolleyError(error) != null){
+                    volleyError = MyVolley.handleVolleyError(error);
+                Util.showRedSnackbar(linearLayout,volleyError);
+                }
 
             }
         }){
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
-                return super.getParams();
+                Map<String, String> params = new HashMap<>();
+                params.put(Constants.COM_APIKEY,Util.generateApiKey(sp.getUserMobile()));
+                params.put(Constants.COM_MOBILE,sp.getUserMobile());
+                params.put(Constants.COM_STATUS,status);
+                return params;
             }
         };
+        mRequestQueue.add(request);
 
     }
 
-    /*
-    * This method will run when someone will select and image
-    * */
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == SELECT_IMAGE_CODE && resultCode == Activity.RESULT_OK && data != null){
-
-            //get uri of the selected image
-            Uri image = data.getData();
-
-            openPhotoAlertDialog(image);
-        }
-    }
-
-    private void openPhotoAlertDialog(Uri imageUri){
-        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+    private void openPhotoAlertDialog(){
+        /*AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        builder.setTitle("Post Picture");
         View view = LayoutInflater.from(getActivity()).inflate(R.layout.alert_image_dialoge,null);
-        //find views
-        ImageView image = (ImageView) view.findViewById(R.id.image_dialog_imageview);
-        EditText editText = (EditText) view.findViewById(R.id.image_dialog_status);
-        //set selected image to imageview
-        /*Glide.with(getActivity())
-                .load(new File(imageUri.getPath()))
-                .into(image);*/
-        image.setImageURI(imageUri);
-
+        captionEditText = (EditText) view.findViewById(R.id.edit_caption);
+        addPhotoBtn = (Button) view.findViewById(R.id.select_photo_btn);
+        addPhotoBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(Intent.ACTION_PICK);
+                i.setType("image*//*");
+                startActivityForResult(i,100);
+            }
+        });
+        caption = captionEditText.getText().toString();
         builder.setView(view);
         builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
             @Override
@@ -180,7 +192,7 @@ public class FeedFragment extends Fragment {
             }
         });
         AlertDialog dialog = builder.create();
-        dialog.show();
+        dialog.show();*/
 
 
     }

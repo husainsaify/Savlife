@@ -132,6 +132,7 @@ public class DealsDetailActivity extends BaseAuthActivity {
             }
         } catch (JSONException e) {
             e.printStackTrace();
+            Util.showParsingErrorAlert(DealsDetailActivity.this);
         }
     }
 
