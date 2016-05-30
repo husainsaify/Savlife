@@ -7,7 +7,6 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
@@ -19,7 +18,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
@@ -28,7 +26,6 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
-import com.bumptech.glide.Glide;
 import com.hackerkernel.blooddonar.R;
 import com.hackerkernel.blooddonar.constant.Constants;
 import com.hackerkernel.blooddonar.constant.EndPoints;
@@ -36,12 +33,11 @@ import com.hackerkernel.blooddonar.network.MyVolley;
 import com.hackerkernel.blooddonar.parser.JsonParser;
 import com.hackerkernel.blooddonar.pojo.SimplePojo;
 import com.hackerkernel.blooddonar.storage.MySharedPreferences;
+import com.hackerkernel.blooddonar.util.ImageUtil;
 import com.hackerkernel.blooddonar.util.Util;
 
 import org.json.JSONException;
 
-import java.io.IOException;
-import java.net.URI;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -56,8 +52,10 @@ public class FeedFragment extends Fragment {
     private static final int SELECT_IMAGE_CODE = 100;
     private LayoutInflater inflater;
 
-    @Bind(R.id.post_status_btn) Button statusButton;
-    @Bind(R.id.post_photo_btn) Button postPhotoButton;
+    @Bind(R.id.post_status_btn)
+    Button statusButton;
+    @Bind(R.id.post_photo_btn)
+    Button postPhotoButton;
     @Bind(R.id.feed_linear_layout)
     LinearLayout linearLayout;
 
@@ -96,7 +94,7 @@ public class FeedFragment extends Fragment {
                 //open gallery
                 Intent openGallery = new Intent(Intent.ACTION_PICK);
                 openGallery.setType("image/*");
-                startActivityForResult(openGallery,SELECT_IMAGE_CODE);
+                startActivityForResult(openGallery, SELECT_IMAGE_CODE);
             }
         });
 
@@ -104,7 +102,7 @@ public class FeedFragment extends Fragment {
         return view;
     }
 
-    private void openStatusAlertDialog(){
+    private void openStatusAlertDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 
         View status = inflater.inflate(R.layout.alert_status_dialoge, null);
@@ -112,25 +110,14 @@ public class FeedFragment extends Fragment {
 
         builder.setView(status)
                 .setPositiveButton(R.string.post, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
 
-                //get status from edit text
-                String status = statusEditText.getText().toString();
-                    if (status.length() <=0){
-                        Toast.makeText(getActivity(),"Please Write A Post",Toast.LENGTH_LONG).show();
-
-
-                    }
-                else {
+                        //get status from edit text
+                        String status = statusEditText.getText().toString().trim();
                         checkInternetAndUploadStatus(status);
-
                     }
-                //call method to upload status to Database
-
-
-            }
-        }).setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+                }).setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 dialog.dismiss();
@@ -145,10 +132,14 @@ public class FeedFragment extends Fragment {
     * Method to check internet and upload status
     * */
     private void checkInternetAndUploadStatus(String status) {
-        if (Util.isNetworkAvailable()){
+        if (Util.isNetworkAvailable()) {
+            if (status.isEmpty()){
+                Toast.makeText(getActivity(),"OOPS! Status cannot be empty",Toast.LENGTH_SHORT).show();
+                return;
+            }
             uploadStatusInBackground(status);
-        }else {
-            Toast.makeText(getActivity(),R.string.no_internet_connection,Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(getActivity(), R.string.no_internet_connection, Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -163,11 +154,11 @@ public class FeedFragment extends Fragment {
                 pd.dismiss();
                 try {
                     SimplePojo simplePojo = JsonParser.SimpleParser(response);
-                        if (simplePojo.isReturned()){
-                            Toast.makeText(getActivity(),simplePojo.getMessage(),Toast.LENGTH_LONG).show();
-                        }else{
-                            Toast.makeText(getActivity(),simplePojo.getMessage(),Toast.LENGTH_LONG).show();
-                        }
+                    if (simplePojo.isReturned()) {
+                        Toast.makeText(getActivity(), simplePojo.getMessage(), Toast.LENGTH_LONG).show();
+                    } else {
+                        Toast.makeText(getActivity(), simplePojo.getMessage(), Toast.LENGTH_LONG).show();
+                    }
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -178,17 +169,17 @@ public class FeedFragment extends Fragment {
                 pd.dismiss();
                 error.printStackTrace();
                 String volleyError = MyVolley.handleVolleyError(error);
-                if (volleyError != null){
-                    Util.showRedSnackbar(linearLayout,volleyError);
+                if (volleyError != null) {
+                    Util.showRedSnackbar(linearLayout, volleyError);
                 }
             }
-        }){
+        }) {
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String, String> params = new HashMap<>();
-                params.put(Constants.COM_APIKEY,Util.generateApiKey(sp.getUserMobile()));
-                params.put(Constants.COM_MOBILE,sp.getUserMobile());
-                params.put(Constants.COM_STATUS,status);
+                params.put(Constants.COM_APIKEY, Util.generateApiKey(sp.getUserMobile()));
+                params.put(Constants.COM_MOBILE, sp.getUserMobile());
+                params.put(Constants.COM_STATUS, status);
                 return params;
             }
         };
@@ -198,42 +189,63 @@ public class FeedFragment extends Fragment {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == SELECT_IMAGE_CODE && resultCode == Activity.RESULT_OK && data != null){
+        if (requestCode == SELECT_IMAGE_CODE && resultCode == Activity.RESULT_OK && data != null) {
 
             //get uri of the selected image
             Uri image = data.getData();
-            Log.d(TAG,"HUS: selectedImage: "+image);
+            Log.d(TAG, "HUS: selectedImage: " + image);
             openPhotoAlertDialog(image);
         }
     }
 
+
     private void openPhotoAlertDialog(Uri imageUri) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-        View view = inflater.inflate(R.layout.alert_image_dialoge,null);
+        View view = inflater.inflate(R.layout.alert_image_dialoge, null);
         //find views
-        ImageView image = (ImageView) view.findViewById(R.id.image_dialog_imageview);
-        EditText editText = (EditText) view.findViewById(R.id.image_dialog_status);
+        ImageView postImageView = (ImageView) view.findViewById(R.id.image_dialog_imageview);
+        final EditText postStatusView = (EditText) view.findViewById(R.id.image_dialog_status);
 
         //set selected image to imageview
-        /*Glide.with(getActivity())
-                .load(Uri.parse(imageUri+""))
-                .into(image);*/
-        try {
-            Bitmap bitmap = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), imageUri);
-            image.setImageBitmap(bitmap);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        String imagePath = ImageUtil.getFilePathFromUri(getActivity(), imageUri);
+        final Bitmap lowResBitmap = ImageUtil.decodeBitmapFromFilePath(imagePath, 400, 200);
+        postImageView.setImageBitmap(lowResBitmap);
 
-
-        builder.setView(view);
-        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-
-            }
-        });
+        builder.setView(view)
+                .setPositiveButton(R.string.post, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        //get status text and base64 image
+                        String status = postStatusView.getText().toString().trim();
+                        String imageBase64 = ImageUtil.compressImageToBase64(lowResBitmap);
+                        checkInternetAndUploadPhoto(status,imageBase64);
+                    }
+                })
+                .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
         AlertDialog dialog = builder.create();
         dialog.show();
+    }
+
+    /*
+    * Method to check internet and perform validation before uploading image
+    * */
+    private void checkInternetAndUploadPhoto(String status, String imageBase64) {
+        if (Util.isNetworkAvailable()){
+            uploadPhotoInBackground(status,imageBase64);
+        }else {
+            Toast.makeText(getActivity(),R.string.no_internet_connection,Toast.LENGTH_LONG).show();
+        }
+    }
+
+    /*
+    * Method to upload photo to the server
+    * */
+    private void uploadPhotoInBackground(String status, String imageBase64) {
+
     }
 }
