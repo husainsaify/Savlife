@@ -18,14 +18,19 @@
                 android:drawableStart="@drawable/ic_camera_black"
                 android:text="@string/photo"
                 android:id="@+id/post_photo_btn"
-                android:background="#fff"
+                android:background="@drawable/white_button"
                 android:padding="10dp"/>
+
+            <View android:layout_width="1dp"
+                android:layout_height="match_parent"
+                android:background="#f2f2f2"/>
+
             <Button
                 android:layout_weight="1"
                 android:drawableLeft="@drawable/ic_feed_black"
                 android:drawableStart="@drawable/ic_feed_black"
                 android:text="@string/status"
-                android:background="#fff"
+                android:background="@drawable/white_button"
                 android:padding="10dp"
                 android:id="@+id/post_status_btn"/>
         </TableRow>

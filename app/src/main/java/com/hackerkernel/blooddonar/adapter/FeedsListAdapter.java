@@ -14,6 +14,7 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.hackerkernel.blooddonar.R;
 import com.hackerkernel.blooddonar.constant.EndPoints;
 import com.hackerkernel.blooddonar.pojo.FeedsListPojo;
+import com.hackerkernel.blooddonar.util.Util;
 
 import java.util.List;
 
@@ -58,13 +59,15 @@ public class FeedsListAdapter extends RecyclerView.Adapter<FeedsListAdapter.Feed
             Glide.with(context)
                     .load(feedImage)
                     .thumbnail(0.5f)
+                    .placeholder(R.drawable.placeholder_300_300)
                     .diskCacheStrategy(DiskCacheStrategy.ALL)
                     .into(holder.mFeedPhoto);
             holder.mFeedPhoto.setVisibility(View.VISIBLE);
         }
         holder.mFeedStatus.setText(pojo.getStatus());
         holder.mUserFullNAme.setText(pojo.getUserFullname());
-        holder.mTimeAgo.setText(pojo.getTimestamp());
+        String time = Util.getTimeAgo(Long.parseLong(pojo.getTimestamp()));
+        holder.mTimeAgo.setText(time);
         //load user image
         String userImage = EndPoints.IMAGE_BASE_URL + pojo.getUserImage();
         Glide.with(context)
