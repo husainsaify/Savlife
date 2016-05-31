@@ -4,7 +4,48 @@ package com.hackerkernel.blooddonar.pojo;
  * Created by Murtaza on 5/31/2016.
  */
 public class ProfileDetailPojo {
-    private String profileNAme, profileBlood, profileNum, profilelastDonated, profileId;
+    private String profileURL;
+
+    public String getProfileURL() {
+        return profileURL;
+    }
+
+    public void setProfileURL(String profileURL) {
+        this.profileURL = profileURL;
+    }
+
+    private String profileNAme;
+    private String profileBlood;
+    private String profileNum;
+    private String profilelastDonated;
+    private String profileId;
+    private String profileAge;
+    private String profileGender;
+    private String profileCity;
+
+    public String getProfileAge() {
+        return profileAge;
+    }
+
+    public void setProfileAge(String profileAge) {
+        this.profileAge = profileAge;
+    }
+
+    public String getProfileGender() {
+        return profileGender;
+    }
+
+    public void setProfileGender(String profileGender) {
+        this.profileGender = profileGender;
+    }
+
+    public String getProfileCity() {
+        return profileCity;
+    }
+
+    public void setProfileCity(String profileCity) {
+        this.profileCity = profileCity;
+    }
 
     public String getProfileNAme() {
         return profileNAme;

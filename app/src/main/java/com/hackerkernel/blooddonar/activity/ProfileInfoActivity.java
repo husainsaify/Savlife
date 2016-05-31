@@ -12,12 +12,19 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
+import com.bumptech.glide.Glide;
 import com.hackerkernel.blooddonar.R;
 import com.hackerkernel.blooddonar.constant.Constants;
 import com.hackerkernel.blooddonar.constant.EndPoints;
 import com.hackerkernel.blooddonar.network.MyVolley;
+import com.hackerkernel.blooddonar.parser.JsonParser;
+import com.hackerkernel.blooddonar.pojo.ProfileDetailPojo;
 import com.hackerkernel.blooddonar.storage.MySharedPreferences;
 import com.hackerkernel.blooddonar.util.Util;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -38,6 +45,7 @@ public class ProfileInfoActivity extends AppCompatActivity {
     private TextView mProfileAge;
     private TextView mProfileID;
     private TextView mProfileCity;
+    private ProfileDetailPojo pojo;
 
     private MySharedPreferences sp;
     private RequestQueue mRequestQue;
@@ -59,6 +67,8 @@ public class ProfileInfoActivity extends AppCompatActivity {
         mRequestQue = MyVolley.getInstance().getRequestQueue();
         ifNetworkIsAvailable();
 
+
+
     }
 
     private void ifNetworkIsAvailable() {
@@ -75,6 +85,24 @@ public class ProfileInfoActivity extends AppCompatActivity {
             @Override
             public void onResponse(String response) {
                 Log.d("Tag", "MUR:" + response);
+                try {
+                    JSONObject obj = new JSONObject(response);
+                    JSONArray data = obj.getJSONArray(Constants.COM_DATA);
+                    pojo = JsonParser.ParseUserProfile(data);
+                    mProfileName.setText(pojo.getProfileNAme());
+                    mProfileBlood.setText(pojo.getProfileBlood());
+                    mProfileNum.setText(pojo.getProfileNum());
+                    mProfileLastDonated.setText(pojo.getProfilelastDonated());
+                    mProfileAge.setText(pojo.getProfileAge());
+                    mProfileCity.setText(pojo.getProfileCity());
+                    mProfileGender.setText(pojo.getProfileGender());
+                    mProfileID.setText(pojo.getProfileId());
+                    String imageURl = EndPoints.IMAGE_BASE_URL+ pojo.getProfileURL();
+                    Glide.with(getApplicationContext()).load(imageURl).into(mProfileImage);
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
 
             }
         }, new Response.ErrorListener() {

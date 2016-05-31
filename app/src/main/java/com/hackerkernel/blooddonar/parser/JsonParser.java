@@ -8,6 +8,7 @@
     import com.hackerkernel.blooddonar.pojo.DonorPojo;
     import com.hackerkernel.blooddonar.pojo.DonorListPojo;
     import com.hackerkernel.blooddonar.pojo.FeedsListPojo;
+    import com.hackerkernel.blooddonar.pojo.ProfileDetailPojo;
     import com.hackerkernel.blooddonar.pojo.SimplePojo;
     import com.hackerkernel.blooddonar.storage.MySharedPreferences;
 
@@ -151,5 +152,21 @@
                 list.add(c);
             }
             return list;
+        }
+        public static ProfileDetailPojo ParseUserProfile(JSONArray data) throws JSONException {
+            ProfileDetailPojo pojo = new ProfileDetailPojo();
+            for (int i = 0; i <data.length() ; i++) {
+                JSONObject obj = data.getJSONObject(i);
+                pojo.setProfileNAme(obj.getString(Constants.COM_FULLNAME));
+                pojo.setProfileBlood(obj.getString(Constants.COM_BLOOD));
+                pojo.setProfileAge(obj.getString(Constants.COM_AGE));
+                pojo.setProfileCity(obj.getString(Constants.LOC_CITY));
+                pojo.setProfileGender(obj.getString(Constants.COM_GENDER));
+                pojo.setProfileId(obj.getString(Constants.COM_ID));
+                pojo.setProfileNum(obj.getString(Constants.COM_MOBILE));
+                pojo.setProfileURL(obj.getString(Constants.COM_IMG));
+
+            }
+            return pojo;
         }
     }
