@@ -9,7 +9,9 @@ import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
 import com.hackerkernel.blooddonar.R;
 import com.hackerkernel.blooddonar.adapter.ViewPagerAdapter;
@@ -46,8 +48,6 @@ public class HomeActivity extends BaseAuthActivity {
         assert getSupportActionBar() != null;
         getSupportActionBar().setTitle("SavLife");
 
-
-
         initSideMenu();
 
         setupviewPager();
@@ -73,6 +73,17 @@ public class HomeActivity extends BaseAuthActivity {
     private void initSideMenu() {
         mActionBarDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, mToolbar, R.string.open, R.string.close);
         mDrawerLayout.setDrawerListener(mActionBarDrawerToggle);
+        mNaigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(MenuItem item) {
+                switch (item.getItemId()){
+                    case R.id.Home:
+                        Toast.makeText(getApplicationContext(),"home",Toast.LENGTH_LONG).show();
+                        break;
+                }
+                return false;
+            }
+        });
     }
 
     public void setupviewPager() {
