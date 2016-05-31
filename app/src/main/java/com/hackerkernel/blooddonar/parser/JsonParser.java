@@ -100,6 +100,7 @@
                 pojo.setHospitalName(obj.getString(Constants.COM_LABNAME));
                 pojo.setDescription(obj.getString(Constants.COM_DESCRIPTION));
                 pojo.setDealsId(obj.getString(Constants.COM_ID));
+                pojo.setImageUrl(obj.getString(Constants.COM_IMG));
                 list.add(pojo);
             }
             return list;
@@ -114,6 +115,7 @@
                 pojo.setOff(obj.getString(Constants.COM_DEAL));
                 pojo.setOrignal_prize(obj.getString(Constants.COM_ORIGNAL_PRIZE));
                 pojo.setSpecial_prize(obj.getString(Constants.COM_SPECIAL_PRIZE));
+                pojo.setImageUrl(obj.getString(Constants.COM_IMG));
                 //pojo.setTimming(obj.getString(Constants.COM_Timing));
 
             }

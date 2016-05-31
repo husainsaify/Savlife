@@ -10,9 +10,12 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.android.volley.toolbox.ImageLoader;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.hackerkernel.blooddonar.R;
 import com.hackerkernel.blooddonar.activity.DealsDetailActivity;
 import com.hackerkernel.blooddonar.constant.Constants;
+import com.hackerkernel.blooddonar.constant.EndPoints;
 import com.hackerkernel.blooddonar.network.MyVolley;
 import com.hackerkernel.blooddonar.pojo.DealsListPojo;
 
@@ -45,6 +48,16 @@ public class DealsListAdapter extends RecyclerView.Adapter<DealsListAdapter.MyVi
         holder.deals.append("% off");
         holder.hospitalName.setText(pojo.getHospitalName());
         holder.description.setText(pojo.getDescription());
+        //download image
+        if (!pojo.getImageUrl().isEmpty()) {
+            String dealImage = EndPoints.IMAGE_BASE_URL + pojo.getImageUrl();
+            Glide.with(mContext)
+                    .load(dealImage)
+                    .thumbnail(0.5f)
+                    .diskCacheStrategy(DiskCacheStrategy.ALL)
+                    .into(holder.hospitalImage);
+        }
+
     }
 
     @Override

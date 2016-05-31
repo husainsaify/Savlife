@@ -55,12 +55,7 @@
                 android:value=".activity.HomeActivity" />
         </activity>
 
-        <activity android:name=".activity.ProfileInfoActivity"
-            android:parentActivityName=".activity.HomeActivity">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".activity.HomeActivity" />
-        </activity>
+        <activity android:name=".activity.ProfileInfoActivity"/>
 
         <!-- Receiver -->
         <receiver android:name=".receiver.IncomingOtp">

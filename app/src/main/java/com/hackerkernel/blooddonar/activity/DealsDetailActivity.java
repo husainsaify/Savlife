@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.ScrollView;
 import android.widget.TextView;
@@ -15,6 +16,8 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.hackerkernel.blooddonar.R;
 import com.hackerkernel.blooddonar.constant.Constants;
 import com.hackerkernel.blooddonar.constant.EndPoints;
@@ -43,6 +46,7 @@ public class DealsDetailActivity extends BaseAuthActivity {
 
     @Bind(R.id.toolbar) Toolbar mToolbar;
     @Bind(R.id.detail_hospital_name) TextView mHospitalName;
+    @Bind(R.id.detail_hospital_image) ImageView mHospitalImage;
     @Bind(R.id.detail_off) TextView mPercentOff;
     @Bind(R.id.detail_description) TextView mDescription;
     @Bind(R.id.detail_timing) TextView timings;
@@ -145,6 +149,16 @@ public class DealsDetailActivity extends BaseAuthActivity {
         mOriginalPrice.append("Rs");
         mOfferPrice.setText(pojo.getSpecial_prize());
         mOfferPrice.append("Rs");
+
+        //load hospital image
+        if (!pojo.getImageUrl().isEmpty()){
+            String image = EndPoints.IMAGE_BASE_URL + pojo.getImageUrl();
+            Glide.with(this)
+                    .load(image)
+                    .diskCacheStrategy(DiskCacheStrategy.ALL)
+                    .into(mHospitalImage);
+        }
+
     }
 
     private void showProgressAndHideLayout(boolean state) {

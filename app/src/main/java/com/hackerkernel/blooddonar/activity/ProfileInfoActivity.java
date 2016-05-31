@@ -64,8 +64,6 @@ public class ProfileInfoActivity extends BaseAuthActivity {
         setSupportActionBar(mToolbar);
         assert getSupportActionBar() != null;
         getSupportActionBar().setTitle(R.string.my_profile);
-        getSupportActionBar().setDefaultDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         sp = MySharedPreferences.getInstance(getApplicationContext());
         mRequestQue = MyVolley.getInstance().getRequestQueue();
