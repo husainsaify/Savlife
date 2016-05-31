@@ -17,15 +17,42 @@
                 android:drawableLeft="@drawable/ic_camera_black"
                 android:drawableStart="@drawable/ic_camera_black"
                 android:text="@string/photo"
-                android:id="@+id/post_photo_btn"/>
+                android:id="@+id/post_photo_btn"
+                android:background="#fff"
+                android:padding="10dp"/>
             <Button
                 android:layout_weight="1"
                 android:drawableLeft="@drawable/ic_feed_black"
                 android:drawableStart="@drawable/ic_feed_black"
                 android:text="@string/status"
+                android:background="#fff"
+                android:padding="10dp"
                 android:id="@+id/post_status_btn"/>
         </TableRow>
     </TableLayout>
+
+    <ProgressBar
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_margin="20dp"
+        android:id="@+id/feed_progressbar"
+        android:visibility="gone"/>
+
+    <android.support.v7.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="5dp"
+        android:id="@+id/feed_recyclerview" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:id="@+id/feed_placeholder"
+        android:gravity="center"
+        android:visibility="gone"
+        style="@style/Base.TextAppearance.AppCompat.Medium"/>
 
 
 </LinearLayout>

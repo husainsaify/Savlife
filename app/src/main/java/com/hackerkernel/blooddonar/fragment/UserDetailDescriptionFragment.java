@@ -41,8 +41,8 @@ import butterknife.ButterKnife;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class DetailDescriptionFragment extends Fragment {
-    private static final String TAG = DetailDescriptionFragment.class.getSimpleName();
+public class UserDetailDescriptionFragment extends Fragment {
+    private static final String TAG = UserDetailDescriptionFragment.class.getSimpleName();
 
     @Bind(R.id.detail_donor_name) TextView mName;
     @Bind(R.id.detail_donor_age) TextView mAge;
@@ -58,7 +58,7 @@ public class DetailDescriptionFragment extends Fragment {
     private String mDonorId;
 
 
-    public DetailDescriptionFragment() {
+    public UserDetailDescriptionFragment() {
         // Required empty public constructor
     }
 
@@ -67,7 +67,7 @@ public class DetailDescriptionFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_detail_description, container, false);
+        View view = inflater.inflate(R.layout.fragment_user_detail_description, container, false);
         mRequestQueue = MyVolley.getInstance().getRequestQueue();
         ButterKnife.bind(this,view);
 

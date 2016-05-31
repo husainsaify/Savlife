@@ -25,12 +25,20 @@ public class Constants {
             COM_SPECIAL_PRIZE = "special_price",
             COM_ORIGNAL_PRIZE = "orginal_price",
             COM_STATUS = "status",
-            COM_DATE = "date";
+            COM_DATE = "date",
+            COM_TIME = "time";
 
     public static final String CONFIG_OTP_SENDER_ID = "HAKBPL",
             CONFIG_SMS_DELIMITER = ":";
 
     public static final String LOC_CITY = "city",
-    LOC_LATITUDE = "latitude",
-    LOC_LONGITUDE = "longitude";
+            LOC_LATITUDE = "latitude",
+            LOC_LONGITUDE = "longitude";
+
+    public static final String FEED_TYPE = "type",
+            FEED_USER_ID = "user_id",
+            FEED_USER_MOBILE = "user_mobile",
+            FEED_USER_FULLNAME = "user_fullname",
+            FEED_USER_IMAGE = "user_image";
+
 }

@@ -11,9 +11,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.ProgressBar;
-import android.widget.ScrollView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -26,7 +24,6 @@ import com.hackerkernel.blooddonar.constant.Constants;
 import com.hackerkernel.blooddonar.constant.EndPoints;
 import com.hackerkernel.blooddonar.network.MyVolley;
 import com.hackerkernel.blooddonar.parser.JsonParser;
-import com.hackerkernel.blooddonar.storage.MySharedPreferences;
 import com.hackerkernel.blooddonar.util.Util;
 
 import org.json.JSONArray;
@@ -43,8 +40,8 @@ import butterknife.ButterKnife;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class LastDonatedFragment extends Fragment {
-    private static final String TAG = LastDonatedFragment.class.getSimpleName();
+public class UserDonationHistoryFragment extends Fragment {
+    private static final String TAG = UserDonationHistoryFragment.class.getSimpleName();
     @Bind(R.id.donation_history_listview) ListView mListview;
     @Bind(R.id.donation_history_placeholder) TextView mPlaceholder;
     @Bind(R.id.donation_history_progressbar) ProgressBar mProgressbar;
@@ -53,7 +50,7 @@ public class LastDonatedFragment extends Fragment {
 
 
 
-    public LastDonatedFragment() {
+    public UserDonationHistoryFragment() {
         // Required empty public constructor
     }
 
@@ -68,7 +65,7 @@ public class LastDonatedFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_last_donated, container, false);
+        View view = inflater.inflate(R.layout.fragment_user_donation_history, container, false);
         ButterKnife.bind(this,view);
         checkInternetAndFetchDonationHistory();
         return view;
@@ -131,7 +128,7 @@ public class LastDonatedFragment extends Fragment {
                 int count = obj.getInt(Constants.COM_COUNT);
                 if (count > 0){
                     JSONArray data = obj.getJSONArray(Constants.COM_DATA);
-                    List<String> mList = JsonParser.getLastDonated(data);
+                    List<String> mList = JsonParser.DonationHistoryParser(data);
                     setupView(mList);
                 }else {
                     //return false

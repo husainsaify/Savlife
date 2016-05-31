@@ -125,7 +125,7 @@ public class DealsDetailActivity extends BaseAuthActivity {
             String message = obj.getString(Constants.COM_MESSAGE);
             if (returned){
                 JSONArray data = obj.getJSONArray(Constants.COM_DATA);
-                DealsPojo pojo = JsonParser.ParseDetailDeals(data);
+                DealsPojo pojo = JsonParser.DetailDealsParser(data);
                 setupView(pojo);
             }else{
                 Util.showRedSnackbar(mLayoutForSnackbar,message);

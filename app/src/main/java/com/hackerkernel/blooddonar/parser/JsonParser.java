@@ -7,6 +7,7 @@
     import com.hackerkernel.blooddonar.pojo.DealsPojo;
     import com.hackerkernel.blooddonar.pojo.DonorPojo;
     import com.hackerkernel.blooddonar.pojo.DonorListPojo;
+    import com.hackerkernel.blooddonar.pojo.FeedsListPojo;
     import com.hackerkernel.blooddonar.pojo.SimplePojo;
     import com.hackerkernel.blooddonar.storage.MySharedPreferences;
 
@@ -61,7 +62,7 @@
             }
         }
 
-        public static List<DonorListPojo> DonorParser(JSONArray dataArray) throws JSONException {
+        public static List<DonorListPojo> DonorListParser(JSONArray dataArray) throws JSONException {
             List<DonorListPojo> list = new ArrayList<>();
             for (int i = 0; i <dataArray.length() ; i++) {
                 JSONObject obj = dataArray.getJSONObject(i);
@@ -89,7 +90,7 @@
             return pojo;
         }
 
-        public static List<DealsListPojo> ParseDealsList(JSONArray data) throws JSONException {
+        public static List<DealsListPojo> DealsListParser(JSONArray data) throws JSONException {
            List<DealsListPojo> list = new ArrayList<>();
             for (int i = 0; i <data.length() ; i++) {
                 JSONObject obj = data.getJSONObject(i);
@@ -103,7 +104,7 @@
             return list;
         }
 
-        public static DealsPojo ParseDetailDeals(JSONArray data) throws JSONException {
+        public static DealsPojo DetailDealsParser(JSONArray data) throws JSONException {
             DealsPojo pojo = new DealsPojo();
             for (int i = 0; i <data.length() ; i++) {
                 JSONObject obj = data.getJSONObject(i);
@@ -118,7 +119,7 @@
             return pojo;
 
         }
-        public static List<String> getLastDonated(JSONArray data) throws JSONException {
+        public static List<String> DonationHistoryParser(JSONArray data) throws JSONException {
             List<String> mList = new ArrayList<>();
             for (int i = 0; i <data.length() ; i++) {
                 JSONObject obj = data.getJSONObject(i);
@@ -128,4 +129,27 @@
             return mList;
         }
 
+        /*
+        * Method to parse feeds response
+        * PS:
+        * This method does not validate stuff it just parse
+        * */
+        public static List<FeedsListPojo> FeedsListParser(JSONArray dataArray) throws JSONException {
+            List<FeedsListPojo> list = new ArrayList<>();
+            for (int i = 0; i < dataArray.length(); i++) {
+                JSONObject jo = dataArray.getJSONObject(i);
+                FeedsListPojo c = new FeedsListPojo();
+                c.setStatus(jo.getString(Constants.COM_STATUS));
+                c.setImage(jo.getString(Constants.COM_IMG));
+                c.setType(jo.getString(Constants.FEED_TYPE));
+                c.setTimestamp(jo.getString(Constants.COM_TIME));
+                c.setUserId(jo.getString(Constants.FEED_USER_ID));
+                c.setUserMobile(jo.getString(Constants.FEED_USER_MOBILE));
+                c.setUserFullname(jo.getString(Constants.FEED_USER_FULLNAME));
+                c.setUserImage(jo.getString(Constants.FEED_USER_IMAGE));
+                //add to list
+                list.add(c);
+            }
+            return list;
+        }
     }

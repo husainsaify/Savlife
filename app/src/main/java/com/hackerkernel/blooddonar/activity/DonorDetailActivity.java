@@ -7,8 +7,8 @@ import android.support.v7.widget.Toolbar;
 
 import com.hackerkernel.blooddonar.R;
 import com.hackerkernel.blooddonar.adapter.ViewPagerAdapter;
-import com.hackerkernel.blooddonar.fragment.DetailDescriptionFragment;
-import com.hackerkernel.blooddonar.fragment.LastDonatedFragment;
+import com.hackerkernel.blooddonar.fragment.UserDetailDescriptionFragment;
+import com.hackerkernel.blooddonar.fragment.UserDonationHistoryFragment;
 import com.hackerkernel.blooddonar.infrastructure.BaseAuthActivity;
 
 import butterknife.Bind;
@@ -39,8 +39,8 @@ public class DonorDetailActivity extends BaseAuthActivity {
     }
     private void setupViewPager(ViewPager viewPager){
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
-        adapter.addFragment(new DetailDescriptionFragment(),"Description");
-        adapter.addFragment(new LastDonatedFragment(),"Donation History");
+        adapter.addFragment(new UserDetailDescriptionFragment(),"Description");
+        adapter.addFragment(new UserDonationHistoryFragment(),"Donation History");
         viewPager.setAdapter(adapter);
     }
 

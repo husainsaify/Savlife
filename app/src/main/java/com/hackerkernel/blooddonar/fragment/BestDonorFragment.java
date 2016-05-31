@@ -154,7 +154,7 @@ public class BestDonorFragment extends Fragment implements SwipeRefreshLayout.On
                     mRecyclerView.setVisibility(View.VISIBLE);
 
                     JSONArray dataArray = jsonObj.getJSONArray(Constants.COM_DATA);
-                    List<DonorListPojo> list = JsonParser.DonorParser(dataArray);
+                    List<DonorListPojo> list = JsonParser.DonorListParser(dataArray);
                     setupDonorRecyclerView(list);
                 }
             }else {

@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     android:weightSum="1"
     android:orientation="vertical"
-    tools:context="com.hackerkernel.blooddonar.fragment.DetailDescriptionFragment">
+    tools:context=".fragment.UserDetailDescriptionFragment">
 
     <!-- TODO: Update blank fragment layout -->
 

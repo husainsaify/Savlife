@@ -11,6 +11,8 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,6 +21,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
@@ -28,16 +32,20 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.hackerkernel.blooddonar.R;
+import com.hackerkernel.blooddonar.adapter.FeedsListAdapter;
 import com.hackerkernel.blooddonar.constant.Constants;
 import com.hackerkernel.blooddonar.constant.EndPoints;
 import com.hackerkernel.blooddonar.network.MyVolley;
 import com.hackerkernel.blooddonar.parser.JsonParser;
+import com.hackerkernel.blooddonar.pojo.FeedsListPojo;
 import com.hackerkernel.blooddonar.pojo.SimplePojo;
 import com.hackerkernel.blooddonar.storage.MySharedPreferences;
 import com.hackerkernel.blooddonar.util.ImageUtil;
 import com.hackerkernel.blooddonar.util.Util;
 
+import org.json.JSONArray;
 import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -47,6 +55,7 @@ import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import butterknife.Bind;
@@ -62,7 +71,10 @@ public class FeedFragment extends Fragment {
 
     @Bind(R.id.post_status_btn) Button statusButton;
     @Bind(R.id.post_photo_btn) Button postPhotoButton;
-    @Bind(R.id.feed_linear_layout) LinearLayout linearLayout;
+    @Bind(R.id.feed_linear_layout) LinearLayout mLayoutForSnackbar;
+    @Bind(R.id.feed_recyclerview) RecyclerView mFeedRecyclerView;
+    @Bind(R.id.feed_progressbar) ProgressBar mProgressbar;
+    @Bind(R.id.feed_placeholder) TextView mPlaceholder;
 
     public FeedFragment() {
     }
@@ -87,6 +99,11 @@ public class FeedFragment extends Fragment {
         final View view = inflater.inflate(R.layout.fragment_feed, container, false);
 
         ButterKnife.bind(this, view);
+
+        //add layout manager to recyclerview
+        RecyclerView.LayoutManager manager = new LinearLayoutManager(getActivity());
+        mFeedRecyclerView.setLayoutManager(manager);
+
         statusButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -102,9 +119,108 @@ public class FeedFragment extends Fragment {
                 startActivityForResult(openGallery, SELECT_IMAGE_CODE);
             }
         });
-
+        checkInternetAndFetchFeeds();
         // Inflate the layout for this fragment
         return view;
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+
+    }
+
+    /*
+    * Method to check internet connection and fetch feeds
+    * */
+    private void checkInternetAndFetchFeeds() {
+        if (Util.isNetworkAvailable()){
+            fetchFeedsInBackground();
+        }else {
+            Util.noInternetSnackBar(getActivity(),mLayoutForSnackbar);
+        }
+    }
+
+    /*
+    * Method to fetch feeds in background
+    * */
+    private void fetchFeedsInBackground() {
+        //show pb
+        mProgressbar.setVisibility(View.VISIBLE);
+        mFeedRecyclerView.setVisibility(View.GONE);
+        mPlaceholder.setVisibility(View.GONE);
+        StringRequest request = new StringRequest(Request.Method.POST, EndPoints.GET_FEEDS, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                Log.d(TAG,"HUS: "+response);
+                parseFeedsResponse(response);
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                error.printStackTrace();
+                Log.d(TAG,"HUS: fetchFeedsInBackground: "+error.getMessage());
+                String errorString = MyVolley.handleVolleyError(error);
+                //hide pb
+                mProgressbar.setVisibility(View.GONE);
+                mPlaceholder.setVisibility(View.VISIBLE);
+                mPlaceholder.setText(errorString);
+                mFeedRecyclerView.setVisibility(View.GONE);
+            }
+        }){
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String,String> params = new HashMap<>();
+                params.put(Constants.COM_APIKEY,Util.generateApiKey(sp.getUserMobile()));
+                params.put(Constants.COM_MOBILE,sp.getUserMobile());
+                return params;
+            }
+        };
+        mRequestQueue.add(request);
+    }
+
+    /*
+    * Method to parse feeds response
+    * */
+    private void parseFeedsResponse(String response) {
+        try {
+            JSONObject jsonObject = new JSONObject(response);
+            boolean returned = jsonObject.getBoolean(Constants.COM_RETURN);
+            String message = jsonObject.getString(Constants.COM_MESSAGE);
+            //success
+            if (returned) {
+                //hide pb
+                mProgressbar.setVisibility(View.GONE);
+                mPlaceholder.setVisibility(View.GONE);
+                mFeedRecyclerView.setVisibility(View.VISIBLE);
+                //if return is success get data array
+                JSONArray dataArray = jsonObject.getJSONArray(Constants.COM_DATA);
+                List<FeedsListPojo> list = JsonParser.FeedsListParser(dataArray);
+                for (int i = 0; i < list.size(); i++) {
+                    Log.d(TAG,"HUS: "+list.get(i).getStatus());
+                }
+                setupFeedsRecyclerview(list);
+            }else {
+                //hide pb & recylerview show placeholder
+                mProgressbar.setVisibility(View.GONE);
+                mPlaceholder.setVisibility(View.VISIBLE);
+                mPlaceholder.setText(message);
+                mFeedRecyclerView.setVisibility(View.GONE);
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+            Log.d(TAG,"HUS: parseFeedsResponse: "+e.getMessage());
+            Util.showParsingErrorAlert(getActivity());
+        }
+    }
+
+    /*
+    * Method to setup feeds recyclerview
+    * */
+    private void setupFeedsRecyclerview(List<FeedsListPojo> list) {
+        FeedsListAdapter adapter = new FeedsListAdapter(getActivity());
+        adapter.setList(list);
+        mFeedRecyclerView.setAdapter(adapter);
     }
 
     private void openStatusAlertDialog() {
@@ -166,7 +282,7 @@ public class FeedFragment extends Fragment {
                 error.printStackTrace();
                 String volleyError = MyVolley.handleVolleyError(error);
                 if (volleyError != null) {
-                    Util.showRedSnackbar(linearLayout, volleyError);
+                    Util.showRedSnackbar(mLayoutForSnackbar, volleyError);
                 }
             }
         }) {

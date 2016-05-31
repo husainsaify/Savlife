@@ -137,7 +137,7 @@ public class DealsFragment extends Fragment implements SwipeRefreshLayout.OnRefr
                 }
                 else {
                     JSONArray data = obj.getJSONArray(Constants.COM_DATA);
-                    List<DealsListPojo> list = JsonParser.ParseDealsList(data);
+                    List<DealsListPojo> list = JsonParser.DealsListParser(data);
                     setupRecyclerView(list);
                 }
             }
