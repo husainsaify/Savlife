@@ -9,7 +9,10 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.hackerkernel.blooddonar.R;
+import com.hackerkernel.blooddonar.constant.EndPoints;
 import com.hackerkernel.blooddonar.pojo.FeedsListPojo;
 
 import java.util.List;
@@ -23,8 +26,10 @@ import butterknife.ButterKnife;
 public class FeedsListAdapter extends RecyclerView.Adapter<FeedsListAdapter.FeedsViewHolder>{
     private List<FeedsListPojo> list;
     private LayoutInflater inflater;
+    private Context context;
 
     public FeedsListAdapter(Context context){
+        this.context = context;
         inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
 
@@ -42,23 +47,32 @@ public class FeedsListAdapter extends RecyclerView.Adapter<FeedsListAdapter.Feed
     @Override
     public void onBindViewHolder(FeedsViewHolder holder, int position) {
         FeedsListPojo pojo = list.get(position);
+
         if (pojo.getType().equals("0")){
-            holder.mFeedPhoto.setVisibility(View.INVISIBLE);
-            holder.mFeedStatus.setText(pojo.getStatus());
-            holder.mUserFullNAme.setText(pojo.getUserFullname());
-            holder.mTimeAgo.setText(pojo.getTimestamp());
-           // holder.userImage.setImageBitmap();
-        }
-        else{
+            //its a status feed
+            holder.mFeedPhoto.setVisibility(View.GONE);
+        } else{
+            //its a image status feed
+            //download image
+            String feedImage = EndPoints.IMAGE_BASE_URL + pojo.getImage();
+            Glide.with(context)
+                    .load(feedImage)
+                    .thumbnail(0.5f)
+                    .diskCacheStrategy(DiskCacheStrategy.ALL)
+                    .into(holder.mFeedPhoto);
             holder.mFeedPhoto.setVisibility(View.VISIBLE);
-            //holder.mFeedPhoto.setImageBitmap();
-            holder.mFeedStatus.setText(pojo.getStatus());
-            holder.mUserFullNAme.setText(pojo.getUserFullname());
-            holder.mTimeAgo.setText(pojo.getTimestamp());
-          //  holder.userImage.setImageBitmap();
-
         }
-
+        holder.mFeedStatus.setText(pojo.getStatus());
+        holder.mUserFullNAme.setText(pojo.getUserFullname());
+        holder.mTimeAgo.setText(pojo.getTimestamp());
+        //load user image
+        String userImage = EndPoints.IMAGE_BASE_URL + pojo.getUserImage();
+        Glide.with(context)
+                .load(userImage)
+                .placeholder(R.drawable.placeholder_80_80)
+                .thumbnail(0.5f)
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                .into(holder.userImage);
     }
 
     @Override
