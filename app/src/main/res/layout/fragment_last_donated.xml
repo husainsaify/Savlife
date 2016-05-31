@@ -1,29 +1,29 @@
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
+<LinearLayout android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@+id/scroll_view_lastDonated"
-    tools:context="com.hackerkernel.blooddonar.fragment.LastDonatedFragment">
+    android:orientation="vertical"
+    android:id="@+id/donation_history_layout_for_snackbar"
+    xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <ProgressBar
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/progeresBar_lastDoanted"
-            android:visibility="gone"/>
+    <ProgressBar
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/donation_history_progressbar"
+        android:layout_gravity="center"
+        android:layout_margin="20dp"
+        android:visibility="gone"/>
+
     <TextView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="Error"
+        android:id="@+id/donation_history_placeholder"
+        style="@style/Base.TextAppearance.AppCompat.Medium"
         android:gravity="center"
-        android:visibility="gone"/>
-        <ListView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/listView_lastDonated"/>
+        android:visibility="gone" />
 
-    </RelativeLayout>
+    <ListView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/donation_history_listview" />
 
-</ScrollView>
+
+</LinearLayout>

@@ -2,13 +2,17 @@ package com.hackerkernel.blooddonar.fragment;
 
 
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.ScrollView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
@@ -40,13 +44,12 @@ import butterknife.ButterKnife;
  * A simple {@link Fragment} subclass.
  */
 public class LastDonatedFragment extends Fragment {
-    @Bind(R.id.listView_lastDonated)
-    ListView listView;
-    @Bind(R.id.scroll_view_lastDonated)
-    ScrollView scrollView;
-    MySharedPreferences sp;
-    private String iD;
-    private RequestQueue mRequestQue;
+    private static final String TAG = LastDonatedFragment.class.getSimpleName();
+    @Bind(R.id.donation_history_listview) ListView mListview;
+    @Bind(R.id.donation_history_placeholder) TextView mPlaceholder;
+    @Bind(R.id.donation_history_progressbar) ProgressBar mProgressbar;
+    private String mUserId;
+    private RequestQueue mRequestQueue;
 
 
 
@@ -54,78 +57,113 @@ public class LastDonatedFragment extends Fragment {
         // Required empty public constructor
     }
 
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        mRequestQueue = MyVolley.getInstance().getRequestQueue();
+        mUserId = getActivity().getIntent().getStringExtra(Constants.COM_ID);
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-
         View view = inflater.inflate(R.layout.fragment_last_donated, container, false);
-        sp = MySharedPreferences.getInstance(getActivity());
-        mRequestQue = MyVolley.getInstance().getRequestQueue();
-        iD = getActivity().getIntent().getStringExtra(Constants.COM_ID);
         ButterKnife.bind(this,view);
-        checkNetworkstate(iD);
-
-
-
+        checkInternetAndFetchDonationHistory();
         return view;
     }
-    private void checkNetworkstate(String id){
+
+    private void checkInternetAndFetchDonationHistory(){
         if (Util.isNetworkAvailable()){
-            parseDataInBackground(id);
+            fetchDonationHistoryInBackground();
         }
         else {
-            Util.noInternetSnackBar(getActivity(),scrollView);
+            //hide listview & pb & show placeholder
+            mListview.setVisibility(View.GONE);
+            mProgressbar.setVisibility(View.GONE);
+            mPlaceholder.setVisibility(View.VISIBLE);
+            mPlaceholder.setText(getString(R.string.no_internet_connection));
         }
     }
 
-    private void parseDataInBackground(final String id) {
-        StringRequest request = new StringRequest(Request.Method.POST, EndPoints.LAST_DONATED, new Response.Listener<String>() {
+    private void fetchDonationHistoryInBackground() {
+        showPbAndHideListview(true); //show pb
+        StringRequest request = new StringRequest(Request.Method.POST, EndPoints.DONATED_HISTORY, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-                try {
-                    JSONObject obj = new JSONObject(response);
-                    boolean returned = obj.getBoolean(Constants.COM_RETURN);
-                    if (returned){
-
-                        int count = obj.getInt(Constants.COM_COUNT);
-                        if (count <=0){
-                            Toast.makeText(getActivity(),"No Donour FOund",Toast.LENGTH_LONG).show();
-                        }
-                        else {
-                            JSONArray data = obj.getJSONArray(Constants.COM_DATA);
-                            List<String> mList = JsonParser.getLastDonated(data);
-                            setupView(mList);
-                        }
-                    }
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-
-
+                showPbAndHideListview(false); //hide pb
+                parseDonationHistoryResponse(response);
             }
         }, new Response.ErrorListener() {
-
             @Override
             public void onErrorResponse(VolleyError error) {
-
+                showPbAndHideListview(false); //hide pb
+                error.printStackTrace();
+                Log.d(TAG,"HUS: fetchDonationHistoryInBackground: "+error.getMessage());
+                String errorString = MyVolley.handleVolleyError(error);
+                if (errorString != null){
+                    mListview.setVisibility(View.GONE);
+                    mProgressbar.setVisibility(View.GONE);
+                    mPlaceholder.setVisibility(View.VISIBLE);
+                    mPlaceholder.setText(errorString);
+                }
             }
         }){
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String,String> params = new HashMap<>();
-                params.put(Constants.COM_APIKEY,Util.generateApiKey(sp.getUserId()));
-                params.put(Constants.COM_ID,id);
+                params.put(Constants.COM_APIKEY,Util.generateApiKey(mUserId));
+                params.put(Constants.COM_ID,mUserId);
                 return params;
             }
         };
-        mRequestQue.add(request);
+        mRequestQueue.add(request);
+    }
+
+    private void parseDonationHistoryResponse(String response) {
+        try {
+            JSONObject obj = new JSONObject(response);
+            boolean returned = obj.getBoolean(Constants.COM_RETURN);
+            String message = obj.getString(Constants.COM_MESSAGE);
+            //return true
+            if (returned){
+                int count = obj.getInt(Constants.COM_COUNT);
+                if (count > 0){
+                    JSONArray data = obj.getJSONArray(Constants.COM_DATA);
+                    List<String> mList = JsonParser.getLastDonated(data);
+                    setupView(mList);
+                }else {
+                    //return false
+                    mListview.setVisibility(View.GONE);
+                    mProgressbar.setVisibility(View.GONE);
+                    mPlaceholder.setVisibility(View.VISIBLE);
+                    mPlaceholder.setText(message);
+                }
+            }else {
+                //return false
+                mListview.setVisibility(View.GONE);
+                mProgressbar.setVisibility(View.GONE);
+                mPlaceholder.setVisibility(View.VISIBLE);
+                mPlaceholder.setText(message);
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 
     private void setupView(List<String> list) {
         ArrayAdapter arrayAdapter = new ArrayAdapter<>(getActivity(),android.R.layout.simple_list_item_1,list);
-        listView.setAdapter(arrayAdapter);
+        mListview.setAdapter(arrayAdapter);
     }
 
+    private void showPbAndHideListview(boolean state){
+        if (state){
+            mProgressbar.setVisibility(View.VISIBLE);
+            mListview.setVisibility(View.GONE);
+        }else {
+            mProgressbar.setVisibility(View.GONE);
+            mListview.setVisibility(View.VISIBLE);
+        }
+    }
 }

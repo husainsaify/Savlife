@@ -3,7 +3,6 @@ package com.hackerkernel.blooddonar.fragment;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -52,12 +51,9 @@ public class DetailDescriptionFragment extends Fragment {
     @Bind(R.id.detail_donor_image) ImageView mImage;
     @Bind(R.id.detail_last_donated) TextView mLastDonated;
     @Bind(R.id.detail_donor_id) TextView idDonor;
-    @Bind(R.id.detail_contact_btn)
-    Button mContactBtn;
-    @Bind(R.id.progressBar)
-    ProgressBar mProgressbar;
-    @Bind(R.id.scroll_view)
-    ScrollView mScrollView;
+    @Bind(R.id.detail_contact_btn) Button mContactBtn;
+    @Bind(R.id.progressBar) ProgressBar mProgressbar;
+    @Bind(R.id.scroll_view) ScrollView mScrollView;
     private RequestQueue mRequestQueue;
     private String mDonorId;
 

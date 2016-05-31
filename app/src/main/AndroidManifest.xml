@@ -32,7 +32,12 @@
         <activity android:name=".activity.NoInternetActivity" />
         <activity android:name=".activity.OtpVerificationActivity" />
         <activity android:name=".activity.HomeActivity" />
-        <activity android:name=".activity.DonorDetailActivity" />
+        <activity android:name=".activity.DonorDetailActivity"
+            android:parentActivityName=".activity.MainActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".activity.MainActivity" />
+        </activity>
         <activity
             android:name=".activity.SearchActivity"
             android:parentActivityName=".activity.HomeActivity">
