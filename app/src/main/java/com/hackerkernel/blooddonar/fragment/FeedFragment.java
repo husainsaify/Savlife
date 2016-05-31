@@ -124,12 +124,6 @@ public class FeedFragment extends Fragment {
         return view;
     }
 
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-
-    }
-
     /*
     * Method to check internet connection and fetch feeds
     * */
@@ -196,9 +190,6 @@ public class FeedFragment extends Fragment {
                 //if return is success get data array
                 JSONArray dataArray = jsonObject.getJSONArray(Constants.COM_DATA);
                 List<FeedsListPojo> list = JsonParser.FeedsListParser(dataArray);
-                for (int i = 0; i < list.size(); i++) {
-                    Log.d(TAG,"HUS: "+list.get(i).getStatus());
-                }
                 setupFeedsRecyclerview(list);
             }else {
                 //hide pb & recylerview show placeholder
@@ -436,6 +427,9 @@ public class FeedFragment extends Fragment {
             SimplePojo simplePojo = JsonParser.SimpleParser(response);
             if (simplePojo.isReturned()) {
                 Toast.makeText(getActivity(), simplePojo.getMessage(), Toast.LENGTH_LONG).show();
+
+                //call method to referesh feed list
+                checkInternetAndFetchFeeds();
             } else {
                 //show alert dialog
                 Util.showSimpleDialog(getActivity(),getString(R.string.oops),simplePojo.getMessage());

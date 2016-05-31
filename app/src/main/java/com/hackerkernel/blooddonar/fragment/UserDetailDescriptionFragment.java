@@ -20,6 +20,8 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.hackerkernel.blooddonar.R;
 import com.hackerkernel.blooddonar.constant.Constants;
 import com.hackerkernel.blooddonar.constant.EndPoints;
@@ -153,6 +155,13 @@ public class UserDetailDescriptionFragment extends Fragment {
         mGender.setText("Gender: "+pojo.getGender());
         idDonor.setText("Id: "+pojo.getId());
         mLastDonated.setText(pojo.getLastDonated());
+        //download image
+        String userImage = EndPoints.IMAGE_BASE_URL + pojo.getImageUrl();
+        Glide.with(this)
+                .load(userImage)
+                .placeholder(R.drawable.placeholder_300_300)
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                .into(mImage);
     }
 
     private void showProgressAndHideLayout(boolean state) {
