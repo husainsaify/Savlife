@@ -6,6 +6,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -38,6 +39,13 @@ import com.hackerkernel.blooddonar.util.Util;
 
 import org.json.JSONException;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -52,12 +60,9 @@ public class FeedFragment extends Fragment {
     private static final int SELECT_IMAGE_CODE = 100;
     private LayoutInflater inflater;
 
-    @Bind(R.id.post_status_btn)
-    Button statusButton;
-    @Bind(R.id.post_photo_btn)
-    Button postPhotoButton;
-    @Bind(R.id.feed_linear_layout)
-    LinearLayout linearLayout;
+    @Bind(R.id.post_status_btn) Button statusButton;
+    @Bind(R.id.post_photo_btn) Button postPhotoButton;
+    @Bind(R.id.feed_linear_layout) LinearLayout linearLayout;
 
     public FeedFragment() {
     }
@@ -69,7 +74,7 @@ public class FeedFragment extends Fragment {
         sp = MySharedPreferences.getInstance(getActivity());
         //init pb
         pd = new ProgressDialog(getActivity());
-        pd.setMessage("Uploading Post");
+        pd.setMessage(getString(R.string.please_Watit));
         pd.setCancelable(true);
 
         //init layout inflator
@@ -112,7 +117,6 @@ public class FeedFragment extends Fragment {
                 .setPositiveButton(R.string.post, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-
                         //get status from edit text
                         String status = statusEditText.getText().toString().trim();
                         checkInternetAndUploadStatus(status);
@@ -152,16 +156,8 @@ public class FeedFragment extends Fragment {
             @Override
             public void onResponse(String response) {
                 pd.dismiss();
-                try {
-                    SimplePojo simplePojo = JsonParser.SimpleParser(response);
-                    if (simplePojo.isReturned()) {
-                        Toast.makeText(getActivity(), simplePojo.getMessage(), Toast.LENGTH_LONG).show();
-                    } else {
-                        Toast.makeText(getActivity(), simplePojo.getMessage(), Toast.LENGTH_LONG).show();
-                    }
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
+                //parse response and show results
+                parseUploadStatusResponse(response);
             }
         }, new Response.ErrorListener() {
             @Override
@@ -190,7 +186,6 @@ public class FeedFragment extends Fragment {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == SELECT_IMAGE_CODE && resultCode == Activity.RESULT_OK && data != null) {
-
             //get uri of the selected image
             Uri image = data.getData();
             Log.d(TAG, "HUS: selectedImage: " + image);
@@ -236,16 +231,103 @@ public class FeedFragment extends Fragment {
     * */
     private void checkInternetAndUploadPhoto(String status, String imageBase64) {
         if (Util.isNetworkAvailable()){
-            uploadPhotoInBackground(status,imageBase64);
+            if (status.isEmpty()){
+                Toast.makeText(getActivity(),"OOPS! Status cannot be empty",Toast.LENGTH_LONG).show();
+                return;
+            }
+            //call async task to upload image to server
+            UploadPhotoStatus uploadPhotoStatus = new UploadPhotoStatus();
+            uploadPhotoStatus.execute(status,imageBase64);
         }else {
             Toast.makeText(getActivity(),R.string.no_internet_connection,Toast.LENGTH_LONG).show();
         }
     }
 
     /*
-    * Method to upload photo to the server
+    * Asynctask to upload status image to server
     * */
-    private void uploadPhotoInBackground(String status, String imageBase64) {
+    public class UploadPhotoStatus extends AsyncTask<String,Integer,String> {
+        public UploadPhotoStatus(){
+        }
 
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            pd.show();
+        }
+
+        @Override
+        protected String doInBackground(String... params) {
+            try {
+                URL url = new URL(EndPoints.POST_STATUS);
+                HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+                connection.setReadTimeout(15000);
+                connection.setConnectTimeout(15000);
+                connection.setRequestMethod("POST");
+                connection.setDoInput(true);
+                connection.setDoOutput(true);
+
+                OutputStream os = connection.getOutputStream();
+                BufferedWriter writer = new BufferedWriter(
+                        new OutputStreamWriter(os,"UTF-8"));
+
+                //set post data
+                HashMap<String,String> postParam = new HashMap<>();
+                postParam.put(Constants.COM_APIKEY,Util.generateApiKey(sp.getUserMobile()));
+                postParam.put(Constants.COM_MOBILE,sp.getUserMobile());
+                postParam.put(Constants.COM_STATUS,params[0]);
+                postParam.put(Constants.COM_IMG,params[1]);
+
+                writer.write(Util.getPostDataFromHashmap(postParam));
+                writer.flush();
+                writer.close();
+                os.close();
+
+                int responseCode = connection.getResponseCode();
+                if (responseCode == HttpURLConnection.HTTP_OK){
+                    BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+                    StringBuilder sb = new StringBuilder();
+                    String response;
+                    while ((response = reader.readLine()) != null){
+                        sb.append(response);
+                    }
+
+                    return sb.toString();
+                }
+
+                return null;
+
+            } catch (Exception e) {
+                e.printStackTrace();
+                return null;
+            }
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+            pd.dismiss();
+            parseUploadStatusResponse(s);
+        }
+    }
+
+    /*
+    * Method to parse upload status response
+    * text status or photo status
+    * */
+    private void parseUploadStatusResponse(String response) {
+        try {
+            SimplePojo simplePojo = JsonParser.SimpleParser(response);
+            if (simplePojo.isReturned()) {
+                Toast.makeText(getActivity(), simplePojo.getMessage(), Toast.LENGTH_LONG).show();
+            } else {
+                //show alert dialog
+                Util.showSimpleDialog(getActivity(),getString(R.string.oops),simplePojo.getMessage());
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+            Log.d(TAG,"HUS: parseUploadStatusResponse: "+e.getMessage());
+            Util.showParsingErrorAlert(getActivity());
+        }
     }
 }

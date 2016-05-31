@@ -33,8 +33,12 @@ import com.hackerkernel.blooddonar.infrastructure.MyApplication;
 import com.hackerkernel.blooddonar.storage.MySharedPreferences;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 
 /**
  * Utility methods
@@ -152,5 +156,26 @@ public class Util {
                 });
         AlertDialog dialog = builder.create();
         dialog.show();
+    }
+
+    /*
+    * Method to get post data Url
+    * from
+    * HashMap
+    * */
+    public static String getPostDataFromHashmap(HashMap<String,String> param) throws UnsupportedEncodingException {
+        StringBuilder result = new StringBuilder();
+        boolean first = true;
+        for (Map.Entry<String,String> entry: param.entrySet()){
+            if (first)
+                first = false;
+            else
+                result.append("&");
+
+            result.append(URLEncoder.encode(entry.getKey(),"UTF-8"));
+            result.append("=");
+            result.append(URLEncoder.encode(entry.getValue(),"UTF-8"));
+        }
+        return result.toString();
     }
 }

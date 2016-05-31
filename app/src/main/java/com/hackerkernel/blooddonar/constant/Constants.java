@@ -4,7 +4,7 @@ package com.hackerkernel.blooddonar.constant;
  * Class to hold constants of keys and paramters
  */
 public class Constants {
-    public static final String APIKEY = "e640742e7cda91da8f26f555ecde5571";
+    //public static final String APIKEY = "e640742e7cda91da8f26f555ecde5571";
     public static final String COM_APIKEY = "apikey",
             COM_FULLNAME = "fullname",
             COM_MOBILE = "mobile",
@@ -20,7 +20,6 @@ public class Constants {
             COM_COUNT = "count",
             COM_ID = "id",
             COM_LABNAME = "lab_name",
-            COM_IMAGE = "image",
             COM_DESCRIPTION = "description",
             COM_DEAL = "off",
             COM_SPECIAL_PRIZE = "special_price",
