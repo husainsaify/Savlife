@@ -4,11 +4,11 @@
     <item android:id="@+id/Home"
         android:title="Home"
         />
-    <item android:id="@+id/Message"
-        android:title="Message"
+    <item android:id="@+id/profile"
+        android:title="Profile"
         />
-    <item android:id="@+id/Share"
-        android:title="Share"
+    <item android:id="@+id/add_Donation"
+        android:title="Add Donation"
         />
 </group>
     <item

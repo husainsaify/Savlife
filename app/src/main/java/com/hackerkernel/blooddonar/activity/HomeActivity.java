@@ -15,6 +15,8 @@ import android.widget.Toast;
 
 import com.hackerkernel.blooddonar.R;
 import com.hackerkernel.blooddonar.adapter.ViewPagerAdapter;
+import com.hackerkernel.blooddonar.dialoge.DatePicker;
+import com.hackerkernel.blooddonar.dialoge.DateSetting;
 import com.hackerkernel.blooddonar.fragment.BestDonorFragment;
 import com.hackerkernel.blooddonar.fragment.DealsFragment;
 import com.hackerkernel.blooddonar.fragment.FeedFragment;
@@ -80,8 +82,15 @@ public class HomeActivity extends BaseAuthActivity {
                     case R.id.Home:
                         Toast.makeText(getApplicationContext(),"home",Toast.LENGTH_LONG).show();
                         break;
+                    case R.id.profile:
+                        startActivity(new Intent(HomeActivity.this,ProfileInfoActivity.class));
+                        break;
+                    case R.id.add_Donation:
+                        DatePicker dialoge = new DatePicker();
+                        dialoge.show(getSupportFragmentManager(),"DateDIA");
+
                 }
-                return false;
+                return true;
             }
         });
     }
