@@ -119,14 +119,20 @@ public class FeedFragment extends Fragment {
                 startActivityForResult(openGallery, SELECT_IMAGE_CODE);
             }
         });
-        checkInternetAndFetchFeeds();
+
         // Inflate the layout for this fragment
         return view;
     }
 
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        checkInternetAndFetchFeeds();
+    }
+
     /*
-    * Method to check internet connection and fetch feeds
-    * */
+        * Method to check internet connection and fetch feeds
+        * */
     private void checkInternetAndFetchFeeds() {
         if (Util.isNetworkAvailable()){
             fetchFeedsInBackground();

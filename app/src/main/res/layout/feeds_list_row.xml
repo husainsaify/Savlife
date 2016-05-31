@@ -19,7 +19,8 @@
     <de.hdodenhof.circleimageview.CircleImageView
         android:layout_width="50dp"
         android:layout_height="50dp"
-        android:id="@+id/feed_user_image"/>
+        android:id="@+id/feed_user_image"
+        android:src="@drawable/placeholder_80_80"/>
 
     <TextView
         android:layout_width="wrap_content"
@@ -47,7 +48,8 @@
             android:layout_below="@+id/feed_user_image"
             android:scaleType="centerCrop"
             android:id="@+id/feed_photo"
-            android:layout_marginTop="10dp"/>
+            android:layout_marginTop="10dp"
+            android:src="@drawable/placeholder_300_300"/>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

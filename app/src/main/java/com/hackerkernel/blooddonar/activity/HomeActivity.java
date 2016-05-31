@@ -11,12 +11,10 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Toast;
 
 import com.hackerkernel.blooddonar.R;
 import com.hackerkernel.blooddonar.adapter.ViewPagerAdapter;
-import com.hackerkernel.blooddonar.dialoge.DatePicker;
-import com.hackerkernel.blooddonar.dialoge.DateSetting;
+import com.hackerkernel.blooddonar.dialog.DatePicker;
 import com.hackerkernel.blooddonar.fragment.BestDonorFragment;
 import com.hackerkernel.blooddonar.fragment.DealsFragment;
 import com.hackerkernel.blooddonar.fragment.FeedFragment;
@@ -79,15 +77,17 @@ public class HomeActivity extends BaseAuthActivity {
             @Override
             public boolean onNavigationItemSelected(MenuItem item) {
                 switch (item.getItemId()){
-                    case R.id.Home:
-                        Toast.makeText(getApplicationContext(),"home",Toast.LENGTH_LONG).show();
+                    case R.id.menu_home:
+                        mDrawerLayout.closeDrawers();
                         break;
-                    case R.id.profile:
+                    case R.id.menu_profile:
+                        mDrawerLayout.closeDrawers();
                         startActivity(new Intent(HomeActivity.this,ProfileInfoActivity.class));
                         break;
-                    case R.id.add_Donation:
-                        DatePicker dialoge = new DatePicker();
-                        dialoge.show(getSupportFragmentManager(),"DateDIA");
+                    case R.id.menu_add_last_donation:
+                        mDrawerLayout.closeDrawers();
+                        DatePicker dialog = new DatePicker();
+                        dialog.show(getSupportFragmentManager(),"DateDIA");
 
                 }
                 return true;

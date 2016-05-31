@@ -33,26 +33,35 @@
         <activity android:name=".activity.NoInternetActivity" />
         <activity android:name=".activity.OtpVerificationActivity" />
         <activity android:name=".activity.HomeActivity" />
+
         <activity android:name=".activity.DonorDetailActivity"
-            android:parentActivityName=".activity.MainActivity">
+            android:parentActivityName=".activity.HomeActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".activity.MainActivity" />
+                android:value=".activity.HomeActivity" />
         </activity>
         <activity
             android:name=".activity.SearchActivity"
             android:parentActivityName=".activity.HomeActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".activity.MainActivity" />
+                android:value=".activity.HomeActivity" />
         </activity>
         <activity
             android:name=".activity.DealsDetailActivity"
             android:parentActivityName=".activity.HomeActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".activity.MainActivity" />
+                android:value=".activity.HomeActivity" />
         </activity>
+
+        <activity android:name=".activity.ProfileInfoActivity"
+            android:parentActivityName=".activity.HomeActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".activity.HomeActivity" />
+        </activity>
+
         <!-- Receiver -->
         <receiver android:name=".receiver.IncomingOtp">
             <intent-filter android:priority="99999">
@@ -60,8 +69,6 @@
             </intent-filter>
         </receiver>
         <!-- Receiver -->
-
-        <activity android:name=".activity.ProfileInfoActivity"></activity>
     </application>
 
 </manifest>

@@ -58,8 +58,6 @@ public class FeedsListAdapter extends RecyclerView.Adapter<FeedsListAdapter.Feed
             String feedImage = EndPoints.IMAGE_BASE_URL + pojo.getImage();
             Glide.with(context)
                     .load(feedImage)
-                    .thumbnail(0.5f)
-                    .placeholder(R.drawable.placeholder_300_300)
                     .diskCacheStrategy(DiskCacheStrategy.ALL)
                     .into(holder.mFeedPhoto);
             holder.mFeedPhoto.setVisibility(View.VISIBLE);
@@ -72,7 +70,6 @@ public class FeedsListAdapter extends RecyclerView.Adapter<FeedsListAdapter.Feed
         String userImage = EndPoints.IMAGE_BASE_URL + pojo.getUserImage();
         Glide.with(context)
                 .load(userImage)
-                .placeholder(R.drawable.placeholder_80_80)
                 .thumbnail(0.5f)
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .into(holder.userImage);

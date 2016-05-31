@@ -56,7 +56,6 @@ public class DonorListAdapter extends RecyclerView.Adapter<DonorListAdapter.MyVi
 
             Glide.with(context)
                     .load(url)
-                    .placeholder(R.drawable.placeholder_80_80)
                     .thumbnail(0.5f)
                     .diskCacheStrategy(DiskCacheStrategy.ALL)
                     .into(holder.userImage);

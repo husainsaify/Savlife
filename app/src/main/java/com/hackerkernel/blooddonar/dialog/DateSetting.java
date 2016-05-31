@@ -1,4 +1,4 @@
-package com.hackerkernel.blooddonar.dialoge;
+package com.hackerkernel.blooddonar.dialog;
 
 import android.app.DatePickerDialog;
 import android.content.Context;
