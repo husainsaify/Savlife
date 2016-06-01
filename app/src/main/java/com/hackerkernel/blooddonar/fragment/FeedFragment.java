@@ -301,7 +301,6 @@ public class FeedFragment extends Fragment {
         if (requestCode == SELECT_IMAGE_CODE && resultCode == Activity.RESULT_OK && data != null) {
             //get uri of the selected image
             Uri image = data.getData();
-            Log.d(TAG, "HUS: selectedImage: " + image);
             openPhotoAlertDialog(image);
         }
     }
@@ -316,7 +315,7 @@ public class FeedFragment extends Fragment {
 
         //set selected image to imageview
         String imagePath = ImageUtil.getFilePathFromUri(getActivity(), imageUri);
-        final Bitmap lowResBitmap = ImageUtil.decodeBitmapFromFilePath(imagePath, 400, 200);
+        final Bitmap lowResBitmap = ImageUtil.decodeBitmapFromFilePath(imagePath, 300, 300);
         postImageView.setImageBitmap(lowResBitmap);
 
         builder.setView(view)

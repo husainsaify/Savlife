@@ -1,12 +1,10 @@
     package com.hackerkernel.blooddonar.parser;
 
-    import android.widget.ListView;
-
     import com.hackerkernel.blooddonar.constant.Constants;
     import com.hackerkernel.blooddonar.pojo.DealsListPojo;
     import com.hackerkernel.blooddonar.pojo.DealsPojo;
-    import com.hackerkernel.blooddonar.pojo.DonorPojo;
     import com.hackerkernel.blooddonar.pojo.DonorListPojo;
+    import com.hackerkernel.blooddonar.pojo.DonorPojo;
     import com.hackerkernel.blooddonar.pojo.FeedsListPojo;
     import com.hackerkernel.blooddonar.pojo.ProfileDetailPojo;
     import com.hackerkernel.blooddonar.pojo.SimplePojo;

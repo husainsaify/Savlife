@@ -20,5 +20,6 @@ public class EndPoints {
             POST_STATUS = BASE_URL + "postStatus.php",
             GET_DONOR_PROFILE = BASE_URL + "getUserDetail.php",
             DONATED_HISTORY = BASE_URL+ "getDonationHistory.php",
-            GET_FEEDS = BASE_URL + "getFeeds.php";
+            GET_FEEDS = BASE_URL + "getFeeds.php",
+            UPLOAD_PROFILE_PIC = BASE_URL + "changeUserProfilepic.php";
 }
