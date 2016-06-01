@@ -32,8 +32,10 @@
         <activity android:name=".activity.OtpVerificationActivity" />
         <activity android:name=".activity.HomeActivity" />
         <activity android:name=".activity.DonorDetailActivity" />
-        <activity android:name=".activity.SearchActivity"
-            android:parentActivityName=".activity.HomeActivity">
+        <activity android:name=".activity.SearchActivity" android:parentActivityName=".activity.HomeActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".activity.MainActivity" />
         </activity>
 
         <!-- Receiver -->

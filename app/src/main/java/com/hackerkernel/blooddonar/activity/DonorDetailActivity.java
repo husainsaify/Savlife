@@ -1,6 +1,5 @@
 package com.hackerkernel.blooddonar.activity;
 
-import android.app.Activity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -17,6 +16,7 @@ import com.android.volley.toolbox.StringRequest;
 import com.hackerkernel.blooddonar.R;
 import com.hackerkernel.blooddonar.constant.Constants;
 import com.hackerkernel.blooddonar.constant.EndPoints;
+import com.hackerkernel.blooddonar.infrastructure.BaseAuthActivity;
 import com.hackerkernel.blooddonar.network.MyVolley;
 import com.hackerkernel.blooddonar.parser.JsonParser;
 import com.hackerkernel.blooddonar.pojo.DetailDonorPojo;
@@ -33,24 +33,22 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 
 
-public class DonorDetailActivity extends Activity {
-    @Bind(R.id.donor_detail_layout)
-    View view;
+public class DonorDetailActivity extends BaseAuthActivity {
+    @Bind(R.id.donor_detail_layout) View mLayoutForSnackbar;
+    @Bind(R.id.detail_donor_name) TextView mName;
+    @Bind(R.id.detail_donor_age) TextView mAge;
+    @Bind(R.id.detail_donor_blood) TextView mBlood;
+    @Bind(R.id.detail_donor_gender) TextView mGender;
+    @Bind(R.id.detail_donor_image) ImageView mImage;
+    @Bind(R.id.detail_last_donated) TextView mLastDonated;
+
+    private RequestQueue mRequestQueue;
     private String mDonorId;
-    @Bind(R.id.detail_donor_name)
-    TextView donorName;
-    @Bind(R.id.detail_donor_age) TextView donorAge;
-    @Bind(R.id.detail_donor_blood) TextView donorBlood;
-    @Bind(R.id.detail_donor_gender) TextView donorGender;
-    @Bind(R.id.detail_donor_image)
-    ImageView donorImage;
-    @Bind(R.id.detail_last_donated) TextView donorLastDonated;
-    private RequestQueue mRequestQue;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_donor_detail);
-        mRequestQue = MyVolley.getInstance().getRequestQueue();
+        mRequestQueue = MyVolley.getInstance().getRequestQueue();
         ButterKnife.bind(this);
 
         //check we got donor id intenet or not
@@ -90,7 +88,7 @@ public class DonorDetailActivity extends Activity {
                 return params;
             }
         };
-        mRequestQue.add(request);
+        mRequestQueue.add(request);
 
     }
     private void parseDetailDonorData(String response){
@@ -102,14 +100,14 @@ public class DonorDetailActivity extends Activity {
             if (returned){
                 JSONArray data =  obj.getJSONArray(Constants.COM_DATA);
                 DetailDonorPojo pojo = JsonParser.DetailDonorParser(data);
-                donorName.setText(pojo.getFullName());
-                donorAge.setText("Age: "+pojo.getAge());
-                donorBlood.setText(pojo.getBloodGroup());
-                donorGender.setText("Gender: "+pojo.getGender());
+                mName.setText(pojo.getFullName());
+                mAge.setText("Age: "+pojo.getAge());
+                mBlood.setText(pojo.getBloodGroup());
+                mGender.setText("Gender: "+pojo.getGender());
 
             }
             else{
-                Util.showRedSnackbar(view,message);
+                Util.showRedSnackbar(mLayoutForSnackbar,message);
             }
 
         } catch (JSONException e) {

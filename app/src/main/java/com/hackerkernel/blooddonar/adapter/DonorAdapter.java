@@ -90,6 +90,7 @@ public class DonorAdapter extends RecyclerView.Adapter<DonorAdapter.MyViewHolder
             Toast.makeText(context,pos+"",Toast.LENGTH_LONG).show();
             String id = mList.get(pos).getUserId();
             Intent intent = new Intent(context, DonorDetailActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             intent.putExtra(Constants.COM_ID,id);
             context.startActivity(intent);
         }

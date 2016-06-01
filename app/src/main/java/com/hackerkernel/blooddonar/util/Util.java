@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.location.Address;
 import android.location.Criteria;
 import android.location.Geocoder;
@@ -120,7 +121,6 @@ public class Util {
         String key = "";
         try {
             key = ApiEncrypter.bytesToHex(encrypter.encrypt(text));
-            Log.d(TAG,"HUS: "+key);
         } catch (Exception e) {
             e.printStackTrace();
             Log.d(TAG,"HUS: generateApiKey: "+e.getMessage());
@@ -136,6 +136,7 @@ public class Util {
                 activity.startActivity(new Intent(activity, NoInternetActivity.class));
             }
         });
+        snackbar.setActionTextColor(ContextCompat.getColor(activity,R.color.colorPrimary));
         snackbar.show();
     }
 }

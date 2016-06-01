@@ -40,7 +40,7 @@
             android:layout_gravity="center"
             android:layout_weight="0.3"
             android:id="@+id/search_btn"
-            android:background="@drawable/primary_red_button_round"
+            android:background="@drawable/primary_red_button"
             android:src="@drawable/ic_search_white"/>
     </LinearLayout>
     </android.support.design.widget.AppBarLayout>

@@ -90,7 +90,7 @@ public class NoInternetActivity extends AppCompatActivity implements View.OnClic
                 Util.goToHomeActivity(NoInternetActivity.this);
             }else {
                 //Inactive internet
-                Toast.makeText(getApplicationContext(),"Inactive or weak Internet connection",Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(),"Inactive or weak Internet connection",Toast.LENGTH_SHORT).show();
             }
         }
     }

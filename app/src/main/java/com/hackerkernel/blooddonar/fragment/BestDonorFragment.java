@@ -1,9 +1,8 @@
 package com.hackerkernel.blooddonar.fragment;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
@@ -12,7 +11,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.android.volley.AuthFailureError;
@@ -22,7 +21,6 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.hackerkernel.blooddonar.R;
-import com.hackerkernel.blooddonar.activity.SearchActivity;
 import com.hackerkernel.blooddonar.adapter.DonorAdapter;
 import com.hackerkernel.blooddonar.constant.Constants;
 import com.hackerkernel.blooddonar.constant.EndPoints;
@@ -48,7 +46,7 @@ public class BestDonorFragment extends Fragment implements SwipeRefreshLayout.On
     private static final String TAG = BestDonorFragment.class.getSimpleName();
     @Bind(R.id.best_donor_recyclerview) RecyclerView mRecyclerView;
     @Bind(R.id.best_donor_placeholder) TextView mPlaceholder;
-    @Bind(R.id.layoutForSnackbar) View mLayoutForSnackbar;
+    @Bind(R.id.layoutForSnackbar) CoordinatorLayout mLayoutForSnackbar;
     @Bind(R.id.swipe_refresh_layout) SwipeRefreshLayout mSwipeRefreshLayout;
 
     private MySharedPreferences sp;
@@ -80,22 +78,30 @@ public class BestDonorFragment extends Fragment implements SwipeRefreshLayout.On
 
         mSwipeRefreshLayout.setOnRefreshListener(this);
 
+        return view;
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
         /*
         * Method to check internet & call method to get donor in background
         * */
         checkInternetAndGetBestDonor();
-
-        return view;
     }
 
     /*
-    * Method to check internet and get best donor
-    * */
+        * Method to check internet and get best donor
+        * */
     private void checkInternetAndGetBestDonor() {
         if (Util.isNetworkAvailable()){
             getBestDonorInBackground();
         }else {
             Util.noInternetSnackBar(getActivity(),mLayoutForSnackbar);
+            //hide RV & show placeholder
+            mRecyclerView.setVisibility(View.GONE);
+            mPlaceholder.setVisibility(View.VISIBLE);
+            mPlaceholder.setText("Uppsss! No Internet Connection");
         }
     }
 
