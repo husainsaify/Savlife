@@ -28,7 +28,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="200dp"
                     android:id="@+id/detail_donor_image"
-                    android:src="@drawable/bloodman"
                     android:scaleType="centerCrop"/>
 
                 <TextView
@@ -50,7 +49,7 @@
                     android:layout_alignParentRight="true"
                     android:layout_below="@+id/detail_donor_image"
                     style="@style/Base.TextAppearance.AppCompat.Headline"
-                    android:textColor="@color/colorPrimaryDark" />
+                    android:textColor="@color/primary_dark" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -87,7 +86,6 @@
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
-                    android:background="@color/colorBlack"
                     android:id="@+id/detail_hr"
                     android:layout_below="@+id/detail_donor_id"
                     android:layout_marginTop="10dp"
@@ -113,6 +111,6 @@
         android:id="@+id/detail_contact"
         android:background="@drawable/primary_red_button"
         android:text="Contact"
-        android:textColor="@color/whiteColor"
+        android:textColor="@color/icons"
         />
 </LinearLayout>

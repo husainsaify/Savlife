@@ -5,9 +5,7 @@
     android:layout_height="match_parent"
     tools:context=".activity.OtpVerificationActivity">
 
-    <include
-        layout="@layout/include_toolbar"
-        android:id="@+id/toolbar"/>
+    <include layout="@layout/include_toolbar" />
 
     <TextView
         android:layout_below="@id/toolbar"
@@ -17,14 +15,12 @@
         android:layout_height="wrap_content"
         android:text="@string/otp_verification"
         android:id="@+id/verify_otp_heading"
-        android:textColor="@color/colorAccent"
         style="@style/Base.TextAppearance.AppCompat.Headline"/>
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/otp_has_been_send_to"
         android:layout_below="@+id/verify_otp_heading"
-        android:textColor="@color/colorAccent"
         android:textSize="16sp"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="10dp"
@@ -37,12 +33,15 @@
         android:layout_marginRight="20dp"
         android:layout_marginLeft="20dp"
         android:layout_below="@+id/nuberTextview"
-        android:id="@+id/edit_input">
+        android:id="@+id/edit_input"
+        android:theme="@style/MyTextInput">
 
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/enter_otp"
+            android:inputType="number"
+            android:maxLength="4"
             android:id="@+id/verify_EditText"/>
 
     </android.support.design.widget.TextInputLayout>
@@ -56,6 +55,7 @@
         android:layout_marginTop="10dp"
         android:id="@+id/verify_Button"
         android:text="@string/verify"
+        android:textColor="@color/icons"
         android:background="@drawable/primary_red_button_round"
         />
 
@@ -86,8 +86,7 @@
         style="@style/Base.TextAppearance.AppCompat.Medium"
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
-        android:visibility="gone"
-        android:textColor="@color/colorAccent"/>
+        android:visibility="gone"/>
 
     <Button
         android:layout_width="wrap_content"

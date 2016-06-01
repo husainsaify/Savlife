@@ -52,7 +52,7 @@ public class Util {
     public static void showRedSnackbar(View layoutForSnacbar,String message){
         Snackbar snack = Snackbar.make(layoutForSnacbar,message,Snackbar.LENGTH_LONG);
         ViewGroup group = (ViewGroup) snack.getView();
-        group.setBackgroundColor(ContextCompat.getColor(MyApplication.getAppContext(), R.color.colorPrimary));
+        group.setBackgroundColor(ContextCompat.getColor(MyApplication.getAppContext(), R.color.primary));
         snack.show();
     }
 
@@ -136,7 +136,7 @@ public class Util {
                 activity.startActivity(new Intent(activity, NoInternetActivity.class));
             }
         });
-        snackbar.setActionTextColor(ContextCompat.getColor(activity,R.color.colorPrimary));
+        snackbar.setActionTextColor(ContextCompat.getColor(activity,R.color.primary));
         snackbar.show();
     }
 }

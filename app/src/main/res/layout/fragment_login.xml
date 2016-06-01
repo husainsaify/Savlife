@@ -14,7 +14,8 @@
         <android.support.design.widget.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/login_mobile_layout">
+            android:id="@+id/login_mobile_layout"
+            android:theme="@style/MyTextInput">
             <EditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -32,6 +33,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/login_mobile_layout"
             android:text="@string/login"
+            android:textColor="@color/icons"
             android:id="@+id/login_btn"
             android:layout_marginBottom="20dp"
             android:background="@drawable/primary_red_button_round"

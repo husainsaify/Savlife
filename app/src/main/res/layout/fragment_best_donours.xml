@@ -41,7 +41,6 @@
             android:layout_height="wrap_content"
             android:onClick="openSearchActivity"
             android:src="@drawable/ic_search_white"
-            app:backgroundTint="@color/colorPrimary"
             android:clickable="true"
             android:layout_margin="16dp"
             android:layout_gravity="end|bottom"/>

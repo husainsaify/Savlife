@@ -1,8 +1,10 @@
 package com.hackerkernel.blooddonar.activity;
 
 import android.app.ProgressDialog;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -77,6 +79,10 @@ public class OtpVerificationActivity extends BaseActivity {
 
         //init SP
         sp = MySharedPreferences.getInstance(getApplicationContext());
+
+        //change color of progressbar
+        mOtpProgressbar.getProgressDrawable().setColorFilter(
+                ContextCompat.getColor(this,R.color.primary), android.graphics.PorterDuff.Mode.SRC_IN);
 
         //check user has mobile intent
         if (getIntent().hasExtra(Constants.COM_MOBILE)){

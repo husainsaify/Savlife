@@ -20,10 +20,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="L.B.S Hospital"
-
             android:gravity="center" style="@style/Base.TextAppearance.AppCompat.Headline"
             android:id="@+id/deals_hospital_name"
-            android:textColor="@color/colorPrimaryDark"
             android:layout_alignBottom="@+id/deals_image"
             android:layout_centerHorizontal="true" />
 
@@ -49,7 +47,6 @@
             android:id="@+id/deals_offer"
             android:text="10% Off"
             style="@style/Base.TextAppearance.AppCompat.Medium"
-            android:textColor="@color/colorPrimaryDark"
             android:layout_below="@+id/deals_description"
             android:layout_centerHorizontal="true"
             />
