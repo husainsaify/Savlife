@@ -1,15 +1,16 @@
 package com.hackerkernel.blooddonar.fragment;
 
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.DefaultItemAnimator;
-import android.support.v7.widget.LinearLayoutCompat;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -39,61 +40,75 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 
 
-public class DealsFragment extends Fragment {
-    @Bind(R.id.deals_recycleView) RecyclerView recyclerView;
+public class DealsFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener {
+    private static final String TAG = DealsFragment.class.getSimpleName();
+    @Bind(R.id.deals_recycleView) RecyclerView mRecyclerView;
+    @Bind(R.id.deals_placeholder) TextView mPlaceholder;
+    @Bind(R.id.deals_swipe_refresh) SwipeRefreshLayout mSwipeRefreshLayout;
+    @Bind(R.id.layout_for_snackbar) View mLayoutForSnackbar;
 
     private MySharedPreferences sp;
-    private RequestQueue requestQue;
+    private RequestQueue mRequestQueue;
 
     public DealsFragment() {
         // Required empty public constructor
     }
 
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        sp = new MySharedPreferences();
+        mRequestQueue = MyVolley.getInstance().getRequestQueue();
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-
-
         View view = inflater.inflate(R.layout.fragment_deals, container, false);
-
         ButterKnife.bind(this, view);
+
+        mSwipeRefreshLayout.setOnRefreshListener(this);
+
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
-        recyclerView.setLayoutManager(linearLayoutManager);
-        sp = new MySharedPreferences();
-        // Inflate the layout for this fragment
-
-        LinearLayoutManager maneger = new LinearLayoutManager(getActivity());
-        // recyclerView.setLayoutManager(maneger);
-        DealsAdapter adapter = new DealsAdapter(getActivity());
-        //recyclerView.setItemAnimator(new DefaultItemAnimator());
-        //recyclerView.setAdapter(adapter);
-        requestQue = MyVolley.getInstance().getRequestQueue();
-
-        checkNetworkAvailable();
-
-
+        mRecyclerView.setLayoutManager(linearLayoutManager);
         return view;
-
     }
 
-    private void checkNetworkAvailable() {
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        checkInternetAndFetchDeals();
+    }
+
+    private void checkInternetAndFetchDeals() {
         if (Util.isNetworkAvailable()){
-            getDataInBackground();
+            fetchDealsInBackground();
+        }else {
+            Util.noInternetSnackBar(getActivity(),mLayoutForSnackbar);
+            mRecyclerView.setVisibility(View.GONE);
+            mPlaceholder.setVisibility(View.VISIBLE);
+            mPlaceholder.setText(getText(R.string.no_internet_connection));
         }
     }
 
-    private void getDataInBackground() {
+    private void fetchDealsInBackground() {
+        startRefreshing();
         StringRequest request = new StringRequest(Request.Method.POST, EndPoints.GET_DEALS, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-                parseDeals(response);
+                stopRefreshing();
+                parseDealsResponse(response);
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-
+                stopRefreshing();
+                error.printStackTrace();
+                Log.d(TAG,"HUS::fetchDealsInBackground "+error.getMessage());
+                String errorString = MyVolley.handleVolleyError(error);
+                if (errorString != null){
+                    Util.showRedSnackbar(mLayoutForSnackbar,errorString);
+                }
             }
-
         }){
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
@@ -103,38 +118,63 @@ public class DealsFragment extends Fragment {
                 return params;
             }
         };
-        requestQue.add(request);
+        mRequestQueue.add(request);
     }
-    public void parseDeals(String response){
+
+    public void parseDealsResponse(String response){
         try {
             JSONObject obj = new JSONObject(response);
             boolean returned = obj.getBoolean(Constants.COM_RETURN);
+            String message = obj.getString(Constants.COM_RETURN);
             if (returned){
             int count = obj.getInt(Constants.COM_COUNT);
                 if (count <=0 ){
-                    //TODO ADD SNACKBAR
-
+                    mRecyclerView.setVisibility(View.GONE);
+                    mPlaceholder.setVisibility(View.VISIBLE);
+                    mPlaceholder.setText(message);
                 }
                 else {
                     JSONArray data = obj.getJSONArray(Constants.COM_DATA);
                     List<DealsPjo> list = JsonParser.parseDeals(data);
-                    setupRecycleView(list);
+                    setupRecyclerView(list);
                 }
-
             }
 
         } catch (JSONException e) {
             e.printStackTrace();
+            Log.d(TAG,"HUS: parseDealsResponse: "+e.getMessage());
+            Util.showParsingErrorAlert(getActivity());
         }
-
-
-
     }
-    public void setupRecycleView(List<DealsPjo> list){
+
+    public void setupRecyclerView(List<DealsPjo> list){
         DealsAdapter adapter = new DealsAdapter(getActivity());
         adapter.setmList(list);
-        recyclerView.setAdapter(adapter);
+        mRecyclerView.setVisibility(View.VISIBLE);
+        mPlaceholder.setVisibility(View.GONE);
+        mRecyclerView.setAdapter(adapter);
     }
 
+    @Override
+    public void onRefresh() {
+        checkInternetAndFetchDeals();
+    }
 
+    //method to stop swipeRefreshlayout refresh icon
+    private void stopRefreshing() {
+        if(mSwipeRefreshLayout.isRefreshing()){
+            mSwipeRefreshLayout.setRefreshing(false);
+        }
+    }
+
+    private void startRefreshing(){
+        if(!mSwipeRefreshLayout.isRefreshing()){
+            mSwipeRefreshLayout.post(new Runnable() {
+                @Override
+                public void run() {
+                    mSwipeRefreshLayout.setRefreshing(true);
+                }
+            });
+        }
+    }
 }

@@ -16,7 +16,7 @@ import com.hackerkernel.blooddonar.pojo.DealsPjo;
 import java.util.List;
 
 /**
- * Created by Murtaza on 5/27/2016.
+ * Adapter class for images
  */
 public class DealsAdapter extends RecyclerView.Adapter<DealsAdapter.MyViewHolders> {
     private List<DealsPjo> mList;

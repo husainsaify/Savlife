@@ -60,7 +60,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/deals_off"
-            android:text="10% Off"
             android:textColor="@color/primary"
             style="@style/Base.TextAppearance.AppCompat.Medium"
             android:layout_below="@+id/deals_description"
