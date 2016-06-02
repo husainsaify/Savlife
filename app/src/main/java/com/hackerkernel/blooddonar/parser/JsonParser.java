@@ -85,6 +85,8 @@
             }
             return pojo;
         }
+
+
         public static List<DealsPjo> parseDeals(JSONArray data) throws JSONException {
            List<DealsPjo> list = new ArrayList<>();
             for (int i = 0; i <data.length() ; i++) {
@@ -94,10 +96,6 @@
                 pojo.setHospitalName(obj.getString(Constants.COM_LABNAME));
                 pojo.setDescription(obj.getString(Constants.COM_DESCRIPTION));
                 list.add(pojo);
-
-
-
-
             }
             return list;
         }

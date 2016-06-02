@@ -2,12 +2,19 @@
 <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
-
+    android:layout_height="wrap_content"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    card_view:cardElevation="3dp"
+    card_view:cardCornerRadius="3dp"
+    card_view:cardUseCompatPadding="true"
+    android:foreground="?android:attr/selectableItemBackground"
+    android:focusable="true"
+    android:clickable="true">
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
+
         <ImageView
             android:layout_width="match_parent"
             android:layout_height="200dp"
@@ -16,26 +23,34 @@
             android:scaleType="centerCrop"
             />
 
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="35dp"
+            android:background="@color/primary_text"
+            android:alpha="0.4"
+            android:layout_alignBottom="@+id/deals_image"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true" />
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="L.B.S Hospital"
-            android:gravity="center" style="@style/Base.TextAppearance.AppCompat.Headline"
+            android:gravity="center"
+            android:textColor="@color/icons"
+            style="@style/Base.TextAppearance.AppCompat.Headline"
             android:id="@+id/deals_hospital_name"
             android:layout_alignBottom="@+id/deals_image"
-            android:layout_centerHorizontal="true" />
-
-
-
+            android:layout_marginLeft="10dp"
+            android:layout_marginStart="10dp"
+            android:ellipsize="end"
+            android:layout_marginBottom="3dp"/>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/deals_description"
-            android:text="we Provude A Blood In Country And For The People We offen Say That BLood Donation is Good FOr Health And Bla Bla BLa Bla Bla"
             android:textColor="#000"
-
-           android:layout_marginTop="5dp"
+            android:layout_marginTop="5dp"
             android:layout_marginBottom="5dp"
             android:layout_marginEnd="10dp"
             android:layout_marginStart="10dp"
@@ -44,11 +59,14 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/deals_offer"
+            android:id="@+id/deals_off"
             android:text="10% Off"
+            android:textColor="@color/primary"
             style="@style/Base.TextAppearance.AppCompat.Medium"
             android:layout_below="@+id/deals_description"
-            android:layout_centerHorizontal="true"
+            android:layout_marginLeft="10dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginBottom="10dp"
             />
     </RelativeLayout>
 

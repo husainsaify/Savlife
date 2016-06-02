@@ -19,7 +19,7 @@ import java.util.List;
  * Created by Murtaza on 5/27/2016.
  */
 public class DealsAdapter extends RecyclerView.Adapter<DealsAdapter.MyViewHolders> {
-  private List<DealsPjo> mList;
+    private List<DealsPjo> mList;
     private ImageLoader imageLoader;
     private Context mContext;
     public DealsAdapter (Context context){
@@ -42,6 +42,7 @@ public class DealsAdapter extends RecyclerView.Adapter<DealsAdapter.MyViewHolder
     public void onBindViewHolder(MyViewHolders holder, int position) {
         DealsPjo pojo = mList.get(position);
         holder.deals.setText(pojo.getDeal());
+        holder.deals.append("% off");
         holder.hospitalName.setText(pojo.getHospitalName());
         holder.description.setText(pojo.getDescription());
     }
@@ -61,7 +62,7 @@ public class DealsAdapter extends RecyclerView.Adapter<DealsAdapter.MyViewHolder
             hospitalImage = (ImageView) itemView.findViewById(R.id.deals_image);
             hospitalName = (TextView) itemView.findViewById(R.id.deals_hospital_name);
             description = (TextView) itemView.findViewById(R.id.deals_description);
-            deals = (TextView) itemView.findViewById(R.id.deals_offer);
+            deals = (TextView) itemView.findViewById(R.id.deals_off);
 
         }
     }

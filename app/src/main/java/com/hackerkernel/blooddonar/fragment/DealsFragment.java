@@ -40,9 +40,11 @@ import butterknife.ButterKnife;
 
 
 public class DealsFragment extends Fragment {
+    @Bind(R.id.deals_recycleView) RecyclerView recyclerView;
+
     private MySharedPreferences sp;
     private RequestQueue requestQue;
- @Bind(R.id.deals_recycleView) RecyclerView recyclerView;
+
     public DealsFragment() {
         // Required empty public constructor
     }
@@ -84,7 +86,7 @@ public class DealsFragment extends Fragment {
         StringRequest request = new StringRequest(Request.Method.POST, EndPoints.GET_DEALS, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-            parseDeals(response);
+                parseDeals(response);
             }
         }, new Response.ErrorListener() {
             @Override
@@ -115,8 +117,8 @@ public class DealsFragment extends Fragment {
                 }
                 else {
                     JSONArray data = obj.getJSONArray(Constants.COM_DATA);
-                  List<DealsPjo> list =   JsonParser.parseDeals(data);
-                setupRecycleView(list);
+                    List<DealsPjo> list = JsonParser.parseDeals(data);
+                    setupRecycleView(list);
                 }
 
             }
@@ -132,8 +134,6 @@ public class DealsFragment extends Fragment {
         DealsAdapter adapter = new DealsAdapter(getActivity());
         adapter.setmList(list);
         recyclerView.setAdapter(adapter);
-
-
     }
 
 
