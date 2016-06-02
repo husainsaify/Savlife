@@ -101,7 +101,92 @@ public class OtpVerificationActivity extends BaseActivity {
             }
         });
 
+        //when resend otp button is pressed
+        mResendOtpBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                checkInternetAndResendOtp();
+            }
+        });
+
         initOtpWaitingProgressbar();
+    }
+
+    /*
+    * Method to check internet and resend OTP
+    * */
+    private void checkInternetAndResendOtp() {
+        if (Util.isNetworkAvailable()){
+            resendOtpInBackground();
+        }else {
+            Util.showSimpleDialog(this,"OOPS!!","No Internet Connection");
+        }
+    }
+
+    /*
+    * Method to resend otp in background
+    * */
+    private void resendOtpInBackground() {
+        pd.show();
+        StringRequest request = new StringRequest(Request.Method.POST, EndPoints.LOGIN, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                pd.dismiss();
+                parseResendOtpResponse(response);
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                pd.dismiss();
+                Log.e(TAG,"HUS: doLoginInBackground: "+error.getMessage());
+                error.printStackTrace();
+                //handle Volley error
+                String errorString = MyVolley.handleVolleyError(error);
+                if (errorString != null){
+                    //show alert dialog
+                    Util.showSimpleDialog(OtpVerificationActivity.this,"OOPS!!",errorString);
+                }
+            }
+        }){
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String,String> params = new HashMap<>();
+                params.put(Constants.COM_APIKEY,Util.generateApiKey(mMobile));
+                params.put(Constants.COM_MOBILE,mMobile);
+                return params;
+            }
+        };
+
+        mRequestQueue.add(request);
+    }
+
+    /*
+    * Method to parse resend OTP response
+    * */
+    private void parseResendOtpResponse(String response) {
+        try {
+            SimplePojo current = JsonParser.SimpleParser(response);
+            if (current.isReturned()){
+                /*
+                * When otp is send successfully hide Resend OTP button and show progressbar again
+                *
+                * */
+                //hide resend button
+                mResendOtpBtn.setVisibility(View.GONE);
+                mResendOtpHeading.setVisibility(View.GONE);
+                //show progressbar
+                mOtpProgressbar.setVisibility(View.VISIBLE);
+                mOtpProgressPercentage.setVisibility(View.VISIBLE);
+                initOtpWaitingProgressbar();
+
+            }else {
+                Util.showSimpleDialog(OtpVerificationActivity.this,"OOPS!!",current.getMessage());
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+            Log.d(TAG,"HUS: parseRegisterResponse: "+e.getMessage());
+            Util.showParsingErrorAlert(OtpVerificationActivity.this);
+        }
     }
 
     /*

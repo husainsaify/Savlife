@@ -139,4 +139,18 @@ public class Util {
         snackbar.setActionTextColor(ContextCompat.getColor(activity,R.color.primary));
         snackbar.show();
     }
+
+    public static void showSimpleDialog(Context context,String title,String message){
+        final AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        builder.setTitle(title)
+                .setMessage(message)
+                .setPositiveButton(context.getString(R.string.ok), new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
+        AlertDialog dialog = builder.create();
+        dialog.show();
+    }
 }

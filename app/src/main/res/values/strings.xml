@@ -27,6 +27,7 @@
     <string name="close">close</string>
     <string name="search">Search</string>
     <string name="retry">retry</string>
+    <string name="ok">ok</string>
     <string-array name="blood_group_name">
         <item>O-</item>
         <item>O+</item>
