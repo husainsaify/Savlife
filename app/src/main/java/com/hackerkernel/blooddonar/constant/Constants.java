@@ -26,7 +26,8 @@ public class Constants {
             COM_ORIGNAL_PRIZE = "orginal_price",
             COM_STATUS = "status",
             COM_DATE = "date",
-            COM_TIME = "time";
+            COM_TIME = "time",
+            COM_LASTDONATED = "last_donated";
 
     public static final String CONFIG_OTP_SENDER_ID = "HAKBPL",
             CONFIG_SMS_DELIMITER = ":";

@@ -67,13 +67,16 @@ public class FeedsListAdapter extends RecyclerView.Adapter<FeedsListAdapter.Feed
         holder.mUserFullNAme.setText(pojo.getUserFullname());
         String time = Util.getTimeAgo(Long.parseLong(pojo.getTimestamp()));
         holder.mTimeAgo.setText(time);
+
         //load user image
-        String userImage = EndPoints.IMAGE_BASE_URL + pojo.getUserImage();
-        Glide.with(context)
-                .load(userImage)
-                .thumbnail(0.5f)
-                .diskCacheStrategy(DiskCacheStrategy.ALL)
-                .into(holder.userImage);
+        if (!pojo.getUserImage().isEmpty()){
+            String userImage = EndPoints.IMAGE_BASE_URL + pojo.getUserImage();
+            Glide.with(context)
+                    .load(userImage)
+                    .thumbnail(0.5f)
+                    .diskCacheStrategy(DiskCacheStrategy.ALL)
+                    .into(holder.userImage);
+        }
     }
 
     @Override
