@@ -212,4 +212,8 @@ public class Util {
             return diff / DAY_MILLIS + " days ago";
         }
     }
+
+    public static String makeFirstLetterUpercase(String myString){
+        return myString.substring(0,1).toUpperCase() + myString.substring(1);
+    }
 }

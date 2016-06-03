@@ -148,11 +148,13 @@ public class DonorDetailActivity extends BaseAuthActivity {
     * Method to setup view
     * */
     private void setupView(DonorPojo pojo) {
-        mDonorName.setText(pojo.getFullName());
+        String fullname = Util.makeFirstLetterUpercase(pojo.getFullName());
+        mDonorName.setText(fullname);
 
         //set title with the name of donor
         if (getSupportActionBar() != null){
-            getSupportActionBar().setTitle(pojo.getFullName());
+
+            getSupportActionBar().setTitle(fullname);
         }
 
         //download image
@@ -166,7 +168,7 @@ public class DonorDetailActivity extends BaseAuthActivity {
         }
 
         Bundle bundle = new Bundle();
-        bundle.putString(Constants.COM_FULLNAME,pojo.getFullName());
+        bundle.putString(Constants.COM_FULLNAME,fullname);
         bundle.putString(Constants.COM_AGE,pojo.getAge());
         bundle.putString(Constants.COM_BLOOD,pojo.getBloodGroup());
         bundle.putString(Constants.COM_GENDER,pojo.getGender());

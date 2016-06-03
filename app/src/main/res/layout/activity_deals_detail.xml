@@ -105,6 +105,16 @@
                 android:layout_marginRight="10dp"
                 android:layout_marginEnd="10dp"
                 style="@style/Base.TextAppearance.AppCompat.Medium"/>
+            <View
+                android:layout_width="wrap_content"
+                android:layout_height="1dp"
+                android:background="#000"
+                android:layout_marginTop="15dp"
+                android:layout_alignTop="@+id/detail_original_price"
+                android:layout_alignLeft="@+id/detail_original_price"
+                android:layout_alignStart="@+id/detail_original_price"
+                android:layout_alignRight="@+id/detail_original_price"
+                android:layout_alignEnd="@+id/detail_original_price"/>
 
             <TextView
                 android:layout_width="wrap_content"
