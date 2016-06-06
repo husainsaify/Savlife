@@ -14,6 +14,7 @@ import android.view.View;
 
 import com.hackerkernel.blooddonar.R;
 import com.hackerkernel.blooddonar.adapter.ViewPagerAdapter;
+import com.hackerkernel.blooddonar.appintro.MyAppIntro;
 import com.hackerkernel.blooddonar.dialog.DatePicker;
 import com.hackerkernel.blooddonar.fragment.BestDonorFragment;
 import com.hackerkernel.blooddonar.fragment.DealsFragment;
@@ -35,8 +36,6 @@ public class HomeActivity extends BaseAuthActivity {
     @Bind(R.id.home_navigation_view) NavigationView mNaigationView;
 
     private ActionBarDrawerToggle mActionBarDrawerToggle;
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

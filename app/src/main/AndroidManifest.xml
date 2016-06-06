@@ -56,7 +56,7 @@
         </activity>
 
         <activity android:name=".activity.ProfileInfoActivity"/>
-        <activity android:name="com.soundcloud.android.crop.CropImageActivity" />
+        <activity android:name=".appintro.MyAppIntro"/>
 
         <!-- Receiver -->
         <receiver android:name=".receiver.IncomingOtp">

@@ -31,6 +31,8 @@ public class MySharedPreferences {
             KEY_USER_LATITUDE = "latitude",
             KEY_USER_LONGITUDE ="longitude";
 
+    //boolean keys
+    public static String BOL_KEY_APP_INTRO = "appintro";
 
     public MySharedPreferences() {
         mSharedPreference = mContext.getSharedPreferences(KEY_PREFERENCE_NAME, Context.MODE_PRIVATE);
