@@ -12,6 +12,7 @@ import android.widget.AdapterView;
 import android.widget.ImageButton;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -45,14 +46,13 @@ public class SearchActivity extends AppCompatActivity {
     @Bind(R.id.blood_spinner) Spinner mBloodSpinner;
     @Bind(R.id.location_spinner) Spinner mLocationSpinner;
     @Bind(R.id.search_btn) ImageButton mSearchBtn;
+    @Bind(R.id.search_recycleView) RecyclerView mRecyclerView;
+    @Bind(R.id.search_placeholder) TextView mPlaceholder;
+
+    private ProgressDialog progressDialog;
     private String mBloodGroup, mLocation;
     private MySharedPreferences sp;
     private RequestQueue mRequestQue;
-    @Bind(R.id.search_recycleView)
-    RecyclerView mRecyclerView;
-    @Bind(R.id.search_placeholder)
-    TextView mPlaceholder;
-    private ProgressDialog progressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -112,6 +112,8 @@ public class SearchActivity extends AppCompatActivity {
     public void checkInternetAndDoSearch(){
         if (Util.isNetworkAvailable()){
             doSearchInBackground();
+        }else {
+            Toast.makeText(getApplicationContext(),R.string.no_internet_connection,Toast.LENGTH_LONG).show();
         }
     }
 
@@ -122,15 +124,20 @@ public class SearchActivity extends AppCompatActivity {
             @Override
             public void onResponse(String response) {
                 progressDialog.dismiss();
-                Log.d("TAG","MUR:"+response);
                 parseBestDonorResponse(response);
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
                 progressDialog.dismiss();
-                Log.d("TAG","MUR: "+error.getMessage());
-                //TODO:: handle error
+                error.printStackTrace();
+                Log.d("TAG","HUS: doSearchInBackground: "+error.getMessage());
+                String stringError = MyVolley.handleVolleyError(error);
+                if (stringError != null){
+                    mRecyclerView.setVisibility(View.GONE);
+                    mPlaceholder.setVisibility(View.VISIBLE);
+                    mPlaceholder.setText(stringError);
+                }
             }
         }){
 
@@ -184,7 +191,7 @@ public class SearchActivity extends AppCompatActivity {
     }
 
     private void setupDonorRecyclerView(List<DonorListPojo> list) {
-        DonorListAdapter adapter = new DonorListAdapter(getApplicationContext());
+        DonorListAdapter adapter = new DonorListAdapter(this);
         adapter.setList(list);
         mRecyclerView.setAdapter(adapter);
     }

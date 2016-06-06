@@ -74,6 +74,7 @@
             }
             return list;
         }
+
         public static DonorPojo DetailDonorParser(JSONArray dataArray) throws JSONException {
             DonorPojo pojo = new DonorPojo();
             for (int i = 0; i <dataArray.length() ; i++) {
