@@ -127,7 +127,7 @@ public class DealsFragment extends Fragment implements SwipeRefreshLayout.OnRefr
         try {
             JSONObject obj = new JSONObject(response);
             boolean returned = obj.getBoolean(Constants.COM_RETURN);
-            String message = obj.getString(Constants.COM_RETURN);
+            String message = obj.getString(Constants.COM_MESSAGE);
             if (returned){
             int count = obj.getInt(Constants.COM_COUNT);
                 if (count <=0 ){

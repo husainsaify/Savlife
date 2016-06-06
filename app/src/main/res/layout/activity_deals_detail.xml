@@ -15,13 +15,14 @@
         android:layout_height="wrap_content"
         android:id="@+id/progressBar"
         android:layout_margin="40dp"
-        android:layout_gravity="center"/>
+        android:layout_gravity="center"
+        android:visibility="gone"/>
 
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/detail_scroll"
-        android:visibility="gone">
+        android:visibility="visible">
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -138,6 +139,22 @@
                 android:layout_margin="10dp"
                 android:layout_below="@+id/detail_special_price"
                 android:layout_centerHorizontal="true"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/deal_code_background"
+                android:id="@+id/detail_deal_code"
+                android:textAllCaps="true"
+                android:textAlignment="center"
+                android:visibility="gone"
+                android:textColor="@color/primary"
+                android:layout_margin="10dp"
+                android:layout_below="@+id/detail_special_price"
+                android:layout_centerHorizontal="true"
+                android:padding="10dp"
+                style="@style/Base.TextAppearance.AppCompat.Medium"
+                />
         </RelativeLayout>
     </ScrollView>
 

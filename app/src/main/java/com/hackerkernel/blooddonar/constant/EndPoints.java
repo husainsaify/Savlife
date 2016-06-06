@@ -22,5 +22,6 @@ public class EndPoints {
             DONATED_HISTORY = BASE_URL+ "getDonationHistory.php",
             GET_FEEDS = BASE_URL + "getFeeds.php",
             UPLOAD_PROFILE_PIC = BASE_URL + "changeUserProfilepic.php",
-            ADD_DONATION_HISTORY = BASE_URL + "addDonationHistory.php";
+            ADD_DONATION_HISTORY = BASE_URL + "addDonationHistory.php",
+            BOOK_DEAL = BASE_URL + "bookDeal.php";
 }

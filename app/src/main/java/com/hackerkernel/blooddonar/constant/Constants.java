@@ -27,6 +27,7 @@ public class Constants {
             COM_STATUS = "status",
             COM_DATE = "date",
             COM_TIME = "time",
+            COM_CODE = "code",
             COM_LASTDONATED = "last_donated";
 
     public static final String CONFIG_OTP_SENDER_ID = "HAKBPL",
@@ -41,5 +42,7 @@ public class Constants {
             FEED_USER_MOBILE = "user_mobile",
             FEED_USER_FULLNAME = "user_fullname",
             FEED_USER_IMAGE = "user_image";
+
+    public static final String DEAL_BOOKED_STATUS = "booked_deal";
 
 }

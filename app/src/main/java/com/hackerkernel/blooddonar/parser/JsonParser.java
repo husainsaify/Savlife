@@ -114,7 +114,7 @@
                 pojo.setOrignal_prize(obj.getString(Constants.COM_ORIGNAL_PRIZE));
                 pojo.setSpecial_prize(obj.getString(Constants.COM_SPECIAL_PRIZE));
                 pojo.setImageUrl(obj.getString(Constants.COM_IMG));
-                //pojo.setTimming(obj.getString(Constants.COM_Timing));
+                pojo.setCode(obj.getString(Constants.COM_CODE));
 
             }
             return pojo;

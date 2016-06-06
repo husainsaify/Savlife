@@ -1,9 +1,11 @@
 package com.hackerkernel.blooddonar.activity;
 
+import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.ScrollView;
@@ -25,6 +27,7 @@ import com.hackerkernel.blooddonar.infrastructure.BaseAuthActivity;
 import com.hackerkernel.blooddonar.network.MyVolley;
 import com.hackerkernel.blooddonar.parser.JsonParser;
 import com.hackerkernel.blooddonar.pojo.DealsPojo;
+import com.hackerkernel.blooddonar.pojo.SimplePojo;
 import com.hackerkernel.blooddonar.storage.MySharedPreferences;
 import com.hackerkernel.blooddonar.util.Util;
 
@@ -43,18 +46,20 @@ public class DealsDetailActivity extends BaseAuthActivity {
     private String mDealsId;
     private MySharedPreferences sp;
     private RequestQueue mRequestQueue;
+    private ProgressDialog pd;
 
     @Bind(R.id.toolbar) Toolbar mToolbar;
     @Bind(R.id.detail_hospital_name) TextView mHospitalName;
     @Bind(R.id.detail_hospital_image) ImageView mHospitalImage;
     @Bind(R.id.detail_off) TextView mPercentOff;
     @Bind(R.id.detail_description) TextView mDescription;
-    @Bind(R.id.detail_timing) TextView timings;
     @Bind(R.id.detail_original_price) TextView mOriginalPrice;
     @Bind(R.id.detail_special_price) TextView mOfferPrice;
     @Bind(R.id.layout_for_snackbar) View mLayoutForSnackbar;
     @Bind(R.id.progressBar) ProgressBar mProgressbar;
     @Bind(R.id.detail_scroll) ScrollView mDetailScrollView;
+    @Bind(R.id.detail_deal_code) TextView mCodeArea;
+    @Bind(R.id.detail_book_detail) Button mBookDeal;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,7 +83,20 @@ public class DealsDetailActivity extends BaseAuthActivity {
         mRequestQueue = MyVolley.getInstance().getRequestQueue();
         sp = MySharedPreferences.getInstance(this);
 
+        //init pd
+        pd = new ProgressDialog(this);
+        pd.setMessage(getString(R.string.please_Watit));
+        pd.setCancelable(false);
+
         checkInternetAndFetchDeal();
+
+        mBookDeal.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                checkInternetAndBookDeal();
+            }
+        });
+
     }
 
     private void checkInternetAndFetchDeal() {
@@ -129,8 +147,21 @@ public class DealsDetailActivity extends BaseAuthActivity {
             String message = obj.getString(Constants.COM_MESSAGE);
             if (returned){
                 JSONArray data = obj.getJSONArray(Constants.COM_DATA);
+                //show and hide deal book button on the basic of data
+                boolean bookedStatus = obj.getBoolean(Constants.DEAL_BOOKED_STATUS);
+                if (bookedStatus){
+                    //show code (deal is booked)
+                    mBookDeal.setVisibility(View.GONE);
+                    mCodeArea.setVisibility(View.VISIBLE);
+                }else {
+                    //hide code & show button deal is not booked
+                    mBookDeal.setVisibility(View.VISIBLE);
+                    mCodeArea.setVisibility(View.GONE);
+                }
+                //parse response and setup views
                 DealsPojo pojo = JsonParser.DetailDealsParser(data);
                 setupView(pojo);
+
             }else{
                 Util.showRedSnackbar(mLayoutForSnackbar,message);
             }
@@ -141,6 +172,11 @@ public class DealsDetailActivity extends BaseAuthActivity {
     }
 
     private void setupView(DealsPojo pojo) {
+        //set name to the Toolbar
+        if (getSupportActionBar() != null){
+            getSupportActionBar().setTitle(pojo.getLabName());
+        }
+
         mHospitalName.setText(pojo.getLabName());
         mPercentOff.setText(pojo.getOff());
         mPercentOff.append("% off");
@@ -149,6 +185,7 @@ public class DealsDetailActivity extends BaseAuthActivity {
         mOriginalPrice.append("Rs");
         mOfferPrice.setText(pojo.getSpecial_prize());
         mOfferPrice.append("Rs");
+        mCodeArea.setText("code:: "+pojo.getCode());
 
         //load hospital image
         if (!pojo.getImageUrl().isEmpty()){
@@ -173,5 +210,71 @@ public class DealsDetailActivity extends BaseAuthActivity {
         }
     }
 
+    /*
+    * DEALS BOOKING
+    * */
+    private void checkInternetAndBookDeal() {
+        if (Util.isNetworkAvailable()){
+            bookDealInBackground();
+        }else {
+            Util.noInternetSnackBar(this,mLayoutForSnackbar);
+        }
+    }
 
+    /*
+    * Method to make a request to the api to book deal
+    * */
+    private void bookDealInBackground() {
+        pd.show(); //show pd
+        StringRequest request = new StringRequest(Request.Method.POST, EndPoints.BOOK_DEAL, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                pd.dismiss(); //hide pd
+                parseBookDealsResponse(response);
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                pd.dismiss(); //hide pd
+                error.printStackTrace();
+                Log.d(TAG,"HUS: bookDealInBackground: "+error.getMessage());
+                String errorString = MyVolley.handleVolleyError(error);
+                if (errorString != null){
+                    Util.showRedSnackbar(mLayoutForSnackbar,errorString);
+                }
+            }
+        }){
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String,String> params = new HashMap<>();
+                params.put(Constants.COM_APIKEY,Util.generateApiKey(sp.getUserMobile()));
+                params.put(Constants.COM_MOBILE,sp.getUserMobile());
+                params.put(Constants.COM_ID,mDealsId);
+                return params;
+            }
+        };
+        mRequestQueue.add(request);
+    }
+
+    /*
+    * Method to parse book deal response
+    * */
+    private void parseBookDealsResponse(String response) {
+        try {
+            SimplePojo pojo = JsonParser.SimpleParser(response);
+            if (pojo.isReturned()){
+                //success
+                Util.showSimpleDialog(this,"HURRAY!!",pojo.getMessage());
+                //refresh deal detail
+                checkInternetAndFetchDeal();
+            }else {
+                //failure
+                Util.showSimpleDialog(this,"OOPS!!",pojo.getMessage());
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+            Log.d(TAG,"HUS: parseBookDealsResponse: "+e.getMessage());
+            Util.showParsingErrorAlert(this);
+        }
+    }
 }

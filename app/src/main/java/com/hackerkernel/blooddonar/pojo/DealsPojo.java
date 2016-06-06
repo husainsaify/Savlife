@@ -4,15 +4,8 @@ package com.hackerkernel.blooddonar.pojo;
  * Created by QUT on 5/27/2016.
  */
 public class DealsPojo {
-    private String description, orignal_prize, special_prize, off, labName, imageUrl, timming;
+    private String description, orignal_prize, special_prize, off, labName, imageUrl, code;
 
-    public String getTimming() {
-        return timming;
-    }
-
-    public void setTimming(String timming) {
-        this.timming = timming;
-    }
 
     public String getDescription() {
         return description;
@@ -60,5 +53,13 @@ public class DealsPojo {
 
     public void setImageUrl(String imageUrl) {
         this.imageUrl = imageUrl;
+    }
+
+    public String getCode() {
+        return code;
+    }
+
+    public void setCode(String code) {
+        this.code = code;
     }
 }
