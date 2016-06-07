@@ -167,7 +167,7 @@
                 pojo.setProfileId(obj.getString(Constants.COM_ID));
                 pojo.setProfileNum(obj.getString(Constants.COM_MOBILE));
                 pojo.setProfileURL(obj.getString(Constants.COM_IMG));
-
+                pojo.setProfilelastDonated(obj.getString(Constants.COM_DATE));
             }
             return pojo;
         }
