@@ -9,6 +9,7 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -42,6 +43,7 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 
 public class SearchActivity extends AppCompatActivity {
+    private static final String TAG = SearchActivity.class.getSimpleName();
     @Bind(R.id.toolbar) Toolbar toolbar;
     @Bind(R.id.blood_spinner) Spinner mBloodSpinner;
     @Bind(R.id.location_spinner) Spinner mLocationSpinner;
@@ -91,7 +93,6 @@ public class SearchActivity extends AppCompatActivity {
         mLocationSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-
                 mLocation = mLocationSpinner.getItemAtPosition(position).toString().toLowerCase();
             }
 
@@ -107,6 +108,78 @@ public class SearchActivity extends AppCompatActivity {
                 checkInternetAndDoSearch();
             }
         });
+
+        checkInternetAndGetCityList();
+
+    }
+
+    /*
+    * Method to check internet and get city list
+    * */
+    private void checkInternetAndGetCityList() {
+        if (Util.isNetworkAvailable()){
+            getCityInListInBackground();
+        }else {
+            Toast.makeText(getApplicationContext(),"Unable to download city list. Check your internet connection",Toast.LENGTH_LONG).show();
+        }
+    }
+
+    /*
+    * Method to get city list in background
+    * */
+    private void getCityInListInBackground() {
+        progressDialog.show(); //show pd
+        StringRequest request = new StringRequest(Request.Method.GET, EndPoints.GET_CITY_LIST, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                progressDialog.dismiss();
+                parseCityListResponse(response);
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                progressDialog.dismiss();
+                error.printStackTrace();
+                Log.e(TAG,"HUS: getCityInListInBackground: "+error.getMessage());
+                String errorString = MyVolley.handleVolleyError(error);
+                if (errorString != null){
+                    Util.showSimpleDialog(SearchActivity.this,"OOPS!!",errorString);
+                }
+            }
+        });
+        mRequestQue.add(request);
+    }
+
+    /*
+    * Method to parse city list response
+    * */
+    private void parseCityListResponse(String response) {
+        try {
+            JSONObject jsonObject = new JSONObject(response);
+            boolean returned = jsonObject.getBoolean(Constants.COM_RETURN);
+            String message = jsonObject.getString(Constants.COM_MESSAGE);
+            //check returned
+            if (returned){
+                //fetch city list
+                JSONArray data = jsonObject.getJSONArray(Constants.COM_DATA);
+                List<String> citylist = JsonParser.CityListParser(data);
+                setupCityList(citylist);
+            }else {
+                Util.showSimpleDialog(this,"OOPS!! Unable to get city list",message);
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+            Log.e(TAG,"HUS: parseCityListResponse: "+e.getMessage());
+            Util.showParsingErrorAlert(this);
+        }
+    }
+
+    /*
+    * Method to setup city list
+    * */
+    private void setupCityList(List<String> citylist) {
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(getApplicationContext(),android.R.layout.simple_list_item_1,citylist);
+        mLocationSpinner.setAdapter(adapter);
     }
 
     public void checkInternetAndDoSearch(){

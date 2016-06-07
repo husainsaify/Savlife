@@ -23,5 +23,6 @@ public class EndPoints {
             GET_FEEDS = BASE_URL + "getFeeds.php",
             UPLOAD_PROFILE_PIC = BASE_URL + "changeUserProfilepic.php",
             ADD_DONATION_HISTORY = BASE_URL + "addDonationHistory.php",
-            BOOK_DEAL = BASE_URL + "bookDeal.php";
+            BOOK_DEAL = BASE_URL + "bookDeal.php",
+            GET_CITY_LIST = BASE_URL + "getCity.php";
 }

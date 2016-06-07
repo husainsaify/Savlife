@@ -170,4 +170,18 @@
             }
             return pojo;
         }
+
+        /*
+        * Method to parse city list response
+        * PS: this method will not validate any stuff this will just
+        * parse all the city and return List<String>
+        * */
+        public static List<String> CityListParser(JSONArray data) throws JSONException {
+            List<String> list = new ArrayList<>();
+            for (int i = 0; i < data.length(); i++) {
+                String city = data.getString(i);
+                list.add(city);
+            }
+            return list;
+        }
     }
