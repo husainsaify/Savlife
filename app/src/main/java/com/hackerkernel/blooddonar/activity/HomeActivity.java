@@ -1,6 +1,7 @@
 package com.hackerkernel.blooddonar.activity;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.NavigationView;
@@ -9,8 +10,11 @@ import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
+import android.text.Html;
+import android.text.Spanned;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.TextView;
 
 import com.hackerkernel.blooddonar.R;
 import com.hackerkernel.blooddonar.adapter.ViewPagerAdapter;
@@ -21,6 +25,7 @@ import com.hackerkernel.blooddonar.fragment.DealsFragment;
 import com.hackerkernel.blooddonar.fragment.FeedFragment;
 import com.hackerkernel.blooddonar.infrastructure.BaseAuthActivity;
 import com.hackerkernel.blooddonar.network.GetUserLocation;
+import com.hackerkernel.blooddonar.util.Util;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -30,6 +35,7 @@ public class HomeActivity extends BaseAuthActivity {
     @Bind(R.id.toolbar) Toolbar mToolbar;
     @Bind(R.id.tablayout) TabLayout mTabLayout;
     @Bind(R.id.homeviewpager) ViewPager mViewPager;
+    @Bind(R.id.footer_textview) TextView mFooterTextview;
 
     //side menu
     @Bind(R.id.drawer_layout) DrawerLayout mDrawerLayout;
@@ -54,6 +60,19 @@ public class HomeActivity extends BaseAuthActivity {
 
         GetUserLocation getUserLocation = new GetUserLocation(getApplicationContext());
         getUserLocation.getLocation();
+
+        //set footer text
+        mFooterTextview.append("Made with ");
+        Spanned redHeart = Html.fromHtml("<font color='red'>&#10084;</font>");
+        mFooterTextview.append(redHeart);
+        mFooterTextview.append(" By HackerKernel.com");
+        mFooterTextview.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://hackerkernel.com/refer.php?id=savlife"));
+                startActivity(browserIntent);
+            }
+        });
     }
 
     public void openSearchActivity(View view){

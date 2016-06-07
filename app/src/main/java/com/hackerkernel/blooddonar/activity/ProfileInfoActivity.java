@@ -157,10 +157,17 @@ public class ProfileInfoActivity extends BaseAuthActivity {
                 mProfileCity.setText(pojo.getProfileCity());
                 mProfileGender.setText(pojo.getProfileGender());
                 mProfileID.setText(pojo.getProfileId());
-                String imageURl = EndPoints.IMAGE_BASE_URL+ pojo.getProfileURL();
-                Glide.with(getApplicationContext())
-                        .load(imageURl)
-                        .into(mProfileImage);
+
+                /*
+                * Only download image when its not empty
+                * */
+                if (!pojo.getProfileURL().isEmpty()){
+                    String imageURl = EndPoints.IMAGE_BASE_URL+ pojo.getProfileURL();
+                    Glide.with(getApplicationContext())
+                            .load(imageURl)
+                            .into(mProfileImage);
+                }
+
             }else {
                 Util.showRedSnackbar(mLayoutForSnackbar,message);
             }
