@@ -45,7 +45,7 @@ public class UserDonationHistoryFragment extends Fragment {
     @Bind(R.id.donation_history_listview) ListView mListview;
     @Bind(R.id.donation_history_placeholder) TextView mPlaceholder;
     @Bind(R.id.donation_history_progressbar) ProgressBar mProgressbar;
-    private String mUserId;
+    private String mMobile;
     private RequestQueue mRequestQueue;
 
 
@@ -58,7 +58,7 @@ public class UserDonationHistoryFragment extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mRequestQueue = MyVolley.getInstance().getRequestQueue();
-        mUserId = getActivity().getIntent().getStringExtra(Constants.COM_ID);
+        mMobile = getArguments().getString(Constants.COM_MOBILE);
     }
 
     @Override
@@ -110,8 +110,8 @@ public class UserDonationHistoryFragment extends Fragment {
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String,String> params = new HashMap<>();
-                params.put(Constants.COM_APIKEY,Util.generateApiKey(mUserId));
-                params.put(Constants.COM_ID,mUserId);
+                params.put(Constants.COM_APIKEY,Util.generateApiKey(mMobile));
+                params.put(Constants.COM_MOBILE,mMobile);
                 return params;
             }
         };

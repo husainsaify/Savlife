@@ -77,8 +77,9 @@
 
         public static DonorPojo DetailDonorParser(JSONArray dataArray) throws JSONException {
             DonorPojo pojo = new DonorPojo();
-            for (int i = 0; i <dataArray.length() ; i++) {
+            for (int i = 0; i < dataArray.length() ; i++) {
                 JSONObject obj = dataArray.getJSONObject(i);
+                pojo.setMobile(obj.getString(Constants.COM_MOBILE));
                 pojo.setFullName(obj.getString(Constants.COM_FULLNAME));
                 pojo.setCity(obj.getString(Constants.LOC_CITY));
                 pojo.setAge(obj.getString(Constants.COM_AGE));

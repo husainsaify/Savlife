@@ -178,9 +178,16 @@ public class DonorDetailActivity extends BaseAuthActivity {
         UserDetailDescriptionFragment userDetailDescriptionFragment = new UserDetailDescriptionFragment();
         userDetailDescriptionFragment.setArguments(bundle);
 
+        //user donation history
+        Bundle bundle1 = new Bundle();
+        bundle1.putString(Constants.COM_MOBILE,pojo.getMobile());
+
+        UserDonationHistoryFragment userDonationHistoryFragment = new UserDonationHistoryFragment();
+        userDonationHistoryFragment.setArguments(bundle1);
+
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
         adapter.addFragment(userDetailDescriptionFragment,"Description");
-        adapter.addFragment(new UserDonationHistoryFragment(),"Donation History");
+        adapter.addFragment(userDonationHistoryFragment,"Donation History");
         viewPager.setAdapter(adapter);
         tabLayout.setupWithViewPager(viewPager);
     }

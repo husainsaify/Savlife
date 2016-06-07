@@ -94,8 +94,8 @@ public class DateSetting implements DatePickerDialog.OnDateSetListener {
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String,String> param = new HashMap<>();
-                param.put(Constants.COM_APIKEY,Util.generateApiKey(sp.getUserId()));
-                param.put(Constants.COM_ID,sp.getUserId());
+                param.put(Constants.COM_APIKEY,Util.generateApiKey(sp.getUserMobile()));
+                param.put(Constants.COM_MOBILE,sp.getUserMobile());
                 param.put(Constants.COM_DATE,selectedString);
                 return param;
             }

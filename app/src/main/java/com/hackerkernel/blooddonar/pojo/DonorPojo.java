@@ -5,6 +5,7 @@ package com.hackerkernel.blooddonar.pojo;
  */
 public class DonorPojo {
     private String fullName;
+    private String mobile;
     private String gender;
     private String age;
     private String bloodGroup;
@@ -12,6 +13,14 @@ public class DonorPojo {
     private String id;
     private String imageUrl;
     private String lastDonated;
+
+    public String getMobile() {
+        return mobile;
+    }
+
+    public void setMobile(String mobile) {
+        this.mobile = mobile;
+    }
 
     public String getFullName() {
         return fullName;
