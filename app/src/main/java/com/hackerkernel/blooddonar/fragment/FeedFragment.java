@@ -13,6 +13,8 @@ import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.InputType;
+import android.text.method.PasswordTransformationMethod;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,6 +24,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.TableLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -113,15 +116,57 @@ public class FeedFragment extends Fragment {
         postPhotoButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //open gallery
-                Intent openGallery = new Intent(Intent.ACTION_PICK);
-                openGallery.setType("image/*");
-                startActivityForResult(openGallery, SELECT_IMAGE_CODE);
+                openGalleryLockDialog();
             }
         });
 
         // Inflate the layout for this fragment
         return view;
+    }
+
+    /*
+    * Method to open a dialog and check if user has enter right password
+    * then only open gallery
+    * */
+    private void openGalleryLockDialog(){
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        TableLayout.LayoutParams params = new TableLayout.LayoutParams();
+        params.setMargins(10,0,10,0);
+        final EditText passwordField = new EditText(getActivity());
+        passwordField.setTransformationMethod(PasswordTransformationMethod.getInstance());
+        passwordField.setLayoutParams(params);
+        builder.setTitle("This feature is lock")
+                .setMessage("Enter admin password to unlock")
+                .setView(passwordField)
+                .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        String password = passwordField.getText().toString();
+                        if (password.equals("hackerkernel")){
+                            openGalleryToSelectImage();
+                        }else {
+                            Toast.makeText(getActivity(),"Invalid password",Toast.LENGTH_LONG).show();
+                        }
+                    }
+                })
+                .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
+        AlertDialog dialog = builder.create();
+        dialog.show();
+    }
+
+    /*
+    * Method to open gallery to select image
+    * */
+    private void openGalleryToSelectImage() {
+        //open gallery
+        Intent openGallery = new Intent(Intent.ACTION_PICK);
+        openGallery.setType("image/*");
+        startActivityForResult(openGallery, SELECT_IMAGE_CODE);
     }
 
     @Override

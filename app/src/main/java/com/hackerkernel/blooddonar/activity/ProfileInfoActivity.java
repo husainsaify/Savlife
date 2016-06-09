@@ -93,6 +93,7 @@ public class ProfileInfoActivity extends BaseAuthActivity {
             @Override
             public void onClick(View v) {
                 //open gallery
+                mProfileImage.setImageDrawable(null);
                 Intent openGallery = new Intent(Intent.ACTION_PICK);
                 openGallery.setType("image/*");
                 startActivityForResult(openGallery, SELECT_IMAGE_CODE);
@@ -167,7 +168,6 @@ public class ProfileInfoActivity extends BaseAuthActivity {
                             .load(imageURl)
                             .into(mProfileImage);
                 }
-
             }else {
                 Util.showRedSnackbar(mLayoutForSnackbar,message);
             }
@@ -188,6 +188,7 @@ public class ProfileInfoActivity extends BaseAuthActivity {
             loadAndUploadImage(imageUri);
         }
     }
+
 
 
 

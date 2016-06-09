@@ -18,7 +18,7 @@ public class MyAppIntro extends AppIntro {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        addSlide(AppIntroFragment.newInstance("Blood Donor","Find blood donors easily around the globe", R.drawable.appintro1, Color.parseColor("#e6e6e6")));
+        addSlide(AppIntroFragment.newInstance("Blood Donor","Find blood donors easily around the globe", R.drawable.appintro1, Color.parseColor("#242426")));
         addSlide(AppIntroFragment.newInstance("Health Feeds","Get recent health related Post & Image",R.drawable.appintro2,Color.parseColor("#7badc6")));
         addSlide(AppIntroFragment.newInstance("Hot Deals","Get exclusive deal on Pathology labs & Hospitals",R.drawable.appintro3,Color.parseColor("#B35053")));
 
