@@ -95,21 +95,51 @@ public class FeedsListAdapter extends RecyclerView.Adapter<FeedsListAdapter.Feed
         @Bind(R.id.feed_time_ago) TextView mTimeAgo;
         @Bind(R.id.feed_photo) ImageView mFeedPhoto;
         @Bind(R.id.feed_status) TextView mFeedStatus;
+        @Bind(R.id.feed_smile_counter) TextView mFeedSmileCounter;
+        @Bind(R.id.feed_smile_icon) ImageView mFeedSmileIcon;
 
         public FeedsViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this,itemView);
 
             mFeedPhoto.setOnClickListener(this);
+
+            //when someone click on smile counter or even simle
+            mFeedSmileCounter.setOnClickListener(this);
+            mFeedSmileIcon.setOnClickListener(this);
         }
 
         @Override
         public void onClick(View v) {
-            int pos = getAdapterPosition();
-            String link = list.get(pos).getImage();
-            Intent intent = new Intent(context, DetailImageActivity.class);
-            intent.putExtra(Constants.COM_IMG,link);
-            context.startActivity(intent);
+            switch (v.getId()){
+                case R.id.feed_photo:
+                        int pos = getAdapterPosition();
+                        String link = list.get(pos).getImage();
+                        Intent intent = new Intent(context, DetailImageActivity.class);
+                        intent.putExtra(Constants.COM_IMG,link);
+                        context.startActivity(intent);
+                    break;
+                case R.id.feed_smile_icon:
+                        registerSmile();
+                    break;
+                case R.id.feed_smile_counter:
+                        registerSmile();
+                    break;
+            }
+
+        }
+
+        private void registerSmile() {
+            //change icon
+            mFeedSmileIcon.setImageResource(R.drawable.ic_like_color);
+            //get the number of like
+            String oldLike = mFeedSmileCounter.getText().toString();
+            String[] likeArray = oldLike.split("L");
+            String oldLikeNumber = likeArray[0].trim();
+            int newLike = Integer.parseInt(oldLikeNumber) + 1;
+            mFeedSmileCounter.setText(newLike+" Likes");
         }
     }
+
+
 }

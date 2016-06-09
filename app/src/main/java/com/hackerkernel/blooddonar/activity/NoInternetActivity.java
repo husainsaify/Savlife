@@ -44,10 +44,10 @@ public class NoInternetActivity extends AppCompatActivity implements View.OnClic
                 connection.execute();
                 break;
             case R.id.contact_us_number1:
-                Util.dialNumber(NoInternetActivity.this,"9752071654");
+                Util.dialNumber(NoInternetActivity.this,"8871334161");
                 break;
             case R.id.contact_us_number2:
-                Util.dialNumber(NoInternetActivity.this,"8871334161");
+                Util.dialNumber(NoInternetActivity.this,"9752071654");
                 break;
         }
     }

@@ -33,5 +33,10 @@ public abstract class BaseActivity extends AppCompatActivity {
         if (sp.getLoginStatus()){
             Util.goToHomeActivity(this);
         }
+
+        //show no internet activity when internet not avaialbale
+        if (!Util.isNetworkAvailable()){
+            Util.goToNoInternetActivity(this);
+        }
     }
 }

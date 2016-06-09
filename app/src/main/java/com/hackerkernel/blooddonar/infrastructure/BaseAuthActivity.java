@@ -24,5 +24,10 @@ public abstract class BaseAuthActivity extends AppCompatActivity {
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             startActivity(intent);
         }
+
+        //show no internet activity when internet not avaialbale
+        if (!Util.isNetworkAvailable()){
+            Util.goToNoInternetActivity(this);
+        }
     }
 }
