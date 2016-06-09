@@ -5,6 +5,12 @@ package com.hackerkernel.blooddonar.constant;
  */
 public class Constants {
     //public static final String APIKEY = "e640742e7cda91da8f26f555ecde5571";
+    // broadcast receiver intent filters
+    public static final String SENT_TOKEN_TO_SERVER = "sentTokenToServer";
+    public static final String REGISTRATION_COMPLETE = "registrationComplete";
+    public static final String PUSH_NOTIFICATION = "pushNotification";
+
+
     public static final String COM_APIKEY = "apikey",
             COM_FULLNAME = "fullname",
             COM_MOBILE = "mobile",
@@ -28,7 +34,10 @@ public class Constants {
             COM_DATE = "date",
             COM_TIME = "time",
             COM_CODE = "code",
-            COM_LASTDONATED = "last_donated";
+            COM_GCM_REG_ID = "gcm_regid",
+            COM_LASTDONATED = "last_donated",
+            COM_TITLE = "title",
+            COM_PUSH_TYPE = "type";
 
     public static final String CONFIG_OTP_SENDER_ID = "HAKBPL",
             CONFIG_SMS_DELIMITER = ":";

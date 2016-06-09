@@ -24,5 +24,6 @@ public class EndPoints {
             UPLOAD_PROFILE_PIC = BASE_URL + "changeUserProfilepic.php",
             ADD_DONATION_HISTORY = BASE_URL + "addDonationHistory.php",
             BOOK_DEAL = BASE_URL + "bookDeal.php",
-            GET_CITY_LIST = BASE_URL + "getCity.php";
+            GET_CITY_LIST = BASE_URL + "getCity.php",
+            UPDATE_GCM_TOKEN = BASE_URL + "updateGcmToken.php";
 }

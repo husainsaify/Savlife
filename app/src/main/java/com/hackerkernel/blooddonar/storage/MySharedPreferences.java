@@ -33,6 +33,7 @@ public class MySharedPreferences {
 
     //boolean keys
     public static String BOL_KEY_APP_INTRO = "appintro";
+    public static String KEY_SENT_GCM_TOKEN_TO_SERVER = "send_gcm_token";
 
     public MySharedPreferences() {
         mSharedPreference = mContext.getSharedPreferences(KEY_PREFERENCE_NAME, Context.MODE_PRIVATE);
@@ -49,6 +50,10 @@ public class MySharedPreferences {
     //Method to set boolean for (AppIntro)
     public void setBooleanKey(String keyname) {
         mSharedPreference.edit().putBoolean(keyname, true).apply();
+    }
+
+    public void setBooleanKey(String keyname,boolean state) {
+        mSharedPreference.edit().putBoolean(keyname, state).apply();
     }
 
     /*
