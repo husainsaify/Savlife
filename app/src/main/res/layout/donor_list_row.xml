@@ -31,7 +31,7 @@
 
         <TextView
             android:layout_width="0dp"
-            android:layout_weight="2.7"
+            android:layout_weight="2.6"
             android:layout_height="wrap_content"
             android:id="@+id/donor_name"
             android:ellipsize="end"
@@ -39,10 +39,11 @@
             style="@style/Base.TextAppearance.AppCompat.Medium"/>
 
         <TextView
-            android:layout_weight="0.3"
+            android:layout_weight="0.4"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            style="@style/Base.TextAppearance.AppCompat.Medium"
+            android:textSize="15sp"
+            android:textAllCaps="true"
             android:id="@+id/blood_group_text"
             android:textColor="@color/primary"
             android:layout_gravity="center"/>

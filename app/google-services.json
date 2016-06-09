@@ -1,0 +1,35 @@
+{
+  "project_info": {
+    "project_number": "998123449952",
+    "project_id": "savlife-b8615"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:998123449952:android:1fa7bfd9a3ca26e8",
+        "android_client_info": {
+          "package_name": "com.hackerkernel.blooddonar"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBlwYlQ3rGP6Bymcaru0xX5G0JMCmNTwbU"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 1
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
