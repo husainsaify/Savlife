@@ -180,7 +180,7 @@ public class DealsDetailActivity extends BaseAuthActivity {
         mHospitalName.setText(pojo.getLabName());
         mPercentOff.setText(pojo.getOff());
         mPercentOff.append("% off");
-        mDescription.setText(pojo.getDescription());
+        mDescription.setText(pojo.getDescription().replace("\\n","\n"));
         mOriginalPrice.setText(pojo.getOrignal_prize());
         mOriginalPrice.append("Rs");
         mOfferPrice.setText(pojo.getSpecial_prize());

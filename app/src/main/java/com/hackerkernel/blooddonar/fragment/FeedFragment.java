@@ -130,14 +130,12 @@ public class FeedFragment extends Fragment {
     * */
     private void openGalleryLockDialog(){
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-        TableLayout.LayoutParams params = new TableLayout.LayoutParams();
-        params.setMargins(10,0,10,0);
-        final EditText passwordField = new EditText(getActivity());
-        passwordField.setTransformationMethod(PasswordTransformationMethod.getInstance());
-        passwordField.setLayoutParams(params);
+
+        final View view = inflater.inflate(R.layout.password_edittext,null);
+        final EditText passwordField = (EditText) view.findViewById(R.id.passwrod_field);
         builder.setTitle("This feature is lock")
                 .setMessage("Enter admin password to unlock")
-                .setView(passwordField)
+                .setView(view)
                 .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {

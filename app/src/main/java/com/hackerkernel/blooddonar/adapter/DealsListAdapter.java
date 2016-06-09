@@ -47,7 +47,7 @@ public class DealsListAdapter extends RecyclerView.Adapter<DealsListAdapter.MyVi
         holder.deals.setText(pojo.getDeal());
         holder.deals.append("% off");
         holder.hospitalName.setText(pojo.getHospitalName());
-        holder.description.setText(pojo.getDescription());
+        holder.description.setText(pojo.getDescription().replace("\\n","\n"));
         //download image
         if (!pojo.getImageUrl().isEmpty()) {
             String dealImage = EndPoints.IMAGE_BASE_URL + pojo.getImageUrl();
