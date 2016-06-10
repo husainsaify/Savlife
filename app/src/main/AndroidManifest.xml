@@ -42,8 +42,8 @@
         <activity android:name=".activity.NoInternetActivity" />
         <activity android:name=".activity.OtpVerificationActivity" />
         <activity android:name=".activity.HomeActivity" />
-
-        <activity android:name=".activity.DonorDetailActivity"
+        <activity
+            android:name=".activity.DonorDetailActivity"
             android:parentActivityName=".activity.HomeActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
@@ -63,9 +63,14 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".activity.HomeActivity" />
         </activity>
-
-        <activity android:name=".activity.ProfileInfoActivity"/>
-        <activity android:name=".appintro.MyAppIntro"/>
+        <activity android:name=".activity.ProfileInfoActivity" />
+        <activity android:name=".appintro.MyAppIntro" />
+        <activity android:name=".activity.DetailImageActivity"
+            android:parentActivityName=".activity.HomeActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".activity.HomeActivity" />
+        </activity>
 
         <!-- Receiver -->
         <receiver android:name=".receiver.IncomingOtp">
@@ -73,11 +78,10 @@
                 <action android:name="android.provider.Telephony.SMS_RECEIVED" />
             </intent-filter>
         </receiver>
-
         <receiver
             android:name="com.google.android.gms.gcm.GcmReceiver"
             android:exported="true"
-            android:permission="com.google.android.c2dm.permission.SEND" >
+            android:permission="com.google.android.c2dm.permission.SEND">
             <intent-filter>
                 <action android:name="com.google.android.c2dm.intent.RECEIVE" />
 
@@ -87,21 +91,24 @@
 
         <!-- Receiver -->
 
+
         <!-- service -->
-        <service android:name=".receiver.MyGcmReceiver"
+        <service
+            android:name=".receiver.MyGcmReceiver"
             android:exported="false">
             <intent-filter>
-                <action android:name="com.google.android.c2dm.intent.RECEIVE"/>
+                <action android:name="com.google.android.c2dm.intent.RECEIVE" />
             </intent-filter>
         </service>
-
-        <service android:name=".service.GcmRegistrationIntentService"
+        <service
+            android:name=".service.GcmRegistrationIntentService"
             android:exported="false">
             <intent-filter>
                 <action android:name="com.google.android.gms.iid.InstanceID" />
             </intent-filter>
         </service>
         <!-- / service -->
+
     </application>
 
 </manifest>
