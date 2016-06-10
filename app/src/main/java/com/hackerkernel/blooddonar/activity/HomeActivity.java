@@ -188,7 +188,16 @@ public class HomeActivity extends BaseAuthActivity {
                         mDrawerLayout.closeDrawers();
                         DatePicker dialog = new DatePicker();
                         dialog.show(getSupportFragmentManager(),"DateDIA");
-
+                        break;
+                    case R.id.menu_like_us_facebook:
+                        mDrawerLayout.closeDrawers();
+                        Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.facebook.com/blooddonorbhopal/?fref=ts"));
+                        startActivity(browserIntent);
+                        break;
+                    case R.id.menu_about:
+                        mDrawerLayout.closeDrawers();
+                        startActivity(new Intent(HomeActivity.this,AboutUsActivity.class));
+                        break;
                 }
                 return true;
             }

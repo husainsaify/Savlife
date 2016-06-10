@@ -25,5 +25,6 @@ public class EndPoints {
             ADD_DONATION_HISTORY = BASE_URL + "addDonationHistory.php",
             BOOK_DEAL = BASE_URL + "bookDeal.php",
             GET_CITY_LIST = BASE_URL + "getCity.php",
-            UPDATE_GCM_TOKEN = BASE_URL + "updateGcmToken.php";
+            UPDATE_GCM_TOKEN = BASE_URL + "updateGcmToken.php",
+            ADD_LIKES = BASE_URL + "addLikes.php";
 }

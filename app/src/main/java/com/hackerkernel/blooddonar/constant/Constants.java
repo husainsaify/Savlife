@@ -36,6 +36,7 @@ public class Constants {
             COM_CODE = "code",
             COM_GCM_REG_ID = "gcm_regid",
             COM_LASTDONATED = "last_donated",
+            COM_LIKES = "likes",
             COM_TITLE = "title",
             COM_PUSH_TYPE = "type";
 
@@ -50,7 +51,8 @@ public class Constants {
             FEED_USER_ID = "user_id",
             FEED_USER_MOBILE = "user_mobile",
             FEED_USER_FULLNAME = "user_fullname",
-            FEED_USER_IMAGE = "user_image";
+            FEED_USER_IMAGE = "user_image",
+            FEED_USER_LIKED = "user_liked";
 
     public static final String DEAL_BOOKED_STATUS = "booked_deal";
 

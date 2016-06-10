@@ -142,14 +142,17 @@
             for (int i = 0; i < dataArray.length(); i++) {
                 JSONObject jo = dataArray.getJSONObject(i);
                 FeedsListPojo c = new FeedsListPojo();
+                c.setFeedId(jo.getString(Constants.COM_ID));
                 c.setStatus(jo.getString(Constants.COM_STATUS));
                 c.setImage(jo.getString(Constants.COM_IMG));
+                c.setLikes(jo.getString(Constants.COM_LIKES));
                 c.setType(jo.getString(Constants.FEED_TYPE));
                 c.setTimestamp(jo.getString(Constants.COM_TIME));
                 c.setUserId(jo.getString(Constants.FEED_USER_ID));
                 c.setUserMobile(jo.getString(Constants.FEED_USER_MOBILE));
                 c.setUserFullname(jo.getString(Constants.FEED_USER_FULLNAME));
                 c.setUserImage(jo.getString(Constants.FEED_USER_IMAGE));
+                c.setUserLikedFeed(jo.getBoolean(Constants.FEED_USER_LIKED));
                 //add to list
                 list.add(c);
             }

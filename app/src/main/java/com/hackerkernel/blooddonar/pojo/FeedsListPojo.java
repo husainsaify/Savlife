@@ -4,14 +4,41 @@ package com.hackerkernel.blooddonar.pojo;
  * pojo class for feeds
  */
 public class FeedsListPojo {
-    private String status,
+    private String feedId,
+            status,
             image,
             type,
+            likes,
             timestamp,
             userId,
             userMobile,
             userFullname,
             userImage;
+    private boolean userLikedFeed;
+
+    public boolean getUserLikedFeed() {
+        return userLikedFeed;
+    }
+
+    public void setUserLikedFeed(boolean userLikedFeed) {
+        this.userLikedFeed = userLikedFeed;
+    }
+
+    public String getFeedId() {
+        return feedId;
+    }
+
+    public void setFeedId(String feedId) {
+        this.feedId = feedId;
+    }
+
+    public String getLikes() {
+        return likes;
+    }
+
+    public void setLikes(String likes) {
+        this.likes = likes;
+    }
 
     public String getStatus() {
         return status;

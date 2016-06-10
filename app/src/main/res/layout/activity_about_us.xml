@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView android:layout_width="match_parent"
+    android:layout_height="match_parent"
+
+    android:background="@color/background"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <LinearLayout
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        tools:context="com.hackerkernel.blooddonar.activity.AboutUsActivity">
+
+        <include layout="@layout/include_toolbar"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            style="@style/Base.TextAppearance.AppCompat.Headline"
+            android:textColor="@color/primary"
+            android:gravity="center"
+            android:text="@string/app_name"/>
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:src="@mipmap/ic_launcher"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
+            android:text="@string/app_version"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed quis malesuada tortor. Sed aliquet est erat, tincidunt finibus erat eleifend at. Nullam aliquam dui sit amet justo varius condimentum. Cras elementum ex nulla, in rhoncus tortor pellentesque pellentesque. Aliquam erat volutpat. Curabitur finibus nulla vel ex eleifend, non rhoncus turpis varius. In sit amet diam porttitor, vestibulum ipsum vel, viverra nibh. Curabitur porta lacus ut felis iaculis elementum. Etiam eros ex, convallis ac volutpat ut, vulputate vel enim. Etiam ligula ligula, interdum eget mi vel, feugiat ullamcorper eros. Sed vehicula orci sit amet leo tristique porta."
+            android:layout_margin="10dp"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:id="@+id/hackerkernel"
+            android:layout_marginTop="10dp" />
+
+    </LinearLayout>
+
+</ScrollView>
