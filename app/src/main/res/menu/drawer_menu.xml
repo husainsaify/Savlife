@@ -10,6 +10,9 @@
         android:id="@+id/menu_add_last_donation"
         android:title="@string/add_last_donation" />
     <item
+        android:id="@+id/menu_join_us"
+        android:title="Join our initiative" />
+    <item
         android:id="@+id/menu_like_us_facebook"
         android:title="@string/like_us_on_facebook" />
     <item

@@ -198,6 +198,10 @@ public class HomeActivity extends BaseAuthActivity {
                         mDrawerLayout.closeDrawers();
                         startActivity(new Intent(HomeActivity.this,AboutUsActivity.class));
                         break;
+                    case R.id.menu_join_us:
+                        mDrawerLayout.closeDrawers();
+                        Util.dialNumber(HomeActivity.this,"09752071654");
+                        break;
                 }
                 return true;
             }
